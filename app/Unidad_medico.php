@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Medico $medico
  * @property Unidad $unidad
  */
-class Unidad-medico extends Model
+class Unidad_Medico extends Model
 {
     /**
      * The table associated with the model.
