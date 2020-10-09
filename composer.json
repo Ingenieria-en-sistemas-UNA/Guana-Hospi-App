@@ -17,6 +17,7 @@
         "laravel/ui": "2.4"
     },
     "require-dev": {
+        "bangnokia/laravel-serve-livereload": "^1.0",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
         "krlove/eloquent-model-generator": "^1.3",

@@ -4,5 +4,13 @@
 // Variables
 @import 'variables';
 
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Layout
+@import 'layout';
+
+.nav-link {
+    color: #000;
+}

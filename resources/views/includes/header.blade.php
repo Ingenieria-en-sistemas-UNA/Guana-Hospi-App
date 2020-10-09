@@ -1,10 +1,11 @@
-<a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Guana Hospi</a>
-<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-<span class="navbar-toggler-icon"></span>
-</button>
-<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-<ul class="navbar-nav px-3">
-<li class="nav-item text-nowrap">
-    <a class="nav-link" href="#">Sign out</a>
-</li>
-</ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="navbar-nav mr-auto d-lg-none">
+            @include('includes.sidebar')
+        </ul>
+    </div>
+</nav>
