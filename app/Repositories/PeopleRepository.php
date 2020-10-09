@@ -5,7 +5,7 @@ use App\Persona;
 
 interface PeopleRepository
 {
-    public function all(): array;
+    public function all();
 
     public function create(Persona $data);
 

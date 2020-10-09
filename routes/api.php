@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/people', 'PeopleController@index')->name('people');
+Route::post('/people/create', 'PeopleController@store')->name('people');

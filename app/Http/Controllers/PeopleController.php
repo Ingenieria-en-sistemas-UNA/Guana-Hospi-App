@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Persona;
 use Illuminate\Http\Request;
 use App\Repositories\PeopleRepository;
+use Illuminate\Support\Facades\DB;
 
 class PeopleController extends Controller
 {
@@ -23,7 +24,8 @@ class PeopleController extends Controller
      */
     public function index()
     {
-        return $this->repository->all();
+        $data = $this->repository->all();
+        return json_encode($data);
     }
 
     /**
@@ -33,7 +35,7 @@ class PeopleController extends Controller
      */
     public function create()
     {
-        //
+        //      
     }
 
     /**
@@ -44,9 +46,14 @@ class PeopleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::select('exec SP_Crear_Persona(?,?,?,?,?)', array(
+            $request->Dni,
+            $request->Nombre,
+            $request->Apellido1,
+            $request->Apellido2,
+            $request->Edad,
+        ));
     }
-
     /**
      * Display the specified resource.
      *
