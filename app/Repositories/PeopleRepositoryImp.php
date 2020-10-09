@@ -2,29 +2,32 @@
 
 namespace App\Repositories;
 use App\Persona;
+use App\Procedures\Person;
 
-class PeopleRepositoryImp extends PeopleRepository
+class PeopleRepositoryImp implements PeopleRepository
 {
-    protected $model;
+    protected $procedure;
 
     /**
      * PostRepository constructor.
      *
      * @param Persona $persona
      */
-    public function __construct(Persona $persona)
+    public function __construct()
     {
-        $this->model = $persona;
+        $this->procedure = new Person();
     }
 
-    public function all(): array
+    public function all()
     {
-        return array();
+        $data = $this->procedure->listPerson();
+        return Persona::hydrate($data);
+
     }
 
     public function create(Persona $data)
     {
-        return 'SE HA CREADO UNA PERSONA';
+        $this->procedure->createPerson();            
     }
 
     public function update(Persona $data, $id)
