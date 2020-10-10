@@ -7,9 +7,9 @@ interface PeopleRepository
 {
     public function all();
 
-    public function create(Persona $data);
+    public function create(array $data);
 
-    public function update(persona $data, $id);
+    public function update(array $data, $id);
 
     public function delete($id);
 

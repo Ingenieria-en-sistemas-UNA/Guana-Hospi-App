@@ -35,7 +35,7 @@ class PeopleController extends Controller
      */
     public function create()
     {
-        //      
+        //
     }
 
     /**
@@ -46,13 +46,16 @@ class PeopleController extends Controller
      */
     public function store(Request $request)
     {
-        DB::select('exec SP_Crear_Persona(?,?,?,?,?)', array(
+        $fields = array(
             $request->Dni,
             $request->Nombre,
             $request->Apellido1,
             $request->Apellido2,
             $request->Edad,
-        ));
+        );
+
+        $data = $this->repository->create($fields);
+        return $data;
     }
     /**
      * Display the specified resource.
@@ -83,7 +86,7 @@ class PeopleController extends Controller
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Persona $persona)
+    public function update(Request $request)
     {
         //
     }
@@ -94,8 +97,9 @@ class PeopleController extends Controller
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Persona $persona)
+    public function destroy(Request $request)
     {
-        //
+        $data = $this->repository->delete($request->Dni);
+        return $data;
     }
 }

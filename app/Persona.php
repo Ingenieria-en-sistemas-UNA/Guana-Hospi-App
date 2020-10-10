@@ -17,28 +17,28 @@ class Persona extends Model
 {
     /**
      * The table associated with the model.
-     * 
+     *
      * @var string
      */
     protected $table = 'Persona';
 
     /**
      * The primary key for the model.
-     * 
+     *
      * @var string
      */
     protected $primaryKey = 'dni_persona';
 
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'string';
 
     /**
      * Indicates if the IDs are auto-incrementing.
-     * 
+     *
      * @var bool
      */
     public $incrementing = false;
@@ -46,7 +46,7 @@ class Persona extends Model
     /**
      * @var array
      */
-    protected $fillable = ['nombre', 'apellido_1', 'apellido_2', 'edad'];
+    protected $fillable = ['Dni', 'Nombre', 'Apellido1', 'Apellido2', 'Edad'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
