@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Enfermedad;
+use App\Doctor;
 use Illuminate\Http\Request;
-use App\Repositories\DiseaseRepository;
+use App\Repositories\DoctorRepository;
 use Illuminate\Support\Facades\DB;
 
-class DiseaseController extends Controller
+class DoctorController extends Controller
 {
-    /** @var DiseaseRepository */
+    /** @var DoctorRepository */
     private $repository;
 
-    public function __construct(DiseaseRepository $repository)
+    public function __construct(DoctorRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -47,7 +47,8 @@ class DiseaseController extends Controller
     public function store(Request $request)
     {
         $fields = array(
-            $request->Nombre,
+            $request->CodigoMedico,
+            $request->DniPersona
         );
 
         $data = $this->repository->create($fields);
@@ -56,10 +57,10 @@ class DiseaseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Enfermedad  $enfermedad
+     * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function show(Enfermedad $enfermedad)
+    public function show(Medico $medico)
     {
         //
     }
@@ -67,10 +68,10 @@ class DiseaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Enfermedad  $enfermedad
+     * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function edit(Enfermedad $enfermedad)
+    public function edit(Medico $medico)
     {
         //
     }
@@ -79,13 +80,14 @@ class DiseaseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Enfermedad  $enfermedad
+     * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $fields = array(
-            $request->Nombre,
+            $request->CodigoMedico,
+            $request->DniPersona
         );
 
         $data = $this->repository->update($fields);
@@ -95,13 +97,12 @@ class DiseaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Enfermedad  $enfermedad
+     * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->Nombre);
+        $data = $this->repository->delete($request->CodigoMedico);
         return $data;
     }
 }
-
