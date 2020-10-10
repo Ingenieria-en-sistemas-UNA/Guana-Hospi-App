@@ -11,7 +11,7 @@ class InterventionRepositoryImp implements InterventionRepository
     /** 
      * PostRepository constructor.
      *
-     * @param Intervention $Intervention
+     * @param Intervenciones $intervenciones
      */
     public function __construct()
     {
@@ -21,7 +21,7 @@ class InterventionRepositoryImp implements InterventionRepository
     public function all()
     {
         $data = $this->procedure->listIntervention();
-        return Intervention::hydrate($data);
+        return Intervenciones::hydrate($data);
 
     }
 

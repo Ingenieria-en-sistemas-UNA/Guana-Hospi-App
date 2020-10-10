@@ -11,7 +11,7 @@ class DoctorRepositoryImp implements DoctorRepository
     /** 
      * PostRepository constructor.
      *
-     * @param Doctor $doctor
+     * @param Medico $medico
      */
     public function __construct()
     {
@@ -21,7 +21,7 @@ class DoctorRepositoryImp implements DoctorRepository
     public function all()
     {
         $data = $this->procedure->listDoctor();
-        return Doctor::hydrate($data);
+        return Medico::hydrate($data);
 
     }
 

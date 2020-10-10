@@ -21,7 +21,7 @@ class DiseaseRepositoryImp implements DiseaseRepository
     public function all()
     {
         $data = $this->procedure->listDisease();
-        return Disease::hydrate($data);
+        return Enfermedad::hydrate($data);
 
     }
 

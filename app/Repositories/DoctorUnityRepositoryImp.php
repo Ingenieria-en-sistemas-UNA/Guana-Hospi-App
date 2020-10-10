@@ -11,7 +11,7 @@ class DoctorUnityRepositoryImp implements DoctorUnityRepository
     /** 
      * PostRepository constructor.
      *
-     * @param DoctorUnity $DoctorUnity
+     * @param Medico_unidad $Medico_unidad
      */
     public function __construct()
     {
@@ -21,7 +21,7 @@ class DoctorUnityRepositoryImp implements DoctorUnityRepository
     public function all()
     {
         $data = $this->procedure->listDoctorUnity();
-        return DoctorUnity::hydrate($data);
+        return Medico_unidad::hydrate($data);
 
     }
 
