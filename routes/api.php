@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/people', 'PeopleController@index')->name('people');
 Route::post('/people/create', 'PeopleController@store')->name('people');
 Route::post('/disease/create', 'DiseaseController@store')->name('disease');
+Route::post('/doctor/create', 'DoctorController@store')->name('doctor');
