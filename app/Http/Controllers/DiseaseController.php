@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Persona;
+use App\Enfermedad;
 use Illuminate\Http\Request;
-use App\Repositories\PeopleRepository;
+use App\Repositories\DiseaseRepository;
 use Illuminate\Support\Facades\DB;
 
-class PeopleController extends Controller
+class DiseaseController extends Controller
 {
-    /** @var PeopleRepository */
+    /** @var DiseaseRepository */
     private $repository;
 
-    public function __construct(PeopleRepository $repository)
+    public function __construct(DiseaseRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -47,11 +47,7 @@ class PeopleController extends Controller
     public function store(Request $request)
     {
         $fields = array(
-            $request->Dni,
             $request->Nombre,
-            $request->Apellido1,
-            $request->Apellido2,
-            $request->Edad,
         );
 
         $data = $this->repository->create($fields);
@@ -60,10 +56,10 @@ class PeopleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Persona  $persona
+     * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
-    public function show(Persona $persona)
+    public function show(Enfermedad $enfermedad)
     {
         //
     }
@@ -71,10 +67,10 @@ class PeopleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Persona  $persona
+     * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
-    public function edit(Persona $persona)
+    public function edit(Enfermedad $enfermedad)
     {
         //
     }
@@ -83,17 +79,13 @@ class PeopleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Persona  $persona
+     * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $fields = array(
-            $request->Dni,
             $request->Nombre,
-            $request->Apellido1,
-            $request->Apellido2,
-            $request->Edad,
         );
 
         $data = $this->repository->update($fields);
@@ -103,7 +95,7 @@ class PeopleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Persona  $persona
+     * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
@@ -112,3 +104,4 @@ class PeopleController extends Controller
         return $data;
     }
 }
+

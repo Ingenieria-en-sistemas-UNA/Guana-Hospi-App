@@ -30,9 +30,9 @@ class PeopleRepositoryImp implements PeopleRepository
        return $this->procedure->createPerson($data);
     }
 
-    public function update(array $data, $id)
+    public function update(array $data)
     {
-        return 'SE HA ACTUALIZADO UNA PERSONA CON EL ID' . $id;
+        return $this->procedure->updatePerson($data);
     }
 
     public function delete($id)

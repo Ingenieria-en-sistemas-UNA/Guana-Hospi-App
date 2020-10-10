@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Repositories;
-use App\Persona;
+use App\Enfermedad;
 
-interface PeopleRepository
+interface DiseaseRepository
 {
     public function all();
 
