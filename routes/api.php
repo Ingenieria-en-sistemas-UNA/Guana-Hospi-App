@@ -22,3 +22,5 @@ Route::get('/people', 'PeopleController@index')->name('people');
 Route::post('/people/create', 'PeopleController@store')->name('people');
 Route::post('/disease/create', 'DiseaseController@store')->name('disease');
 Route::post('/doctor/create', 'DoctorController@store')->name('doctor');
+Route::post('/doctor/unity/create', 'DoctorUnityController@store')->name('doctorunity');
+Route::post('/intervention/create', 'InterventionController@store')->name('intervention');

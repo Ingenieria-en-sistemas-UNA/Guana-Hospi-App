@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repositories;
-use App\Medico;
+use App\Medico_unidad;
 use App\Procedures\DoctorUnity;
 
 class DoctorUnityRepositoryImp implements DoctorUnityRepository
