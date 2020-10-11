@@ -1,10 +1,10 @@
 <?php 
-use Illuminate\Support\Facades\DB;
 namespace App\Procedures;
+use Illuminate\Support\Facades\DB;
 
 class Doctor{
     
-    public function createDoctor(){
+    public function createDoctor($fields){
         return DB::select('exec SP_Crear_Medico ?,?', $fields);
     }
     public function deleteDoctor(){
@@ -13,7 +13,7 @@ class Doctor{
     public function listDoctor(){
         return DB::select('exec SP_Obtener_Medico');
     }
-    public function updateDoctor(){
+    public function updateDoctor($fields){
         return DB::select('exec SP_ActualizarMedico ?,?', $fields);
     }
 }

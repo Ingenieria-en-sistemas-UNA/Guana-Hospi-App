@@ -100,7 +100,7 @@ class DiseaseController extends Controller
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->Nombre);
+        $data = $this->repository->delete($request->id_enfermedad);
         return $data;
     }
 }

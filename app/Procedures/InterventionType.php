@@ -4,7 +4,7 @@ namespace App\Procedures;
 
 class InterventionType{
     
-    public function deleteInterventionType(){
+    public function deleteInterventionType($fields){
         return DB::select('CALL SP_Eliminar_Tipo_Intervension(?)');
     }
     public function createInterventionType(){
@@ -13,7 +13,7 @@ class InterventionType{
     public function listInterventionType(){
         return DB::select('exec SP_Obtener_Intervenciones');
     }
-    public function updateInterventionType(){
+    public function updateInterventionType($fields){
         return DB::select('exec SP_ActualizarTipoIntervension ?,?', $fields);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Unidad_medico;
 use Illuminate\Http\Request;
-use App\Repositories\Unidad_medicoRepository;
+use App\Repositories\DoctorUnityRepository;
 use Illuminate\Support\Facades\DB;
 
 class DoctorUnityController extends Controller
