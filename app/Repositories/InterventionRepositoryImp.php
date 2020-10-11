@@ -42,6 +42,6 @@ class InterventionRepositoryImp implements InterventionRepository
 
     public function find($id)
     {
-        return 'BUSCAR UNA MEDICO UNIDAD CON EL ID' . $id;
+        return 'BUSCAR UNA INTERVENCIÓN CON EL ID' . $id;
     }
 }
