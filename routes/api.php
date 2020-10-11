@@ -31,6 +31,8 @@ Route::get('/doctor', 'DoctorController@index')->name('doctor');
 Route::post('/doctor/create', 'DoctorController@store')->name('doctor');
 Route::get('/doctor/unity', 'DoctorUnityController@index')->name('doctorunity');
 Route::post('/doctor/unity/create', 'DoctorUnityController@store')->name('doctorunity');
+Route::get('/specialty/doctor', 'SpecialtyDoctorController@index')->name('specialtydoctor');
+Route::post('specialty/doctor/create', 'SpecialtyDoctorController@store')->name('specialtydoctor');
 
 //Intervenciones
 Route::get('/intervention', 'interventionController@index')->name('intervention');
