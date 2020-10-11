@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Consulta;
+use App\Especialidad;
 use Illuminate\Http\Request;
-use App\Repositories\QueryRepository;
+use App\Repositories\SpecialtyRepository;
 use Illuminate\Support\Facades\DB;
 
-class QueryController extends Controller
+class SpecialtyController extends Controller
 {
-    /** @var QueryRepository */
+    /** @var SpecialtyRepository */
     private $repository;
 
-    public function __construct(QueryRepository $repository)
+    public function __construct(SpecialtyRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -47,8 +47,7 @@ class QueryController extends Controller
     public function store(Request $request)
     {
         $fields = array(
-            $request->FechaConsulta,
-            $request->IdPaciente
+            $request->NombreEspecialidad
         );
 
         $data = $this->repository->create($fields);
@@ -57,10 +56,10 @@ class QueryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Consulta  $consulta
+     * @param  \App\Especialidad  $Especialidad
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Consulta $consulta)
+    public function show(Especialidad $especialidad)
     {
         //
     }
@@ -68,10 +67,10 @@ class QueryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Consulta  $consulta
+     * @param  \App\Especialidad  $especialidad
      * @return \Illuminate\Http\Response
      */
-    public function edit(Consulta $consulta)
+    public function edit(Especialidad $especialidad)
     {
         //
     }
@@ -80,14 +79,13 @@ class QueryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Consulta  $consulta
+     * @param  \App\Especialidad  $especialidad
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $fields = array(
-            $request->FechaConsulta,
-            $request->IdPaciente
+            $request->NombreEspecialidad
         );
 
         $data = $this->repository->update($fields);
@@ -97,12 +95,12 @@ class QueryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Consulta  $consulta
+     * @param  \App\Especialidad  $Especialidad
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->id_consulta);
+        $data = $this->repository->delete($request->id_especialidad);
         return $data;
     }
 }

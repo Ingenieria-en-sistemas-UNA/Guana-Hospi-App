@@ -1,20 +1,21 @@
 <?php 
 
 namespace App\Procedures;
+use Illuminate\Support\Facades\DB;
 
 class Specialty{
     
-    public function createSpecialty(){
-        return DB::select('exec SP_Crear_Especialidad(?)');
+    public function createSpecialty($fields){
+        return DB::select('exec SP_Crear_Especialidad ?', $fields);
     }
     public function deleteSpecialty(){
         return DB::select('exec SP_Eliminar_Especialidad(?)');
     }
-    public function listQuery(){
+    public function listSpecialty(){
         return DB::select('exec SP_Obtener_Especialidades');
     }
-    public function updateQuery($fields){
-        return DB::select('exec SP_ActualizarEspecialidad ?,?,? ', $fields);
+    public function updateSpecialty($fields){
+        return DB::select('exec SP_ActualizarEspecialidad ?,? ', $fields);
     }
 }
 ?>

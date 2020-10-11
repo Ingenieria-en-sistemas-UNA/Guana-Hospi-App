@@ -51,3 +51,7 @@ Route::post('/presents/create', 'PresentsController@store')->name('presents');
 //Consulta
 Route::get('/query', 'QueryController@index')->name('query');
 Route::post('/query/create', 'QueryController@store')->name('query');
+
+//Especialidad
+Route::get('/specialty', 'SpecialtyController@index')->name('specialty');
+Route::post('/specialty/create', 'SpecialtyController@store')->name('specialty');
