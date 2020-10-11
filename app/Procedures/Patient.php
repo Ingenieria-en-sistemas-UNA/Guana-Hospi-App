@@ -10,10 +10,10 @@ class Patient{
     public function DeletePatient(){
         return DB::select('exec SP_Eliminar_Paciente ?');
     }
-    public function listInterventionType(){
-        return DB::select('exec SP_Obtener_Tipo_Intervenciones');
+    public function listPatient(){
+        return DB::select('exec SP_Obtener_Pacientes');
     }
-    public function updateInterventionType($fields){
+    public function updatePatient($fields){
         return DB::select('exec SP_ActualizarPaciente ?,?,?', $fields);
     }
 }

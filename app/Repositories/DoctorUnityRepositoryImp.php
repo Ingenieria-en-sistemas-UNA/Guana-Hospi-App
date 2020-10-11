@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repositories;
-use App\Medico_unidad;
+use App\Unidad_medico;
 use App\Procedures\DoctorUnity;
 
 class DoctorUnityRepositoryImp implements DoctorUnityRepository
@@ -11,7 +11,7 @@ class DoctorUnityRepositoryImp implements DoctorUnityRepository
     /** 
      * PostRepository constructor.
      *
-     * @param Medico_unidad $Medico_unidad
+     * @param Unidad_medico $unidad_medico
      */
     public function __construct()
     {
@@ -21,7 +21,7 @@ class DoctorUnityRepositoryImp implements DoctorUnityRepository
     public function all()
     {
         $data = $this->procedure->listDoctorUnity();
-        return Medico_unidad::hydrate($data);
+        return Unidad_medico::hydrate($data);
 
     }
 

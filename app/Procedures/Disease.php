@@ -11,7 +11,7 @@ class Disease{
         return DB::select('exec SP_Eliminar_Enfermedad ?');
     }
     public function listDisease(){
-        return DB::select('exec SP_Obtener_Enfermedad');
+        return DB::select('exec SP_Obtener_Enfermedades');
     }
     public function updateDisease($fields){
         return DB::select('exec SP_ActualizarEnfermedad ?', $fields);

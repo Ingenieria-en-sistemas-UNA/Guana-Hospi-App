@@ -20,7 +20,7 @@ class PresentsRepositoryImp implements PresentsRepository
 
     public function all()
     {
-        $data = $this->procedure->listPerson();
+        $data = $this->procedure->listPresents();
         return Presenta::hydrate($data);
 
     }

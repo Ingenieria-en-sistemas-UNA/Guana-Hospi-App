@@ -12,7 +12,7 @@ class Query{
         return DB::select('exec SP_Eliminar_Consulta(?)');
     }
     public function listQuery(){
-        return DB::select('exec SP_Obtener_Consulta');
+        return DB::select('exec SP_Obtener_Consultas');
     }
     public function updateQuery($fields){
         return DB::select('exec SP_ActualizarConsulta ?,?,? ', $fields);

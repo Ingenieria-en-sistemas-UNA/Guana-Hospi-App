@@ -11,10 +11,10 @@ class PatientUnity{
     public function DeletePatientUnity(){
         return DB::select('exec SP_Eliminar_Paciente_Unidad ?');
     }
-    public function listInterventionTypeUnity(){
-        return DB::select('exec SP_Obtener_Paciente_Unidad');
+    public function listPatientUnity(){
+        return DB::select('exec SP_Obtener_Paciente_Unidades');
     }
-    public function updateInterventionTypeUnity($fields){
+    public function updatePatientUnity($fields){
         return DB::select('exec SP_ActualizarPaciente_Unidad ?,?', $fields);
     }
 }

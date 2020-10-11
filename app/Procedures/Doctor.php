@@ -11,7 +11,7 @@ class Doctor{
         return DB::select('exec SP_Eliminar_Medico ?');
     }
     public function listDoctor(){
-        return DB::select('exec SP_Obtener_Medico');
+        return DB::select('exec SP_Obtener_Medicos');
     }
     public function updateDoctor($fields){
         return DB::select('exec SP_ActualizarMedico ?,?', $fields);
