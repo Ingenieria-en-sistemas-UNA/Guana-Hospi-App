@@ -1,14 +1,21 @@
 <?php 
 
 namespace App\Procedures;
+use Illuminate\Support\Facades\DB;
 
-class Symptom{
+class Sympton{
     
-    public function createSymptom(){
-        return DB::select('CALL SP_Crear_Sintoma(?)');
+    public function createSympton($fields){
+        return DB::select('exec SP_Crear_Sintoma ?', $fields);
     }
-    public function deleteSymptom(){
-        return DB::select('CALL SP_Eliminar_Sintoma(?)');
+    public function deleteSympton(){
+        return DB::select('exec SP_Eliminar_Sintoma(?)');
+    }
+    public function listSympton(){
+        return DB::select('exec SP_Obtener_Sintomas');
+    }
+    public function updateSympton($fields){
+        return DB::select('exec SP_Editar_Sintoma ?,?', $fields);
     }
 }
 ?>

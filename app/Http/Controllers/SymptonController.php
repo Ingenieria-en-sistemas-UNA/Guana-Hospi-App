@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Padece;
+use App\Sintoma;
 use Illuminate\Http\Request;
-use App\Repositories\SuffersRepository;
+use App\Repositories\SymptonRepository;
 use Illuminate\Support\Facades\DB;
 
-class SuffersController extends Controller
+class SymptonController extends Controller
 {
-    /** @var SuffersRepository */
+    /** @var SymptonRepository */
     private $repository;
 
-    public function __construct(SuffersRepository $repository)
+    public function __construct(SymptonRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -47,8 +47,7 @@ class SuffersController extends Controller
     public function store(Request $request)
     {
         $fields = array(
-            $request->IdPaciente,
-            $request->IdEnfermedad
+            $request->Nombre
         );
 
         $data = $this->repository->create($fields);
@@ -57,10 +56,10 @@ class SuffersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Padece  $padece
+     * @param  \App\Sintoma  $sintoma
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Padece $padece)
+    public function show(Sintoma $Sintoma)
     {
         //
     }
@@ -68,10 +67,10 @@ class SuffersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Padece  $padece
+     * @param  \App\Sintoma  $sintoma
      * @return \Illuminate\Http\Response
      */
-    public function edit(Padece $padece)
+    public function edit(Sintoma $Sintoma)
     {
         //
     }
@@ -80,14 +79,13 @@ class SuffersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Padece  $padece
+     * @param  \App\Sintoma  $sintoma
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $fields = array(
-            $request->IdPaciente,
-            $request->IdEnfermedad
+            $request->Nombre
         );
 
         $data = $this->repository->update($fields);
@@ -97,12 +95,12 @@ class SuffersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Padece  $padece
+     * @param  \App\Sintoma  $sintoma
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->id_padece);
+        $data = $this->repository->delete($request->id_sintoma);
         return $data;
     }
 }

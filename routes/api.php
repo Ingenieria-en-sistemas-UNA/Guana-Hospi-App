@@ -59,3 +59,7 @@ Route::post('/specialty/create', 'SpecialtyController@store')->name('specialty')
 //padece
 Route::get('/suffers', 'SuffersController@index')->name('suffers');
 Route::post('/suffers/create', 'SuffersController@store')->name('suffers');
+
+//sintoma
+Route::get('/sympton', 'SymptonController@index')->name('sympton');
+Route::post('/sympton/create', 'SymptonController@store')->name('sympton');
