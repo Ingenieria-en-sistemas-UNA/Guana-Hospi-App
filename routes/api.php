@@ -55,3 +55,7 @@ Route::post('/query/create', 'QueryController@store')->name('query');
 //Especialidad
 Route::get('/specialty', 'SpecialtyController@index')->name('specialty');
 Route::post('/specialty/create', 'SpecialtyController@store')->name('specialty');
+
+//padece
+Route::get('/suffers', 'SuffersController@index')->name('suffers');
+Route::post('/suffers/create', 'SuffersController@store')->name('suffers');
