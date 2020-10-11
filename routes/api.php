@@ -28,3 +28,4 @@ Route::post('/intervention/type/create', 'InterventionTypeController@store')->na
 Route::post('/patient/create', 'PatientController@store')->name('patient');
 Route::post('/patient/unity/create', 'PatientUnityController@store')->name('patientunity');
 Route::post('/presents/create', 'PresentsController@store')->name('presents');
+Route::post('/query/create', 'QueryController@store')->name('query');

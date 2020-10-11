@@ -1,14 +1,21 @@
 <?php 
 
 namespace App\Procedures;
+use Illuminate\Support\Facades\DB;
 
 class Query{
     
-    public function createQuery(){
-        return DB::select('CALL SP_Crear_Especialidad(?,?,?)');
+    public function createQuery($fields){
+        return DB::select('exec SP_Crear_Consulta ?,?', $fields);
     }
     public function deleteQuery(){
-        return DB::select('CALL SP_Eliminar_Consulta(?)');
+        return DB::select('exec SP_Eliminar_Consulta(?)');
+    }
+    public function listQuery(){
+        return DB::select('exec SP_Obtener_Consulta');
+    }
+    public function updateQuery($fields){
+        return DB::select('exec SP_ActualizarConsulta ?,?,? ', $fields);
     }
 }
 ?>
