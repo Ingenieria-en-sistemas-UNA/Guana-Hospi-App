@@ -1,14 +1,20 @@
 <?php 
-use Illuminate\Support\Facades\DB;
 namespace App\Procedures;
+use Illuminate\Support\Facades\DB;
 
-class CreatePatient{
+class Patient{
     
-    public function createPatient(){
-        return DB::select('CALL SP_Crear_Paciente(?,?,?)');
+    public function createPatient($fields){
+        return DB::select('exec SP_Crear_Paciente ?,?,?', $fields);
     }
     public function DeletePatient(){
-        return DB::select('CALL SP_Eliminar_Paciente(?)');
+        return DB::select('exec SP_Eliminar_Paciente ?');
+    }
+    public function listInterventionType(){
+        return DB::select('exec SP_Obtener_Tipo_Intervenciones');
+    }
+    public function updateInterventionType($fields){
+        return DB::select('exec SP_ActualizarPaciente ?,?,?', $fields);
     }
 }
 ?>

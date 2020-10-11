@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\DoctorUnityRepository', 'App\Repositories\DoctorUnityRepositoryImp');
         $this->app->bind('App\Repositories\InterventionRepository', 'App\Repositories\InterventionRepositoryImp');
         $this->app->bind('App\Repositories\InterventionTypeRepository', 'App\Repositories\InterventionTypeRepositoryImp');
+        $this->app->bind('App\Repositories\PatientRepository', 'App\Repositories\PatientRepositoryImp');
     }
 
     /**

@@ -25,3 +25,4 @@ Route::post('/doctor/create', 'DoctorController@store')->name('doctor');
 Route::post('/doctor/unity/create', 'DoctorUnityController@store')->name('doctorunity');
 Route::post('/intervention/create', 'InterventionController@store')->name('intervention');
 Route::post('/intervention/type/create', 'InterventionTypeController@store')->name('interventiontype');
+Route::post('/patient/create', 'PatientController@store')->name('patient');
