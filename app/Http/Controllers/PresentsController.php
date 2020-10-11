@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Paciente_unidad;
+use App\Presenta;
 use Illuminate\Http\Request;
-use App\Repositories\PatientUnityRepository;
+use App\Repositories\PresentsRepository;
 use Illuminate\Support\Facades\DB;
 
-class PatientUnityController extends Controller
+class PresentsController extends Controller
 {
-    /** @var PatientUnityRepository */
+    /** @var PresentsRepository */
     private $repository;
 
-    public function __construct(PatientUnityRepository $repository)
+    public function __construct(PresentsRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -47,8 +47,9 @@ class PatientUnityController extends Controller
     public function store(Request $request)
     {
         $fields = array(
-            $request->IdPaciente,
-            $request->IdUnidad
+            $request->IdConsulta,
+            $request->IdSintoma,
+            $request->Descripcion
         );
 
         $data = $this->repository->create($fields);
@@ -57,10 +58,10 @@ class PatientUnityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Paciente_unidad  $paciente_unidad
+     * @param  \App\Presenta  $presenta
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Paciente $paciente)
+    public function show(Presenta $presenta)
     {
         //
     }
@@ -68,10 +69,10 @@ class PatientUnityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Paciente_unidad  $paciente_unidad
+     * @param  \App\Presenta  $presenta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Paciente_unidad $paciente_unidad)
+    public function edit(Presenta $presenta)
     {
         //
     }
@@ -80,14 +81,15 @@ class PatientUnityController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Paciente_unidad  $paciente_unidad
+     * @param  \App\Presenta  $presenta
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $fields = array(
-            $request->IdPaciente,
-            $request->IdUnidad
+            $request->IdConsulta,
+            $request->IdSintoma,
+            $request->Descripcion
         );
 
         $data = $this->repository->update($fields);
@@ -97,12 +99,12 @@ class PatientUnityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Paciente_unidad  $Paciente_unidad
+     * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->id_paciente_unidad);
+        $data = $this->repository->delete($request->id_presenta);
         return $data;
     }
 }

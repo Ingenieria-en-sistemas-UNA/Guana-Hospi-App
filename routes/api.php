@@ -27,3 +27,4 @@ Route::post('/intervention/create', 'InterventionController@store')->name('inter
 Route::post('/intervention/type/create', 'InterventionTypeController@store')->name('interventiontype');
 Route::post('/patient/create', 'PatientController@store')->name('patient');
 Route::post('/patient/unity/create', 'PatientUnityController@store')->name('patientunity');
+Route::post('/presents/create', 'PresentsController@store')->name('presents');
