@@ -63,3 +63,7 @@ Route::post('/suffers/create', 'SuffersController@store')->name('suffers');
 //sintoma
 Route::get('/sympton', 'SymptonController@index')->name('sympton');
 Route::post('/sympton/create', 'SymptonController@store')->name('sympton');
+
+//Unidad
+Route::get('/unity', 'UnityController@index')->name('unity');
+Route::post('/unity/create', 'UnityController@store')->name('unity');
