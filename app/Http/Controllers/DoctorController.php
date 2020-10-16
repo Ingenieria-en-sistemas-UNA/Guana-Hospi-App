@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Doctor;
+use App\Medico;
 use Illuminate\Http\Request;
 use App\Repositories\DoctorRepository;
-use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller
 {
+
     /** @var DoctorRepository */
     private $repository;
 
     public function __construct(DoctorRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $data = $this->repository->all();
-        return json_encode($data);
+        $doctors = $this->repository->all();
+        return view('pages.doctor.index', collect('doctors'));
     }
 
     /**
@@ -46,14 +47,9 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = array(
-            $request->CodigoMedico,
-            $request->DniPersona
-        );
-
-        $data = $this->repository->create($fields);
-        return $data;
+        //
     }
+
     /**
      * Display the specified resource.
      *
@@ -83,15 +79,9 @@ class DoctorController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Medico $medico)
     {
-        $fields = array(
-            $request->CodigoMedico,
-            $request->DniPersona
-        );
-
-        $data = $this->repository->update($fields);
-        return $data;
+        //
     }
 
     /**
@@ -100,9 +90,8 @@ class DoctorController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Medico $medico)
     {
-        $data = $this->repository->delete($request->CodigoMedico);
-        return $data;
+        //
     }
 }
