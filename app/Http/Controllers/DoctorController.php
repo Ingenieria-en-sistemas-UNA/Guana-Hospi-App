@@ -55,8 +55,8 @@ class DoctorController extends Controller
 
         $rules = [
             'nombre_persona' => 'required|max:40|min:3',
-            'apellido_1' => 'required|max:50|min:6',
-            'apellido_2' => 'required|max:50|min:6',
+            'apellido_1' => 'required|max:50|min:4',
+            'apellido_2' => 'required|max:50|min:4',
             'edad' => 'required|numeric|max:99|min:15',
             'dni_persona' => 'required|max:12|min:9',
             'codigo_medico' => 'required|numeric',
