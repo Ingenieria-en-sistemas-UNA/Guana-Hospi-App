@@ -17,7 +17,6 @@
     <article class="main-layout container-fluid">
         @yield('content')
     </article>
-    <script src="https://kit.fontawesome.com/f71f072137.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

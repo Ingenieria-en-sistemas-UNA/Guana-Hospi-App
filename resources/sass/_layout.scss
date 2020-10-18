@@ -18,18 +18,15 @@ body {
 
 .header-layout {
     grid-area: header;
-    background-color: #85aedd;
 }
 
 .navbar-layout {
     grid-area: navbar;
-    background-color: #afd6af;
     display: none;
 }
 
 .main-layout {
     grid-area: main;
-    background-color: #f5f5f5;
 }
 
 .grid-container {

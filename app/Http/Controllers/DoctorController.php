@@ -2,30 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Doctor;
+use App\Medico;
 use Illuminate\Http\Request;
 use App\Repositories\DoctorRepository;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\PeopleRepository;
 
 class DoctorController extends Controller
 {
-    /** @var DoctorRepository */
-    private $repository;
 
-    public function __construct(DoctorRepository $repository)
+    /** @var DoctorRepository */
+    private $doctorRepository;
+
+    /** @var PeopleRepository */
+    private $peopleRepository;
+
+    public function __construct(DoctorRepository $doctorRepository, PeopleRepository $peopleRepository)
     {
-        $this->repository = $repository;
+        $this->middleware('auth');
+        $this->doctorRepository = $doctorRepository;
+        $this->peopleRepository = $peopleRepository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $data = $this->repository->all();
-        return json_encode($data);
+        $doctors = $this->doctorRepository->all();
+        return view('pages.doctor.index', array('doctors' => $doctors));
     }
 
     /**
@@ -35,7 +41,7 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.doctor.create', array('responseError' => false));
     }
 
     /**
@@ -46,14 +52,52 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = array(
-            $request->CodigoMedico,
-            $request->DniPersona
+
+        $rules = [
+            'nombre_persona' => 'required|max:40|min:3',
+            'apellido_1' => 'required|max:50|min:4',
+            'apellido_2' => 'required|max:50|min:4',
+            'edad' => 'required|numeric|max:99|min:15',
+            'dni_persona' => 'required|max:12|min:9',
+            'codigo_medico' => 'required|numeric',
+        ];
+
+        $customMessages = [
+            'required' => 'Campo obligatorio',
+            'numeric' => 'Debe ingresar numeros',
+            'max' => ':attribute muy largo',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+
+
+        $person = array(
+            $request->dni_persona,
+            $request->nombre_persona,
+            $request->apellido_1,
+            $request->apellido_2,
+            $request->edad,
         );
 
-        $data = $this->repository->create($fields);
-        return $data;
+        $response = $this->peopleRepository->create($person);
+        if(!$response[0]->ok){
+            return view('pages.doctor.create', array('responseError' => $response[0]->message));
+        }
+
+        $doctor = array(
+            $request->codigo_medico,
+            $request->dni_persona
+        );
+
+        $response = $this->doctorRepository->create($doctor);
+        if(!$response[0]->ok){
+            $this->peopleRepository->delete($request->dni_persona);
+            return view('pages.doctor.create', array('responseError' => $response[0]->message));
+        }
+
+        return redirect('/doctors')->with('success', 'Medico creado!');
     }
+
     /**
      * Display the specified resource.
      *
@@ -83,8 +127,9 @@ class DoctorController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Medico $medico)
     {
+<<<<<<< HEAD
         $fields = array(
             $request->id_medico,
             $request->codigo_medico,
@@ -93,6 +138,9 @@ class DoctorController extends Controller
 
         $data = $this->repository->update($fields);
         return $data;
+=======
+        //
+>>>>>>> f41e498d79a2d28c67fb588d05347eb0d4918774
     }
 
     /**
@@ -101,9 +149,13 @@ class DoctorController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Medico $medico)
     {
+<<<<<<< HEAD
         $data = $this->repository->delete($request->id_medico);
         return $data;
+=======
+        //
+>>>>>>> f41e498d79a2d28c67fb588d05347eb0d4918774
     }
 }
