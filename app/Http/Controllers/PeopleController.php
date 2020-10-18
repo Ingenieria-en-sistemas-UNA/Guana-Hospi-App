@@ -108,7 +108,7 @@ class PeopleController extends Controller
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->Dni);
+        $data = $this->repository->delete($request->dni_persona);
         return $data;
     }
 }

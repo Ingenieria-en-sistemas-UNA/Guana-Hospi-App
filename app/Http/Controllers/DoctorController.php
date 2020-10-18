@@ -86,8 +86,9 @@ class DoctorController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->CodigoMedico,
-            $request->DniPersona
+            $request->id_medico,
+            $request->codigo_medico,
+            $request->dni_persona
         );
 
         $data = $this->repository->update($fields);
@@ -102,7 +103,7 @@ class DoctorController extends Controller
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->CodigoMedico);
+        $data = $this->repository->delete($request->id_medico);
         return $data;
     }
 }

@@ -85,7 +85,8 @@ class SymptonController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->Nombre
+            $request->id_sintoma,
+            $request->nombre
         );
 
         $data = $this->repository->update($fields);

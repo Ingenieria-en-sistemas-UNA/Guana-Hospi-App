@@ -86,8 +86,9 @@ class PatientUnityController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->IdPaciente,
-            $request->IdUnidad
+            $request->id_paciente_unidad,
+            $request->id_paciente,
+            $request->id_unidad
         );
 
         $data = $this->repository->update($fields);

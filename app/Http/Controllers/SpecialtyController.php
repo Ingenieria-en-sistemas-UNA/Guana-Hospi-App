@@ -85,7 +85,8 @@ class SpecialtyController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->NombreEspecialidad
+            $request->id_especialidad,
+            $request->nombreEspecialidad
         );
 
         $data = $this->repository->update($fields);

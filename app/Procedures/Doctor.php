@@ -7,14 +7,14 @@ class Doctor{
     public function createDoctor($fields){
         return DB::select('exec SP_Crear_Medico ?,?', $fields);
     }
-    public function deleteDoctor(){
-        return DB::select('exec SP_Eliminar_Medico ?');
+    public function deleteDoctor($id){
+        return DB::select('exec SP_Eliminar_Medico ?', array($id));
     }
     public function listDoctor(){
         return DB::select('exec SP_Obtener_Medicos');
     }
     public function updateDoctor($fields){
-        return DB::select('exec SP_ActualizarMedico ?,?', $fields);
+        return DB::select('exec SP_ActualizarMedico ?,?,?', $fields);
     }
 }
 ?>

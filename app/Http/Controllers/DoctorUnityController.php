@@ -86,8 +86,9 @@ class DoctorUnityController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->IdUnidad,
-            $request->IdMedico
+            $request->id_unidad_medico,
+            $request->id_unidad,
+            $request->id_medico
         );
 
         $data = $this->repository->update($fields);
