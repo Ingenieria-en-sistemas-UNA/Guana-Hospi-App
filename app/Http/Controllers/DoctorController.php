@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Medico;
 use Illuminate\Http\Request;
 use App\Repositories\DoctorRepository;
 use App\Repositories\PeopleRepository;
@@ -15,6 +14,19 @@ class DoctorController extends Controller
 
     /** @var PeopleRepository */
     private $peopleRepository;
+
+    private $rules = array(
+        'Nombre_Persona' => 'required|max:40|min:3',
+        'Primer_Apellido' => 'required|max:50|min:6',
+        'Segundo_Apellido' => 'required|max:50|min:6',
+        'Edad' => 'required|numeric|max:99|min:15'
+    );
+
+    private $customMessages = array(
+        'required' => 'Campo obligatorio',
+        'numeric' => 'Debe ingresar numeros',
+        'max' => ':attribute muy largo',
+    );
 
     public function __construct(DoctorRepository $doctorRepository, PeopleRepository $peopleRepository)
     {
@@ -53,45 +65,35 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
 
-        $rules = [
-            'nombre_persona' => 'required|max:40|min:3',
-            'apellido_1' => 'required|max:50|min:6',
-            'apellido_2' => 'required|max:50|min:6',
-            'edad' => 'required|numeric|max:99|min:15',
-            'dni_persona' => 'required|max:12|min:9',
-            'codigo_medico' => 'required|numeric',
-        ];
+        $specialRules = array(
+            'Cedula_Persona' => 'required|max:12|min:1',
+            'Codigo_Medico' => 'required|numeric'
+        );
 
-        $customMessages = [
-            'required' => 'Campo obligatorio',
-            'numeric' => 'Debe ingresar numeros',
-            'max' => ':attribute muy largo',
-        ];
-
-        $this->validate($request, $rules, $customMessages);
+        $this->validate($request, array_merge($this->rules, $specialRules), $this->customMessages);
 
 
         $person = array(
-            $request->dni_persona,
-            $request->nombre_persona,
-            $request->apellido_1,
-            $request->apellido_2,
-            $request->edad,
+            $request->Cedula_Persona,
+            $request->Nombre_Persona,
+            $request->Primer_Apellido,
+            $request->Segundo_Apellido,
+            $request->Edad,
         );
 
         $response = $this->peopleRepository->create($person);
-        if(!$response[0]->ok){
+        if (!$response[0]->ok) {
             return view('pages.doctor.create', array('responseError' => $response[0]->message));
         }
 
         $doctor = array(
-            $request->codigo_medico,
-            $request->dni_persona
+            $request->Codigo_Medico,
+            $request->Cedula_Persona
         );
 
         $response = $this->doctorRepository->create($doctor);
-        if(!$response[0]->ok){
-            $this->peopleRepository->delete($request->dni_persona);
+        if (!$response[0]->ok) {
+            $this->peopleRepository->delete($request->Cedula_Persona);
             return view('pages.doctor.create', array('responseError' => $response[0]->message));
         }
 
@@ -101,10 +103,9 @@ class DoctorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function show(Medico $medico)
+    public function show($medico)
     {
         //
     }
@@ -115,21 +116,43 @@ class DoctorController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medico $medico)
+    public function edit($id)
     {
-        //
+        $response = $this->doctorRepository->find($id);
+        if (!$response[0]->ok) {
+            return redirect('/doctors')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return view('pages.doctor.edit', array('medico' => $response[0], 'responseError' => false));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Medico  $medico
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Medico $medico)
+    public function update(Request $request, $id)
     {
-        //
+        $specialRules = array(
+            'Cedula_Persona' => 'max:12|min:1',
+            'Codigo_Medico' => 'numeric'
+        );
+
+        $this->validate($request, array_merge($this->rules, $specialRules), $this->customMessages);
+
+        $person = array(
+            $request->Cedula_Persona,
+            $request->Nombre_Persona,
+            $request->Primer_Apellido,
+            $request->Segundo_Apellido,
+            $request->Edad,
+        );
+        $response = $this->peopleRepository->update($person);
+        if (!$response[0]->ok) {
+            return view('pages.doctor.edit', array('responseError' => $response[0]->message));
+        }
+        return redirect('/doctors')->with('success', 'Se ha actualizado un Medico!');
     }
 
     /**
@@ -138,8 +161,12 @@ class DoctorController extends Controller
      * @param  \App\Medico  $medico
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medico $medico)
+    public function destroy($id)
     {
-        //
+        $response = $this->doctorRepository->delete($id);
+        if (!$response[0]->ok) {
+            return redirect('/doctors')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return redirect('/doctors')->with('success', 'Se ha eliminado un Medico!');
     }
 }

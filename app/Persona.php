@@ -46,7 +46,7 @@ class Persona extends Model
     /**
      * @var array
      */
-    protected $fillable = ['Dni', 'Nombre', 'Apellido1', 'Apellido2', 'Edad'];
+    protected $fillable = ['Cedula_Persona', 'Nombre_Persona', 'Primer_Apellido', 'Segundo_Apellido', 'Edad'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

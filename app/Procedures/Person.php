@@ -17,4 +17,3 @@ class Person{
         return DB::select('exec SP_ActualizarPersona ?,?,?,?,?', $fields);
     }
 }
-  

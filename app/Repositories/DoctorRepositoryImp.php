@@ -1,18 +1,12 @@
 <?php
 
 namespace App\Repositories;
-use App\Medico;
 use App\Procedures\Doctor;
 
 class DoctorRepositoryImp implements DoctorRepository
 {
     protected $procedure;
 
-    /** 
-     * PostRepository constructor.
-     *
-     * @param Medico $medico
-     */
     public function __construct()
     {
         $this->procedure = new Doctor();
@@ -20,9 +14,7 @@ class DoctorRepositoryImp implements DoctorRepository
 
     public function all()
     {
-        $data = $this->procedure->listDoctor();
-        return Medico::hydrate($data);
-
+        return $this->procedure->listDoctor();
     }
 
     public function create(array $data)
@@ -42,6 +34,6 @@ class DoctorRepositoryImp implements DoctorRepository
 
     public function find($id)
     {
-        return 'BUSCAR UNA MEDICO CON EL ID' . $id;
+        return $this->procedure->getDoctorById($id);
     }
 }
