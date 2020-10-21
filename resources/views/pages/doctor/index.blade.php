@@ -48,8 +48,12 @@
                               Opciones
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a class="dropdown-item" href="{{ route('doctors.edit', $doctor->Id_Medico) }}">Editar</a>
-                              <a class="dropdown-item" href="{{ route('doctors.destroy', $doctor->Id_Medico) }}">Eliminar</a>
+                                <a class="dropdown-item" href="{{ route('doctors.edit', $doctor->Id_Medico) }}">Editar</a>
+                                <form action="{{route('doctors.destroy',$doctor->Id_Medico)}}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Eliminar</button>
+                                </form>
                         </div>
                     </td>
                 </tr>

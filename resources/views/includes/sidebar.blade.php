@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a class="nav-link {{ request()->is('home') ? 'active' : ''}}" href="{{ url('home') }}">{{ __('Dashboard') }}</a>
+    <a class="nav-link {{ request()->is('home') ? 'active' : ''}}" href="{{ url('/') }}">{{ __('Dashboard') }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link {{ request()->is('doctors') ? 'active' : ''}}" href="{{ url('doctors') }}">{{ __('Medicos') }}</a>
