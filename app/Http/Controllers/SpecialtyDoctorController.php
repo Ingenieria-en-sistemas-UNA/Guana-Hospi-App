@@ -86,9 +86,9 @@ class SpecialtyDoctorController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->Id_unidad_medico,
-            $request->IdMedico,
-            $request->IdEspecialidad
+            $request->id_medico_especialidad,
+            $request->id_medico,
+            $request->id_especialidad
         );
 
         $data = $this->repository->update($fields);
@@ -103,7 +103,7 @@ class SpecialtyDoctorController extends Controller
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->id_unidad_medico);
+        $data = $this->repository->delete($request->id_medico_especialidad);
         return $data;
     }
 }

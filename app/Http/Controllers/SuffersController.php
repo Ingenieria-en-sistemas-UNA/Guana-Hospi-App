@@ -86,8 +86,9 @@ class SuffersController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->IdPaciente,
-            $request->IdEnfermedad
+            $request->id_padece,
+            $request->id_paciente,
+            $request->id_enfermedad
         );
 
         $data = $this->repository->update($fields);

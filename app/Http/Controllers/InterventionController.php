@@ -87,9 +87,10 @@ class InterventionController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->Tratamiendo,
-            $request->IdTipoIntervencion,
-            $request->IdConsulta
+            $request->id_intervencion,
+            $request->tratamiento,
+            $request->id_tipo_intervencion,
+            $request->id_consulta
         );
 
         $data = $this->repository->update($fields);

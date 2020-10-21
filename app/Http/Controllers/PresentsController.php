@@ -87,9 +87,10 @@ class PresentsController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->IdConsulta,
-            $request->IdSintoma,
-            $request->Descripcion
+            $request->id_resenta,
+            $request->id_consulta,
+            $request->id_sintoma,
+            $request->descripcion_presenta
         );
 
         $data = $this->repository->update($fields);

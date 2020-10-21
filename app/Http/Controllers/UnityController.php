@@ -86,8 +86,9 @@ class UnityController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->Nombre,
-            $request->Numero_planta
+            $request->id_unidad,
+            $request->nombre,
+            $request->numeroPlanta
         );
 
         $data = $this->repository->update($fields);

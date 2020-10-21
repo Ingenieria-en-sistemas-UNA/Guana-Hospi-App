@@ -47,12 +47,13 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $fields = array(
-            $request->Numero_seguro_social,
-            $request->FechaIngreso,
-            $request->DniPersona
+            $request->id_paciente,
+            $request->numeroSeguroSocial,
+            $request->fecha_ingreso,
+            $request->dni_persona
         );
 
-        $data = $this->repository->create($fields);
+        $data = $this->repository->update($fields);
         return $data;
     }
     /**

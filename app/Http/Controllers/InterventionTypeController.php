@@ -85,7 +85,8 @@ class InterventionTypeController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->Nombre
+            $request->id_tipo_intervencion,
+            $request->nombre
         );
 
         $data = $this->repository->update($fields);
@@ -100,7 +101,7 @@ class InterventionTypeController extends Controller
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->id_intervencion);
+        $data = $this->repository->delete($request->id_tipo_intervencion);
         return $data;
     }
 }

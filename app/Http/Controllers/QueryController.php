@@ -86,8 +86,9 @@ class QueryController extends Controller
     public function update(Request $request)
     {
         $fields = array(
-            $request->FechaConsulta,
-            $request->IdPaciente
+            $request->id_consulta,
+            $request->fecha,
+            $request->id_paciente
         );
 
         $data = $this->repository->update($fields);

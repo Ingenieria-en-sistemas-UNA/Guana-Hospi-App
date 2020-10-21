@@ -8,8 +8,8 @@ class Suffers{
     public function createSuffers($fields){
         return DB::select('exec SP_Crear_Padece ?,?', $fields);
     }
-    public function deleteSuffers(){
-        return DB::select('exec SP_Eliminar_Padecimiento ?');
+    public function deleteSuffers($id){
+        return DB::select('exec SP_Eliminar_Padecimiento ?', array($id));
     }
     public function listSuffers(){
         return DB::select('exec SP_Obtener_Padece');
