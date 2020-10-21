@@ -15,13 +15,6 @@ class DoctorController extends Controller
     /** @var PeopleRepository */
     private $peopleRepository;
 
-    private $rules = array(
-        'Nombre_Persona' => 'required|max:40|min:3',
-        'Primer_Apellido' => 'required|max:50|min:6',
-        'Segundo_Apellido' => 'required|max:50|min:6',
-        'Edad' => 'required|numeric|max:99|min:15'
-    );
-
     private $customMessages = array(
         'required' => 'Campo obligatorio',
         'numeric' => 'Debe ingresar numeros',
@@ -65,12 +58,16 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
 
-        $specialRules = array(
+        $rules = array(
+            'Nombre_Persona' => 'required|max:40|min:3',
+            'Primer_Apellido' => 'required|max:50|min:3',
+            'Segundo_Apellido' => 'required|max:50|min:3',
+            'Edad' => 'required|numeric|max:99|min:15',
             'Cedula_Persona' => 'required|max:12|min:1',
             'Codigo_Medico' => 'required|numeric'
         );
 
-        $this->validate($request, array_merge($this->rules, $specialRules), $this->customMessages);
+        $this->validate($request, $rules, $this->customMessages);
 
 
         $person = array(
@@ -134,12 +131,16 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $specialRules = array(
-            'Cedula_Persona' => 'max:12|min:1',
-            'Codigo_Medico' => 'numeric'
+        $rules = array(
+            'Nombre_Persona' => 'required|max:40|min:3',
+            'Primer_Apellido' => 'required|max:50|min:3',
+            'Segundo_Apellido' => 'required|max:50|min:3',
+            'Edad' => 'required|numeric|max:99|min:15',
+            'Cedula_Persona' => 'required|max:12|min:1',
+            'Codigo_Medico' => 'required|numeric'
         );
 
-        $this->validate($request, array_merge($this->rules, $specialRules), $this->customMessages);
+        $this->validate($request, $rules, $this->customMessages);
 
         $person = array(
             $request->Cedula_Persona,
@@ -150,7 +151,11 @@ class DoctorController extends Controller
         );
         $response = $this->peopleRepository->update($person);
         if (!$response[0]->ok) {
-            return view('pages.doctor.edit', array('responseError' => $response[0]->message));
+            $responseMedico = $this->doctorRepository->find($id);
+            if (!$responseMedico[0]->ok) {
+                return redirect('/doctors')->with('error', 'Error: ' . $responseMedico[0]->message);
+            }
+            return view('pages.doctor.edit', array('responseError' => $response[0]->message, 'medico' => $responseMedico[0]));
         }
         return redirect('/doctors')->with('success', 'Se ha actualizado un Medico!');
     }

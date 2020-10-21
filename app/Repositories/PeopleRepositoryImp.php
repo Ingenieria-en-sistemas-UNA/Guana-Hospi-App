@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Persona;
 use App\Procedures\Person;
 
 class PeopleRepositoryImp implements PeopleRepository
@@ -20,9 +19,7 @@ class PeopleRepositoryImp implements PeopleRepository
 
     public function all()
     {
-        $data = $this->procedure->listPerson();
-        return Persona::hydrate($data);
-
+        return $this->procedure->listPerson();
     }
 
     public function create(array $data)

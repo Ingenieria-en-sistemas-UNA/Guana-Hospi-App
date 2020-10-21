@@ -28,6 +28,8 @@
           <tr>
             <th>Id</th>
             <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
             <th>Cedula</th>
             <th data-width="100">Acciones</th>
           </tr>
@@ -37,6 +39,8 @@
                 <tr>
                     <td>{{$doctor->Id_Medico}}</td>
                     <td>{{$doctor->Codigo_Medico}}</td>
+                    <td>{{$doctor->Nombre_Persona}}</td>
+                    <td>{{$doctor->Primer_Apellido . ' ' . $doctor->Segundo_Apellido}}</td>
                     <td>{{$doctor->Cedula_Persona}}</td>
                     <td>
                         <div class="dropdown">

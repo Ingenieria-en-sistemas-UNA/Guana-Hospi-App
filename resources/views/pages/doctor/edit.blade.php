@@ -40,7 +40,7 @@
                 <div class="col-12 col-sm-6">
                     <div class="form-group">
                         <label for="Cedula_Persona">Cedula:</label>
-                        <input value="{{ old('Cedula_Persona', $medico->Cedula_Persona) }}" disabled type="text" class="form-control @error('Cedula_Persona') danger @enderror" name="Cedula_Persona"/>
+                        <input value="{{ old('Cedula_Persona', $medico->Cedula_Persona) }}" readonly type="text" class="form-control @error('Cedula_Persona') danger @enderror" name="Cedula_Persona"/>
                         @error('Cedula_Persona')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -60,7 +60,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="Codigo_Medico">Codigo:</label>
-                        <input value="{{ old('Codigo_Medico', $medico->Codigo_Medico) }}" disabled type="text" class="form-control @error('Codigo_Medico') danger @enderror" name="Codigo_Medico"/>
+                        <input value="{{ old('Codigo_Medico', $medico->Codigo_Medico) }}" readonly type="text" class="form-control @error('Codigo_Medico') danger @enderror" name="Codigo_Medico"/>
                         @error('Codigo_Medico')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror

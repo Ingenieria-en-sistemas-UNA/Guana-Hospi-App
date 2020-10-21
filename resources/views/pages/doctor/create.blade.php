@@ -58,9 +58,9 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="codigo_medico">Codigo:</label>
-                        <input value="{{ old('codigo_medico') }}" type="text" class="form-control @error('codigo_medico') danger @enderror" name="codigo_medico"/>
-                        @error('codigo_medico')
+                        <label for="Codigo_Medico">Codigo:</label>
+                        <input value="{{ old('Codigo_Medico') }}" type="text" class="form-control @error('Codigo_Medico') danger @enderror" name="Codigo_Medico"/>
+                        @error('Codigo_Medico')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
