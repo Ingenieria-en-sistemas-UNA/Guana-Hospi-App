@@ -36,11 +36,6 @@ Route::post('/doctor/create', 'DoctorController@store')->name('doctor');
 Route::post('/doctor/update', 'DoctorController@update')->name('doctor');
 Route::delete('/doctor/delete', 'DoctorController@destroy')->name('doctor');
 
-//Medico Unidad
-Route::get('/doctor/unity', 'DoctorUnityController@index')->name('doctorunity');
-Route::post('/doctor/unity/create', 'DoctorUnityController@store')->name('doctorunity');
-Route::post('/doctor/unity/update', 'DoctorUnityController@update')->name('doctorunity');
-Route::delete('/doctor/unity/delete', 'DoctorUnityController@destroy')->name('doctorunity');
 
 //Medico Especialidad
 Route::get('/specialty/doctor', 'SpecialtyDoctorController@index')->name('specialtydoctor');
@@ -102,8 +97,3 @@ Route::post('/sympton/create', 'SymptonController@store')->name('sympton');
 Route::post('/sympton/update', 'SymptonController@update')->name('sympton');
 Route::delete('/sympton/delete', 'SymptonController@destroy')->name('sympton');
 
-//Unidad
-Route::get('/unity', 'UnityController@index')->name('unity');
-Route::post('/unity/create', 'UnityController@store')->name('unity');
-Route::post('/unity/update', 'UnityController@update')->name('unity');
-Route::delete('/unity/delete', 'UnityController@destroy')->name('unity');

@@ -8,7 +8,7 @@
     <a class="nav-link {{ request()->is('users') ? 'active' : ''}}" href="{{ url('users') }}">{{ __('Usuarios') }}</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link {{ request()->is('consultations') ? 'active' : ''}}" href="{{ url('consultations') }}">{{ __('Consultas') }}</a>
+    <a class="nav-link {{ request()->is('units') ? 'active' : ''}}" href="{{ url('units') }}">{{ __('Unidades') }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link {{ request()->is('patients') ? 'active' : ''}}" href="{{ url('patients') }}">{{ __('Pacientes') }}</a>

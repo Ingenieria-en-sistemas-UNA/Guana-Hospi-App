@@ -5,16 +5,21 @@ namespace App\Http\Controllers;
 use App\Unidad;
 use Illuminate\Http\Request;
 use App\Repositories\UnityRepository;
+use App\Repositories\DoctorRepository;
 use Illuminate\Support\Facades\DB;
 
 class UnityController extends Controller
 {
     /** @var UnityRepository */
-    private $repository;
+    private $unityRepository;
 
-    public function __construct(UnityRepository $repository)
+    /** @var DoctorRepository */
+    private $doctorRepository;
+
+    public function __construct(UnityRepository $unityRepository, DoctorRepository $doctorRepository)
     {
-        $this->repository = $repository;
+        $this->unityRepository = $unityRepository;
+        $this->doctorRepository = $doctorRepository;
     }
 
     /** 
@@ -24,8 +29,8 @@ class UnityController extends Controller
      */
     public function index()
     {
-        $data = $this->repository->all();
-        return json_encode($data);
+        $units = $this->unityRepository->all();
+        return view('pages.units.index', array('units' => $units));
     }
 
     /**
@@ -35,7 +40,9 @@ class UnityController extends Controller
      */
     public function create()
     {
-        //
+	
+	$doctors = $this->doctorRepository->all();	
+        return view('pages.units.create', array('responseError' => false, 'doctors' => $doctors));
     }
 
     /**
@@ -51,7 +58,7 @@ class UnityController extends Controller
             $request->Numero_planta
         );
 
-        $data = $this->repository->create($fields);
+        $data = $this->unityRepository->create($fields);
         return $data;
     }
     /**
@@ -91,7 +98,7 @@ class UnityController extends Controller
             $request->numeroPlanta
         );
 
-        $data = $this->repository->update($fields);
+        $data = $this->unityRepository->update($fields);
         return $data;
     }
 
@@ -103,7 +110,7 @@ class UnityController extends Controller
      */
     public function destroy(Request $request)
     {
-        $data = $this->repository->delete($request->id_unidad);
+        $data = $this->unityRepository->delete($request->id_unidad);
         return $data;
     }
 }

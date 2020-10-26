@@ -19,8 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+	    $table->integer('id_medico')->nullable()->unsigned();
             $table->rememberToken();
             $table->timestamps();
+	    $table->foreign('Id_Medico')->references('Id_Medico')->on('Medico');
         });
     }
 
