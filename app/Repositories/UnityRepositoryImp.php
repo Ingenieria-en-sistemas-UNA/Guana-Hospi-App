@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Unidad;
 use App\Procedures\Unity;
 
 class UnityRepositoryImp implements UnityRepository
@@ -20,9 +19,7 @@ class UnityRepositoryImp implements UnityRepository
 
     public function all()
     {
-        $data = $this->procedure->listUnity();
-        return Unidad::hydrate($data);
-
+        return $this->procedure->listUnity();
     }
 
     public function create(array $data)
@@ -42,6 +39,6 @@ class UnityRepositoryImp implements UnityRepository
 
     public function find($id)
     {
-        return 'BUSCAR UNIDAD CON EL ID' . $id;
+        return $this->procedure->getUnityById($id);
     }
 }

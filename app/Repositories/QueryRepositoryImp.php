@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Consulta;
 use App\Procedures\Query;
 
 class QueryRepositoryImp implements QueryRepository
@@ -20,9 +19,7 @@ class QueryRepositoryImp implements QueryRepository
 
     public function all()
     {
-        $data = $this->procedure->listQuery();
-        return Consulta::hydrate($data);
-
+        return $this->procedure->listQuery();
     }
 
     public function create(array $data)

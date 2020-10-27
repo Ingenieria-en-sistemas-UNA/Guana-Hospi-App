@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Medico_especialidad;
 use App\Procedures\SpecialtyDoctor;
 
 class SpecialtyDoctorRepositoryImp implements SpecialtyDoctorRepository
@@ -20,9 +19,7 @@ class SpecialtyDoctorRepositoryImp implements SpecialtyDoctorRepository
 
     public function all()
     {
-        $data = $this->procedure->listSpecialtyDoctor();
-        return Medico_especialidad::hydrate($data);
-
+        return $this->procedure->listSpecialtyDoctor();
     }
 
     public function create(array $data)

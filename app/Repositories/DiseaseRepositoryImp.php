@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Repositories;
-use App\Enfermedad;
 use App\Procedures\Disease;
 
 class DiseaseRepositoryImp implements DiseaseRepository
 {
     protected $procedure;
 
-    /** 
+    /**
      * PostRepository constructor.
      *
      * @param Enfermedad $enfermedad
@@ -20,9 +19,7 @@ class DiseaseRepositoryImp implements DiseaseRepository
 
     public function all()
     {
-        $data = $this->procedure->listDisease();
-        return Enfermedad::hydrate($data);
-
+        return $this->procedure->listDisease();
     }
 
     public function create(array $data)

@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Repositories;
-use App\Intervenciones;
 use App\Procedures\Intervention;
 
 class InterventionRepositoryImp implements InterventionRepository
 {
     protected $procedure;
 
-    /** 
+    /**
      * PostRepository constructor.
      *
      * @param Intervenciones $intervenciones
@@ -20,9 +19,7 @@ class InterventionRepositoryImp implements InterventionRepository
 
     public function all()
     {
-        $data = $this->procedure->listIntervention();
-        return Intervenciones::hydrate($data);
-
+        return $this->procedure->listIntervention();
     }
 
     public function create(array $data)

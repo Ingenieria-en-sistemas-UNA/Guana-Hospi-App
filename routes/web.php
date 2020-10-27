@@ -20,6 +20,5 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('doctors', 'DoctorController');
 
-
 Route::resource('units', 'UnityController');
 

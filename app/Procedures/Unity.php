@@ -1,12 +1,12 @@
-<?php 
+<?php
 
 namespace App\Procedures;
 use Illuminate\Support\Facades\DB;
 
 class Unity{
-    
+
     public function createUnity($fields){
-        return DB::select('exec SP_Crear_Unidad ?,?', $fields);
+        return DB::select('exec SP_Crear_Unidad ?,?,?', $fields);
     }
     public function deleteUnity($id){
         return DB::select('exec SP_Eliminar_Unidad ?', array($id));
@@ -16,6 +16,10 @@ class Unity{
     }
     public function updateUnity($fields){
         return DB::select('exec SP_ActualizarUnidad ?,?,?', $fields);
+    }
+
+    public function getUnityById($id){
+        return DB::select('exec SP_Obtener_Unidade_Por_Id ?', array($id));
     }
 }
 ?>

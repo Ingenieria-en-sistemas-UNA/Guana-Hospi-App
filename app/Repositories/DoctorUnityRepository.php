@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Medico_unidad;
 
 interface DoctorUnityRepository
 {

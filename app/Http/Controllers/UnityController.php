@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Unidad;
 use Illuminate\Http\Request;
 use App\Repositories\UnityRepository;
 use App\Repositories\DoctorRepository;
-use Illuminate\Support\Facades\DB;
 
 class UnityController extends Controller
 {
@@ -16,13 +14,19 @@ class UnityController extends Controller
     /** @var DoctorRepository */
     private $doctorRepository;
 
+    private $customMessages = array(
+        'required' => 'Campo obligatorio',
+        'numeric' => 'Debe ingresar numeros',
+        'max' => ':attribute muy largo',
+    );
+
     public function __construct(UnityRepository $unityRepository, DoctorRepository $doctorRepository)
     {
         $this->unityRepository = $unityRepository;
         $this->doctorRepository = $doctorRepository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -40,8 +44,7 @@ class UnityController extends Controller
      */
     public function create()
     {
-	
-	$doctors = $this->doctorRepository->all();	
+	    $doctors = $this->doctorRepository->all();
         return view('pages.units.create', array('responseError' => false, 'doctors' => $doctors));
     }
 
@@ -53,13 +56,27 @@ class UnityController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = array(
-            $request->Nombre,
-            $request->Numero_planta
+        $rules = array(
+            'Nombre_Unidad' => 'required|max:40|min:3|string',
+            'Numero_Planta' => 'required|numeric|max:10',
         );
 
-        $data = $this->unityRepository->create($fields);
-        return $data;
+        $this->validate($request, $rules, $this->customMessages);
+
+        $unity = array(
+            $request->Nombre_Unidad,
+            $request->Numero_Planta,
+            $request->Id_Medico ?? null
+        );
+
+
+        $response = $this->unityRepository->create($unity);
+
+        if (!$response[0]->ok) {
+            return view('pages.units.create', array('responseError' => $response[0]->message));
+        }
+
+        return redirect('/units')->with('success', 'Unidad creada!');
     }
     /**
      * Display the specified resource.
@@ -67,7 +84,7 @@ class UnityController extends Controller
      * @param  \App\Unidad  $unidad
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Unidad $unidad)
+    public function show($unidad)
     {
         //
     }
@@ -78,9 +95,14 @@ class UnityController extends Controller
      * @param  \App\Unidad  $unidad
      * @return \Illuminate\Http\Response
      */
-    public function edit(Unidad $unidad)
+    public function edit($id)
     {
-        //
+        $response = $this->unityRepository->find($id);
+        $doctors = $this->doctorRepository->all();
+        if (!$response[0]->ok) {
+            return redirect('/units')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return view('pages.units.edit', array('unit' => $response[0], 'responseError' => false, 'doctors' => $doctors));
     }
 
     /**
@@ -90,16 +112,33 @@ class UnityController extends Controller
      * @param  \App\Unidad  $unidad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request,  $id)
     {
-        $fields = array(
-            $request->id_unidad,
-            $request->nombre,
-            $request->numeroPlanta
+        $rules = array(
+            'Nombre_Unidad' => 'required|max:40|min:3|string',
+            'Numero_Planta' => 'required|numeric|max:10',
         );
 
-        $data = $this->unityRepository->update($fields);
-        return $data;
+        $this->validate($request, $rules, $this->customMessages);
+
+        $unity = array(
+            $id,
+            $request->Nombre_Unidad,
+            $request->Numero_Planta,
+            $request->Id_Medico ?? null
+        );
+
+
+        $response = $this->unityRepository->update($unity);
+
+        if (!$response[0]->ok) {
+            $responseUnidad = $this->unityRepository->find($id);
+            if (!$responseUnidad[0]->ok) {
+                return redirect('/units')->with('error', 'Error: ' . $responseUnidad[0]->message);
+            }
+            return view('pages.units.edit', array('responseError' => $response[0]->message, 'unit' => $responseUnidad[0]));
+        }
+        return redirect('/units')->with('success', 'Se ha actualizado una Unidad!');
     }
 
     /**
@@ -108,9 +147,12 @@ class UnityController extends Controller
      * @param  \App\Unidad  $unidad
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $data = $this->unityRepository->delete($request->id_unidad);
-        return $data;
+        $response = $this->unityRepository->delete($id);
+        if (!$response[0]->ok) {
+            return redirect('/units')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return redirect('/units')->with('success', 'Se ha eliminado una Unidad!');
     }
 }

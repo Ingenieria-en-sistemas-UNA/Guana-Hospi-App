@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Repositories\DoctorRepository;
 use App\Repositories\PeopleRepository;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -64,7 +66,9 @@ class DoctorController extends Controller
             'Segundo_Apellido' => 'required|max:50|min:3',
             'Edad' => 'required|numeric|max:99|min:15',
             'Cedula_Persona' => 'required|max:12|min:1',
-            'Codigo_Medico' => 'required|numeric'
+            'Codigo_Medico' => 'required|numeric',
+            'email' => 'required|string|email|max:255:unique:users',
+            'password' => 'required|string|min:8|confirmed'
         );
 
         $this->validate($request, $rules, $this->customMessages);
@@ -93,6 +97,11 @@ class DoctorController extends Controller
             $this->peopleRepository->delete($request->Cedula_Persona);
             return view('pages.doctor.create', array('responseError' => $response[0]->message));
         }
+
+        User::create([
+        'email' => $request->email,
+        'password' => Hash::make($request->password)
+        ]);
 
         return redirect('/doctors')->with('success', 'Medico creado!');
     }
