@@ -5,27 +5,32 @@ namespace App\Http\Controllers;
 use App\Enfermedad;
 use Illuminate\Http\Request;
 use App\Repositories\DiseaseRepository;
-use Illuminate\Support\Facades\DB;
 
 class DiseaseController extends Controller
 {
     /** @var DiseaseRepository */
     private $repository;
 
+    private $customMessages = array(
+        'required' => 'Campo obligatorio',
+        'numeric' => 'Debe ingresar numeros',
+        'max' => ':attribute muy largo',
+    );
+
     public function __construct(DiseaseRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $data = $this->repository->all();
-        return json_encode($data);
+        $diseases = $this->repository->all();
+        return view('pages.disease.index', array('diseases' => $diseases));
     }
 
     /**
@@ -35,7 +40,7 @@ class DiseaseController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.disease.create', array('responseError' => false));
     }
 
     /**
@@ -46,12 +51,22 @@ class DiseaseController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = array(
-            $request->Nombre,
+        $rules = array(
+            'Nombre_Enfermedad' => 'required|max:255|min:3'
         );
 
-        $data = $this->repository->create($fields);
-        return $data;
+        $this->validate($request, $rules, $this->customMessages);
+
+        $disease = array(
+            $request->Nombre_Enfermedad
+        );
+
+        $response = $this->repository->create($disease);
+
+        if (!$response[0]->ok) {
+            return view('pages.disease.create', array('responseError' => $response[0]->message));
+        }
+        return redirect('/diseases')->with('success', 'Medico una Enfermedad!');
     }
     /**
      * Display the specified resource.
@@ -59,7 +74,7 @@ class DiseaseController extends Controller
      * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
-    public function show(Enfermedad $enfermedad)
+    public function show($enfermedad)
     {
         //
     }
@@ -70,9 +85,13 @@ class DiseaseController extends Controller
      * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
-    public function edit(Enfermedad $enfermedad)
+    public function edit($id)
     {
-        //
+        $response = $this->repository->find($id);
+        if (!$response[0]->ok) {
+            return redirect('/diseases')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return view('pages.disease.edit', array('disease' => $response[0], 'responseError' => false));
     }
 
     /**
@@ -82,15 +101,28 @@ class DiseaseController extends Controller
      * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $fields = array(
-            $request->id_enfermedad,
-            $request->nombre
+        $rules = array(
+            'Nombre_Enfermedad' => 'required|max:255|min:3'
         );
 
-        $data = $this->repository->update($fields);
-        return $data;
+        $this->validate($request, $rules, $this->customMessages);
+
+        $disease = array(
+            $id,
+            $request->Nombre_Enfermedad
+        );
+
+        $response = $this->repository->update($disease);
+        if (!$response[0]->ok) {
+            $responseEnfermedad = $this->repository->find($id);
+            if (!$responseEnfermedad[0]->ok) {
+                return redirect('/diseases')->with('error', 'Error: ' . $responseEnfermedad[0]->message);
+            }
+            return view('pages.disease.edit', array('responseError' => $response[0]->message, 'disease' => $responseEnfermedad[0]));
+        }
+        return redirect('/diseases')->with('success', 'Se ha actualizado una Enfermedad!');
     }
 
     /**
@@ -99,10 +131,13 @@ class DiseaseController extends Controller
      * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $data = $this->repository->delete($request->id_enfermedad);
-        return $data;
+        $response = $this->repository->delete($id);
+        if (!$response[0]->ok) {
+            return redirect('/diseases')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return redirect('/diseases')->with('success', 'Se ha eliminado una Enfermedad!');
     }
 }
 

@@ -22,3 +22,5 @@ Route::resource('doctors', 'DoctorController');
 
 Route::resource('units', 'UnityController');
 
+Route::resource('diseases', 'DiseaseController');
+
