@@ -128,7 +128,6 @@ class UnityController extends Controller
             $request->Id_Medico ?? null
         );
 
-
         $response = $this->unityRepository->update($unity);
 
         if (!$response[0]->ok) {

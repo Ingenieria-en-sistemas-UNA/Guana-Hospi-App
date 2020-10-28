@@ -7,6 +7,7 @@
         <div class="alert alert-danger">{{ $responseError }}</div>
         @endif
         <form method="post" action="{{ route('units.update', $unit->Id_Unidad) }}">
+            @method('PUT')
             @csrf
             <div class="form-group">
                 <label for="Nombre_Unidad">Nombre:</label>
