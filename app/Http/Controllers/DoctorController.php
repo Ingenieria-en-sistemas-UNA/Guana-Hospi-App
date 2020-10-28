@@ -100,7 +100,8 @@ class DoctorController extends Controller
 
         User::create([
         'email' => $request->email,
-        'password' => Hash::make($request->password)
+        'password' => Hash::make($request->password),
+        'id_medico' => $response[0]->beforeId + 1
         ]);
 
         return redirect('/doctors')->with('success', 'Medico creado!');
