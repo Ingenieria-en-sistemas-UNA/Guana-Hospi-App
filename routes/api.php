@@ -56,10 +56,10 @@ Route::post('/intervention/type/update', 'InterventionTypeController@update')->n
 Route::delete('/intervention/type/delete', 'InterventionTypeController@destroy')->name('interventiontype');
 
 //Paciente
-Route::get('/patient', 'PatientController@index')->name('patient');
-Route::post('/patient/create', 'PatientController@store')->name('patient');
-Route::post('/patient/update', 'PatientController@update')->name('patient');
-Route::delete('/patient/delete', 'PatientController@destroy')->name('patient');
+// Route::get('/patient', 'PatientController@index')->name('patient');
+// Route::post('/patient/create', 'PatientController@store')->name('patient');
+// Route::post('/patient/update', 'PatientController@update')->name('patient');
+// Route::delete('/patient/delete', 'PatientController@destroy')->name('patient');
 
 //paciente unidad
 Route::get('/patient/unity', 'PatientUnityController@index')->name('patientunity');
