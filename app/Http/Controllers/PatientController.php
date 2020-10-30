@@ -5,16 +5,24 @@ namespace App\Http\Controllers;
 use App\Paciente;
 use Illuminate\Http\Request;
 use App\Repositories\PatientRepository;
+use App\Repositories\PeopleRepository;
 use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
 {
     /** @var PatientRepository */
-    private $repository;
+    private $patientrepository;
 
-    public function __construct(PatientRepository $repository)
+
+        /** @var PeopleRepository */
+        private $peopleRepository;
+
+    public function __construct(PatientRepository $patientrepository, PeopleRepository $peopleRepository )
     {
-        $this->repository = $repository;
+        $this->middleware('auth');
+        $this->patientrepository = $patientrepository;
+        $this->peopleRepository = $peopleRepository;
+       
     }
 
     /** 
@@ -24,8 +32,9 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $data = $this->repository->all();
-        return json_encode($data);
+        $patients = $this->patientrepository->all();
+        return view('pages.patient.index', ['patients' => $patients]);
+  
     }
 
     /**
@@ -35,7 +44,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        return view ( 'pages.patient.create');
     }
 
     /**
@@ -46,15 +55,44 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = array(
-            $request->id_paciente,
-            $request->numeroSeguroSocial,
-            $request->fecha_ingreso,
-            $request->dni_persona
+
+        $rules = array(
+            'Nombre_Persona' => 'required|max:40|min:3',
+            'Primer_Apellido' => 'required|max:50|min:3',
+            'Segundo_Apellido' => 'required|max:50|min:3',
+            'Edad' => 'required|numeric|max:99|min:15',
+            'Cedula_Persona' => 'required|max:12|min:1',
+            'N_Seguro_Social' => 'required|numeric|max:12|min:1',
         );
 
-        $data = $this->repository->update($fields);
-        return $data;
+
+      //  $this->validate($request, $rules, $this->customMessages);
+
+        $person = array(
+            $request->Cedula_Persona,
+            $request->Nombre_Persona,
+            $request->Primer_Apellido,
+            $request->Segundo_Apellido,
+            $request->Edad,
+        );
+
+        $response = $this->peopleRepository->create($person);
+        if (!$response[0]->ok) {
+            return view('pages.Patient.create', array('responseError' => $response[0]->message));
+        }
+        
+        $patient = array(
+            $request->N_Seguro_Social
+        );
+
+        $response = $this->patientrepository->create($patient);
+        if (!$response[0]->ok) {
+            $this->peopleRepository->delete($request->Cedula_Persona);
+            return view('pages.Patient.create', array('responseError' => $response[0]->message));
+        }
+
+        return redirect('/patients')->with('success', 'Paciente Creado!');
+
     }
     /**
      * Display the specified resource.
@@ -103,9 +141,12 @@ class PatientController extends Controller
      * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $data = $this->repository->delete($request->id_paciente);
-        return $data;
+        $response = $this->patientrepository->delete($id);
+        if (!$response[0]->ok) {
+            return redirect('/patients')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return redirect('/patients')->with('success', 'Se ha eliminado un Medico!');
     }
 }

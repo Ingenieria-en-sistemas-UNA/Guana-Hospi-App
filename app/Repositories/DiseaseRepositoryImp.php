@@ -39,6 +39,6 @@ class DiseaseRepositoryImp implements DiseaseRepository
 
     public function find($id)
     {
-        return 'BUSCAR UNA ENFERMEDAD CON EL ID' . $id;
+        return $this->procedure->getById($id);
     }
 }

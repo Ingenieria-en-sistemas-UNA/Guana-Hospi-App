@@ -22,3 +22,11 @@ Route::resource('doctors', 'DoctorController');
 
 Route::resource('units', 'UnityController');
 
+Route::resource('patients', 'PatientController');
+
+Route::resource('diseases', 'DiseaseController');
+
+Route::resource('specialities', 'SpecialtyController');
+
+Route::resource('users', 'UsersController');
+

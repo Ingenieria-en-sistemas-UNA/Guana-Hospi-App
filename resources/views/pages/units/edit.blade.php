@@ -2,7 +2,7 @@
 @section('content')
 <div class="d-flex justify-content-center">
     <div class="card w-50 p-5 mt-3">
-        <p class="h2">Crear Unidad</p>
+        <p class="h2">Editar Unidad</p>
         @if ($responseError)
         <div class="alert alert-danger">{{ $responseError }}</div>
         @endif

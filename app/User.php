@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id_medico', 'email', 'password',
+        'id_medico', 'email', 'password', 'id_role'
     ];
 
     /**
@@ -38,8 +38,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getDateFormat()
-    {
-        return 'Y-d-m H:i:s.v';
-    }
+    // public function getDateFormat()
+    // {
+    //     return 'Y-d-m H:i:s.v';
+    // }
 }

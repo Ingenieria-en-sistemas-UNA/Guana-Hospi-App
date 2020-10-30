@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Repositories\DoctorRepository;
 use App\Repositories\PeopleRepository;
+use App\Repositories\RolesRepository;
 use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
@@ -17,17 +18,21 @@ class DoctorController extends Controller
     /** @var PeopleRepository */
     private $peopleRepository;
 
+    /** @var RolesRepository */
+    private $rolesRepository;
+
     private $customMessages = array(
         'required' => 'Campo obligatorio',
         'numeric' => 'Debe ingresar numeros',
         'max' => ':attribute muy largo',
     );
 
-    public function __construct(DoctorRepository $doctorRepository, PeopleRepository $peopleRepository)
+    public function __construct(DoctorRepository $doctorRepository, PeopleRepository $peopleRepository, RolesRepository $rolesRepository)
     {
         $this->middleware('auth');
         $this->doctorRepository = $doctorRepository;
         $this->peopleRepository = $peopleRepository;
+        $this->rolesRepository = $rolesRepository;
     }
 
     /**
@@ -98,10 +103,17 @@ class DoctorController extends Controller
             return view('pages.doctor.create', array('responseError' => $response[0]->message));
         }
 
+        $responseRole = $this->rolesRepository->findByName('Medico');
+        if (!$responseRole[0]->ok) {
+            $this->rolesRepository->create(['Medico']);
+            $responseRole = $this->rolesRepository->findByName('Medico');
+        }
+
         User::create([
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'id_medico' => $response[0]->beforeId + 1
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'id_medico' => $response[0]->beforeId == 1 ? 1 : $response[0]->beforeId + 1,
+            'id_role' =>$responseRole[0]->Id_Role
         ]);
 
         return redirect('/doctors')->with('success', 'Medico creado!');
