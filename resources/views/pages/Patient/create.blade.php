@@ -65,7 +65,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="Fecha_Ingreso">Facha De Ingreso:</label>
-                        <input value="{{ old('Fecha_Ingreso') }}" type="text" class="form-control @error('Fecha_Ingreso') danger @enderror" name="Fecha_Ingreso"/>
+                        <input value="{{ old('Fecha_Ingreso') }}" type="date" class="form-control @error('Fecha_Ingreso') danger @enderror" name="Fecha_Ingreso"/>
                         @error('Fecha_Ingreso')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
