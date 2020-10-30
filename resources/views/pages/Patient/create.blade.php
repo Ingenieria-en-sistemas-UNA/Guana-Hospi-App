@@ -2,6 +2,9 @@
 @section('content')
 <div class="card w-100 p-5 mt-3">
     <p class="h2">Crear Paciente</p>
+    @if ($responseError)
+        <div class="alert alert-danger">{{ $responseError }}</div>
+    @endif
     <form method="post" action="{{ route('patients.store') }}">
         @csrf
         <div class="form-group">
@@ -64,8 +67,8 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="Fecha_Ingreso">Facha De Ingreso:</label>
-                    <input value="{{ old('FechaIngreso') }}" type="date"  class="form-control @error('FechaIngreso') danger @enderror" name="Fecha_Ingreso"/>
-                    @error('FechaIngreso')
+                    <input value="{{ old('Fecha_Ingreso') }}" type="date"  class="form-control @error('Fecha_Ingreso') danger @enderror" name="Fecha_Ingreso"/>
+                    @error('Fecha_Ingreso')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>

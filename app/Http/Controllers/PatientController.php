@@ -12,8 +12,14 @@ class PatientController extends Controller
     private $patientrepository;
 
 
-        /** @var PeopleRepository */
-        private $peopleRepository;
+    /** @var PeopleRepository */
+    private $peopleRepository;
+
+    private $customMessages = array(
+        'required' => 'Campo obligatorio',
+        'numeric' => 'Debe ingresar numeros',
+        'max' => ':attribute muy largo',
+    );
 
     public function __construct(PatientRepository $patientrepository, PeopleRepository $peopleRepository )
     {
@@ -41,7 +47,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view ( 'pages.patient.create');
+        return view ('pages.patient.create', array('responseError' => false));
     }
 
     /**
@@ -60,11 +66,10 @@ class PatientController extends Controller
             'Edad' => 'required|numeric|max:99|min:15',
             'Cedula_Persona' => 'required|max:12|min:1',
             'Numero_seguro_social' => 'required|numeric|max:12|min:1',
-            'FechaIngreso' => 'required|date'
+            'Fecha_Ingreso' => 'required|date'
         );
 
-
-      //  $this->validate($request, $rules, $this->customMessages);
+        $this->validate($request, $rules, $this->customMessages);
 
         $person = array(
             $request->Cedula_Persona,
@@ -81,9 +86,10 @@ class PatientController extends Controller
 
         $patient = array(
             $request->Numero_seguro_social,
-            $request->FechaIngreso,
-            $request->DniPersona
+            $request->Fecha_Ingreso,
+            $request->Cedula_Persona
         );
+
 
         $response = $this->patientrepository->create($patient);
         if (!$response[0]->ok) {
