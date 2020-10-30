@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enfermedad;
 use Illuminate\Http\Request;
 use App\Repositories\DiseaseRepository;
 
@@ -19,6 +18,7 @@ class DiseaseController extends Controller
 
     public function __construct(DiseaseRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
@@ -82,7 +82,6 @@ class DiseaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -98,7 +97,6 @@ class DiseaseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Enfermedad  $enfermedad
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)

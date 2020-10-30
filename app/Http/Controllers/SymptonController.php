@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Sintoma;
 use Illuminate\Http\Request;
 use App\Repositories\SymptonRepository;
-use Illuminate\Support\Facades\DB;
 
 class SymptonController extends Controller
 {
@@ -14,10 +12,11 @@ class SymptonController extends Controller
 
     public function __construct(SymptonRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -56,10 +55,9 @@ class SymptonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Sintoma  $sintoma
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Sintoma $Sintoma)
+    public function show($Sintoma)
     {
         //
     }
@@ -67,10 +65,9 @@ class SymptonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Sintoma  $sintoma
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sintoma $Sintoma)
+    public function edit($Sintoma)
     {
         //
     }
@@ -79,7 +76,6 @@ class SymptonController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sintoma  $sintoma
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -96,7 +92,6 @@ class SymptonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Sintoma  $sintoma
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)

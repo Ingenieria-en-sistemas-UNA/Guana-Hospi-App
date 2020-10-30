@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Presenta;
 use Illuminate\Http\Request;
 use App\Repositories\PresentsRepository;
-use Illuminate\Support\Facades\DB;
 
 class PresentsController extends Controller
 {
@@ -14,10 +12,11 @@ class PresentsController extends Controller
 
     public function __construct(PresentsRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -58,10 +57,9 @@ class PresentsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Presenta  $presenta
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Presenta $presenta)
+    public function show($presenta)
     {
         //
     }
@@ -69,10 +67,9 @@ class PresentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Presenta  $presenta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Presenta $presenta)
+    public function edit($presenta)
     {
         //
     }

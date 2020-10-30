@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Paciente;
 use Illuminate\Http\Request;
 use App\Repositories\PatientRepository;
 use App\Repositories\PeopleRepository;
-use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
 {
@@ -22,10 +20,9 @@ class PatientController extends Controller
         $this->middleware('auth');
         $this->patientrepository = $patientrepository;
         $this->peopleRepository = $peopleRepository;
-       
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -34,7 +31,7 @@ class PatientController extends Controller
     {
         $patients = $this->patientrepository->all();
         return view('pages.patient.index', ['patients' => $patients]);
-  
+
     }
 
     /**
@@ -80,7 +77,7 @@ class PatientController extends Controller
         if (!$response[0]->ok) {
             return view('pages.Patient.create', array('responseError' => $response[0]->message));
         }
-        
+
         $patient = array(
             $request->N_Seguro_Social
         );
@@ -97,10 +94,9 @@ class PatientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Paciente $paciente)
+    public function show($paciente)
     {
         //
     }
@@ -108,10 +104,9 @@ class PatientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
-    public function edit(Paciente $paciente)
+    public function edit($paciente)
     {
         //
     }
