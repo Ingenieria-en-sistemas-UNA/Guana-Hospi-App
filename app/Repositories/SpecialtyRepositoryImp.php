@@ -39,6 +39,6 @@ class SpecialtyRepositoryImp implements SpecialtyRepository
 
     public function find($id)
     {
-        return 'BUSCAR ESPECIALIDAD CON EL ID' . $id;
+        return $this->procedure->getById($id);
     }
 }

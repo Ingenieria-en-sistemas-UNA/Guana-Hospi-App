@@ -24,3 +24,5 @@ Route::resource('units', 'UnityController');
 
 Route::resource('diseases', 'DiseaseController');
 
+Route::resource('specialities', 'SpecialtyController');
+

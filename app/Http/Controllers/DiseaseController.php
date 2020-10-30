@@ -66,7 +66,7 @@ class DiseaseController extends Controller
         if (!$response[0]->ok) {
             return view('pages.disease.create', array('responseError' => $response[0]->message));
         }
-        return redirect('/diseases')->with('success', 'Medico una Enfermedad!');
+        return redirect('/diseases')->with('success', 'Se ha creado una Enfermedad!');
     }
     /**
      * Display the specified resource.
