@@ -56,8 +56,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="N_Suguro_Social">N° Seguro Social:</label>
-                        <input value="{{ old('N_Suguro_Social') }}" type="text" class="form-control @error('N_Suguro_Social') danger @enderror" name="N_Suguro_Social"/>
-                        @error('N_Suguro_Social')
+                        <input value="{{ old('Numero_seguro_social') }}" type="text" class="form-control @error('Numero_seguro_social') danger @enderror" name="Numero_seguro_social"/>
+                        @error('Numero_seguro_social')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -65,8 +65,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="Fecha_Ingreso">Facha De Ingreso:</label>
-                        <input value="{{ old('Fecha_Ingreso') }}" type="text" class="form-control @error('Fecha_Ingreso') danger @enderror" name="Fecha_Ingreso"/>
-                        @error('Fecha_Ingreso')
+                        <input value="{{ old('FechaIngreso') }}" type="date"  class="form-control @error('FechaIngreso') danger @enderror" name="Fecha_Ingreso"/>
+                        @error('FechaIngreso')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>

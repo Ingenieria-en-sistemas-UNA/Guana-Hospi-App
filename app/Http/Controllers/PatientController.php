@@ -59,7 +59,8 @@ class PatientController extends Controller
             'Segundo_Apellido' => 'required|max:50|min:3',
             'Edad' => 'required|numeric|max:99|min:15',
             'Cedula_Persona' => 'required|max:12|min:1',
-            'N_Seguro_Social' => 'required|numeric|max:12|min:1',
+            'Numero_seguro_social' => 'required|numeric|max:12|min:1',
+            'FechaIngreso' => 'required|date'
         );
 
 
@@ -75,17 +76,19 @@ class PatientController extends Controller
 
         $response = $this->peopleRepository->create($person);
         if (!$response[0]->ok) {
-            return view('pages.Patient.create', array('responseError' => $response[0]->message));
+            return view('pages.patient.create', array('responseError' => $response[0]->message));
         }
 
         $patient = array(
-            $request->N_Seguro_Social
+            $request->Numero_seguro_social,
+            $request->FechaIngreso,
+            $request->DniPersona
         );
 
         $response = $this->patientrepository->create($patient);
         if (!$response[0]->ok) {
             $this->peopleRepository->delete($request->Cedula_Persona);
-            return view('pages.Patient.create', array('responseError' => $response[0]->message));
+            return view('pages.patient.create', array('responseError' => $response[0]->message));
         }
 
         return redirect('/patients')->with('success', 'Paciente Creado!');
