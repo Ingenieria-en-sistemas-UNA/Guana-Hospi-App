@@ -14,6 +14,7 @@ class SpecialtyController extends Controller
 
     public function __construct(SpecialtyRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
