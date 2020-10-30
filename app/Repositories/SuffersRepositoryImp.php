@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Padece;
 use App\Procedures\Suffers;
 
 class SuffersRepositoryImp implements SuffersRepository
@@ -20,9 +19,7 @@ class SuffersRepositoryImp implements SuffersRepository
 
     public function all()
     {
-        $data = $this->procedure->listSuffers();
-        return Padece::hydrate($data);
-
+        return $this->procedure->listSuffers();
     }
 
     public function create(array $data)

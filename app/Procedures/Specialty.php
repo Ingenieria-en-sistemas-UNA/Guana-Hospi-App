@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 namespace App\Procedures;
 use Illuminate\Support\Facades\DB;
 
 class Specialty{
-    
+
     public function createSpecialty($fields){
         return DB::select('exec SP_Crear_Especialidad ?', $fields);
     }
@@ -17,5 +17,10 @@ class Specialty{
     public function updateSpecialty($fields){
         return DB::select('exec SP_ActualizarEspecialidad ?,?', $fields);
     }
+
+    public function getById($id){
+        return DB::select('exec SP_Obtener_Especialidades_Por_Id ?', array($id));
+    }
+
 }
 ?>

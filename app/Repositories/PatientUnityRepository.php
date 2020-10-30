@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Paciente_unidad;
 
 interface PatientUnityRepository
 {

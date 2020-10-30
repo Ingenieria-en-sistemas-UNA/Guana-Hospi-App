@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Repositories;
-use App\TipoIntervencion;
 use App\Procedures\InterventionType;
 
 class InterventionTypeRepositoryImp implements InterventionTypeRepository
 {
     protected $procedure;
 
-    /** 
+    /**
      * PostRepository constructor.
      *
      * @param TipoIntervencion $tipoIntervencion
@@ -20,9 +19,7 @@ class InterventionTypeRepositoryImp implements InterventionTypeRepository
 
     public function all()
     {
-        $data = $this->procedure->listInterventionType();
-        return TipoIntervencion::hydrate($data);
-
+        return $this->procedure->listInterventionType();
     }
 
     public function create(array $data)

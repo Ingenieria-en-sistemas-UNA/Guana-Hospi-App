@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Presenta;
 use App\Procedures\Presents;
 
 class PresentsRepositoryImp implements PresentsRepository
@@ -20,9 +19,7 @@ class PresentsRepositoryImp implements PresentsRepository
 
     public function all()
     {
-        $data = $this->procedure->listPresents();
-        return Presenta::hydrate($data);
-
+        return $this->procedure->listPresents();
     }
 
     public function create(array $data)

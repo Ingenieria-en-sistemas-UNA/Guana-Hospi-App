@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-interface QueryRepository
+interface RolesRepository
 {
     public function all();
 
@@ -10,7 +10,7 @@ interface QueryRepository
 
     public function update(array $data);
 
-    public function delete($id);
+    public function findById($id);
 
-    public function find($id);
+    public function findByName($name);
 }

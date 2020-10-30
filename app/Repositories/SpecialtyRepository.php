@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Especialidad;
 
 interface SpecialtyRepository
 {

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Sintoma;
 use App\Procedures\Sympton;
 
 class SymptonRepositoryImp implements SymptonRepository
@@ -20,9 +19,7 @@ class SymptonRepositoryImp implements SymptonRepository
 
     public function all()
     {
-        $data = $this->procedure->listSympton();
-        return Sintoma::hydrate($data);
-
+        return $this->procedure->listSympton();
     }
 
     public function create(array $data)

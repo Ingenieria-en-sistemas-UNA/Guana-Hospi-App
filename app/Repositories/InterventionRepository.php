@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-use App\Intervenciones;
 
 interface InterventionRepository
 {
