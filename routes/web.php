@@ -26,3 +26,5 @@ Route::resource('diseases', 'DiseaseController');
 
 Route::resource('specialities', 'SpecialtyController');
 
+Route::resource('users', 'UsersController');
+
