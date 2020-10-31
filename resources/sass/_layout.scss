@@ -31,7 +31,6 @@ body {
 
 .grid-container {
     display: grid;
-    gap: 0px 10px;
     grid-template:
         "header" auto
         "main" 1fr;
@@ -39,7 +38,6 @@ body {
 
 .nav-items-container {
     display: grid;
-    gap: 10px;
     padding: 10px;
 }
 

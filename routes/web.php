@@ -18,6 +18,10 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/loadDatawarehouse', 'HomeController@loadDatawarehouse')->name('datawarehouse');
+
+Route::get('/cleanDatawarehouse', 'HomeController@CleanDatawarehouse')->name('clean_datawarehouse');
+
 Route::resource('doctors', 'DoctorController');
 
 Route::resource('units', 'UnityController');
