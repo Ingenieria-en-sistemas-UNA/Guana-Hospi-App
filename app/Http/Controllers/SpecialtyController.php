@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Especialidad;
 use Illuminate\Http\Request;
 use App\Repositories\SpecialtyRepository;
-use Illuminate\Support\Facades\DB;
 
 class SpecialtyController extends Controller
 {
@@ -20,7 +18,11 @@ class SpecialtyController extends Controller
 
     public function __construct(SpecialtyRepository $repository)
     {
+<<<<<<< HEAD
         $this->middleware('auth');
+=======
+        $this->middleware(['auth', 'check_role:Administrador']);
+>>>>>>> 7c2bbb82d2e60e9feaa10f3f881bea01bc97446f
         $this->repository = $repository;
     }
 

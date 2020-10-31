@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Consulta;
 use Illuminate\Http\Request;
 use App\Repositories\QueryRepository;
-use Illuminate\Support\Facades\DB;
 
 class QueryController extends Controller
 {
@@ -14,10 +12,11 @@ class QueryController extends Controller
 
     public function __construct(QueryRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -57,10 +56,9 @@ class QueryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Consulta  $consulta
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Consulta $consulta)
+    public function show($consulta)
     {
         //
     }
@@ -68,10 +66,9 @@ class QueryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Consulta  $consulta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Consulta $consulta)
+    public function edit($consulta)
     {
         //
     }

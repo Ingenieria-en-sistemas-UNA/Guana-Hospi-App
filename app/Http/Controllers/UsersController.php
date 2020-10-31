@@ -21,7 +21,7 @@ class UsersController extends Controller
 
     public function __construct(RolesRepository $rolesRepository)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'check_role:Administrador']);
         $this->rolesRepository = $rolesRepository;
     }
 

@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\RolesRepository;
 
 class RegisterController extends Controller
 {
@@ -31,14 +32,18 @@ class RegisterController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    /** @var RolesRepository */
+    private $rolesRepository;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(RolesRepository $rolesRepository)
     {
         $this->middleware('guest');
+        $this->rolesRepository = $rolesRepository;
     }
 
     /**
@@ -63,9 +68,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        $responseRole = $this->rolesRepository->findByName('Administrador');
+        if (!$responseRole[0]->ok) {
+            $this->rolesRepository->create(['Administrador']);
+            $responseRole = $this->rolesRepository->findByName('Administrador');
+        }
+
         return User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'id_role' => $responseRole[0]->Id_Role
         ]);
     }
 }

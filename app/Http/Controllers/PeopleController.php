@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Persona;
 use Illuminate\Http\Request;
 use App\Repositories\PeopleRepository;
-use Illuminate\Support\Facades\DB;
 
 class PeopleController extends Controller
 {
@@ -14,10 +12,11 @@ class PeopleController extends Controller
 
     public function __construct(PeopleRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -60,10 +59,9 @@ class PeopleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function show(Persona $persona)
+    public function show($persona)
     {
         //
     }
@@ -71,10 +69,9 @@ class PeopleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function edit(Persona $persona)
+    public function edit($persona)
     {
         //
     }

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Medico_especialidad;
 use Illuminate\Http\Request;
 use App\Repositories\SpecialtyDoctorRepository;
-use Illuminate\Support\Facades\DB;
 
 class SpecialtyDoctorController extends Controller
 {
@@ -14,10 +12,11 @@ class SpecialtyDoctorController extends Controller
 
     public function __construct(SpecialtyDoctorRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -57,10 +56,9 @@ class SpecialtyDoctorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Medico_Especialidad  $medico_Especialidad
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Medico_Especialidad $medico_Especialidad)
+    public function show($medico_Especialidad)
     {
         //
     }
@@ -68,10 +66,9 @@ class SpecialtyDoctorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Medico_Especialidad  $medico_Especialidad
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medico_Especialidad $medico_Especialidad)
+    public function edit($medico_Especialidad)
     {
         //
     }
@@ -80,7 +77,6 @@ class SpecialtyDoctorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Medico_Especialidad  $medico_Especialidad
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)

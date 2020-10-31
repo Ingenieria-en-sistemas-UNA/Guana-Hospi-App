@@ -7,5 +7,9 @@
         <ul class="navbar-nav mr-auto d-lg-none">
             @include('includes.sidebar')
         </ul>
+        <div class="mr-auto"></div>
+        <span class="navbar-text">
+            {{ auth()->user()->role->nombre_role }}
+        </span>
     </div>
 </nav>

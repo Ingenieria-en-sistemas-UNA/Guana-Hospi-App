@@ -22,6 +22,7 @@ class UnityController extends Controller
 
     public function __construct(UnityRepository $unityRepository, DoctorRepository $doctorRepository)
     {
+        $this->middleware(['auth', 'check_role:Administrador']);
         $this->unityRepository = $unityRepository;
         $this->doctorRepository = $doctorRepository;
     }

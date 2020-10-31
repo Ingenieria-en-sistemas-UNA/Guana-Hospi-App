@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Intervenciones;
 use Illuminate\Http\Request;
 use App\Repositories\InterventionRepository;
-use Illuminate\Support\Facades\DB;
 
 class InterventionController extends Controller
 {
@@ -14,10 +12,11 @@ class InterventionController extends Controller
 
     public function __construct(InterventionRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -58,10 +57,9 @@ class InterventionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Unidad_medico  $unidad_medico
      * @return \Illuminate\Http\Response
      */
-    public function show(Intervenciones $intervenciones)
+    public function show($intervenciones)
     {
         //
     }
@@ -69,10 +67,9 @@ class InterventionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Intervenciones  $intervenciones
      * @return \Illuminate\Http\Response
      */
-    public function edit(Intervenciones $intervenciones)
+    public function edit($intervenciones)
     {
         //
     }
@@ -81,7 +78,6 @@ class InterventionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Intervenciones  $intervenciones
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)

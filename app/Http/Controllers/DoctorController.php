@@ -29,7 +29,7 @@ class DoctorController extends Controller
 
     public function __construct(DoctorRepository $doctorRepository, PeopleRepository $peopleRepository, RolesRepository $rolesRepository)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'check_role:Administrador']);
         $this->doctorRepository = $doctorRepository;
         $this->peopleRepository = $peopleRepository;
         $this->rolesRepository = $rolesRepository;

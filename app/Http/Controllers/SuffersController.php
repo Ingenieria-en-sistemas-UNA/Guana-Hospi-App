@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Padece;
 use Illuminate\Http\Request;
 use App\Repositories\SuffersRepository;
-use Illuminate\Support\Facades\DB;
 
 class SuffersController extends Controller
 {
@@ -14,10 +12,11 @@ class SuffersController extends Controller
 
     public function __construct(SuffersRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -57,10 +56,9 @@ class SuffersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Padece  $padece
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Padece $padece)
+    public function show($padece)
     {
         //
     }
@@ -68,10 +66,9 @@ class SuffersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Padece  $padece
      * @return \Illuminate\Http\Response
      */
-    public function edit(Padece $padece)
+    public function edit($padece)
     {
         //
     }
@@ -80,7 +77,6 @@ class SuffersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Padece  $padece
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)

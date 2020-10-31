@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Paciente;
 use Illuminate\Http\Request;
 use App\Repositories\PatientRepository;
 use App\Repositories\PeopleRepository;
-use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
 {
@@ -14,18 +12,23 @@ class PatientController extends Controller
     private $patientrepository;
 
 
-        /** @var PeopleRepository */
-        private $peopleRepository;
+    /** @var PeopleRepository */
+    private $peopleRepository;
+
+    private $customMessages = array(
+        'required' => 'Campo obligatorio',
+        'numeric' => 'Debe ingresar numeros',
+        'max' => ':attribute muy largo',
+    );
 
     public function __construct(PatientRepository $patientrepository, PeopleRepository $peopleRepository )
     {
         $this->middleware('auth');
         $this->patientrepository = $patientrepository;
         $this->peopleRepository = $peopleRepository;
-       
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -34,7 +37,7 @@ class PatientController extends Controller
     {
         $patients = $this->patientrepository->all();
         return view('pages.patient.index', ['patients' => $patients]);
-  
+
     }
 
     /**
@@ -44,7 +47,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view ( 'pages.patient.create');
+        return view ('pages.patient.create', array('responseError' => false));
     }
 
     /**
@@ -62,11 +65,11 @@ class PatientController extends Controller
             'Segundo_Apellido' => 'required|max:50|min:3',
             'Edad' => 'required|numeric|max:99|min:15',
             'Cedula_Persona' => 'required|max:12|min:1',
-            'N_Seguro_Social' => 'required|numeric|max:12|min:1',
+            'Numero_seguro_social' => 'required|numeric|max:12|min:1',
+            'Fecha_Ingreso' => 'required|date'
         );
 
-
-      //  $this->validate($request, $rules, $this->customMessages);
+        $this->validate($request, $rules, $this->customMessages);
 
         $person = array(
             $request->Cedula_Persona,
@@ -78,17 +81,20 @@ class PatientController extends Controller
 
         $response = $this->peopleRepository->create($person);
         if (!$response[0]->ok) {
-            return view('pages.Patient.create', array('responseError' => $response[0]->message));
+            return view('pages.patient.create', array('responseError' => $response[0]->message));
         }
-        
+
         $patient = array(
-            $request->N_Seguro_Social
+            $request->Numero_seguro_social,
+            $request->Fecha_Ingreso,
+            $request->Cedula_Persona
         );
+
 
         $response = $this->patientrepository->create($patient);
         if (!$response[0]->ok) {
             $this->peopleRepository->delete($request->Cedula_Persona);
-            return view('pages.Patient.create', array('responseError' => $response[0]->message));
+            return view('pages.patient.create', array('responseError' => $response[0]->message));
         }
 
         return redirect('/patients')->with('success', 'Paciente Creado!');
@@ -97,10 +103,9 @@ class PatientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Paciente $paciente)
+    public function show($paciente)
     {
         //
     }
@@ -108,10 +113,9 @@ class PatientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
-    public function edit(Paciente $paciente)
+    public function edit($paciente)
     {
         //
     }

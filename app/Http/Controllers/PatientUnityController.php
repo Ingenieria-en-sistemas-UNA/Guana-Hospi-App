@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Paciente_unidad;
 use Illuminate\Http\Request;
 use App\Repositories\PatientUnityRepository;
-use Illuminate\Support\Facades\DB;
 
 class PatientUnityController extends Controller
 {
@@ -14,10 +12,11 @@ class PatientUnityController extends Controller
 
     public function __construct(PatientUnityRepository $repository)
     {
+        $this->middleware('auth');
         $this->repository = $repository;
     }
 
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -57,10 +56,9 @@ class PatientUnityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Paciente_unidad  $paciente_unidad
      * @return \Illuminate\Http\Paciente
      */
-    public function show(Paciente $paciente)
+    public function show($paciente)
     {
         //
     }
@@ -68,10 +66,9 @@ class PatientUnityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Paciente_unidad  $paciente_unidad
      * @return \Illuminate\Http\Response
      */
-    public function edit(Paciente_unidad $paciente_unidad)
+    public function edit($paciente_unidad)
     {
         //
     }
@@ -80,7 +77,6 @@ class PatientUnityController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Paciente_unidad  $paciente_unidad
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)

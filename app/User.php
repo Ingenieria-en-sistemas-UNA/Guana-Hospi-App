@@ -9,6 +9,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $with = ['role'];
+
     public $timestamps = false;
 
     /**
@@ -42,4 +44,14 @@ class User extends Authenticatable
     // {
     //     return 'Y-d-m H:i:s.v';
     // }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'id_role', 'id_role');
+    }
+
+    public function isAdmin(){
+        $role = $this->role;
+        return $role->nombre_role == 'Administrador';
+    }
 }
