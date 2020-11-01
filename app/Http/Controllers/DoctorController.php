@@ -126,7 +126,7 @@ class DoctorController extends Controller
             $this->rolesRepository->create(['Medico']);
             $responseRole = $this->rolesRepository->findByName('Medico');
         }
-        $medicoId = $response[0]->nextId;
+        $medicoId = $response[0]->currentId == 1 ? 1 : $response[0]->currentId;;
         $specialitiesSelected = $request->specialities;
 
         if (count($specialitiesSelected) > 0) {
