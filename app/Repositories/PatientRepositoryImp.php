@@ -39,6 +39,6 @@ class PatientRepositoryImp implements PatientRepository
 
     public function find($id)
     {
-        return 'BUSCAR UNA PACIENTE UNIDAD CON EL ID' . $id;
+        return $this->procedure->getPatientById($id);
     }
 }
