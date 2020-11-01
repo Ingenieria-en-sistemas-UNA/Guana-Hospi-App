@@ -34,3 +34,4 @@ Route::resource('specialities', 'SpecialtyController');
 
 Route::resource('users', 'UsersController');
 
+Route::resource('queries', 'QueryController');

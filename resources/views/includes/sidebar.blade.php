@@ -14,6 +14,9 @@
     <li class="nav-item">
         <a class="nav-link {{ request()->is('specialities') ? 'active' : 'text-white'}}" href="{{ url('specialities') }}">{{ __('Especialidades') }}</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {{ request()->is('queries') ? 'active' : 'text-white'}}" href="{{ url('queries') }}">{{ __('Consultas') }}</a>
+    </li>
 @endif
 <li class="nav-item">
     <a class="nav-link {{ request()->is('patients') ? 'active' : 'text-white'}}" href="{{ url('patients') }}">{{ __('Pacientes') }}</a>

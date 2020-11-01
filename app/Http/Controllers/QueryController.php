@@ -23,8 +23,8 @@ class QueryController extends Controller
      */
     public function index()
     {
-        $data = $this->repository->all();
-        return json_encode($data);
+        $queries = $this->repository->all();
+        return view('pages.query.index', array('queries' => $queries));
     }
 
     /**
@@ -34,7 +34,7 @@ class QueryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.query.create', array('responseError' => false));
     }
 
     /**
@@ -46,8 +46,9 @@ class QueryController extends Controller
     public function store(Request $request)
     {
         $fields = array(
-            $request->FechaConsulta,
-            $request->IdPaciente
+            $request->IdPaciente,
+            $request->IdUnidad
+
         );
 
         $data = $this->repository->create($fields);
