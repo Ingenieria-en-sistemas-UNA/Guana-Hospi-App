@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 namespace App\Procedures;
 use Illuminate\Support\Facades\DB;
 
 class SpecialtyDoctor{
-    
+
     public function createSpecialtyDoctor($fields){
         return DB::select('exec SP_Crear_Medico_Especialidad ?,?', $fields);
     }
