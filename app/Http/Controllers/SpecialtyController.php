@@ -18,11 +18,7 @@ class SpecialtyController extends Controller
 
     public function __construct(SpecialtyRepository $repository)
     {
-<<<<<<< HEAD
-        $this->middleware('auth');
-=======
         $this->middleware(['auth', 'check_role:Administrador']);
->>>>>>> 7c2bbb82d2e60e9feaa10f3f881bea01bc97446f
         $this->repository = $repository;
     }
 
