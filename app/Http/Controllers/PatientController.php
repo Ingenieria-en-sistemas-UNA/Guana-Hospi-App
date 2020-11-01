@@ -21,10 +21,10 @@ class PatientController extends Controller
         'max' => ':attribute muy largo',
     );
 
-    public function __construct(PatientRepository $patientrepository, PeopleRepository $peopleRepository )
+    public function __construct(PatientRepository $patientRepository, PeopleRepository $peopleRepository )
     {
         $this->middleware('auth');
-        $this->patientrepository = $patientrepository;
+        $this->patientRepository = $patientRepository;
         $this->peopleRepository = $peopleRepository;
     }
 
@@ -35,7 +35,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = $this->patientrepository->all();
+        $patients = $this->patientRepository->all();
         return view('pages.patient.index', ['patients' => $patients]);
 
     }
@@ -91,7 +91,7 @@ class PatientController extends Controller
         );
 
 
-        $response = $this->patientrepository->create($patient);
+        $response = $this->patientRepository->create($patient);
         if (!$response[0]->ok) {
             $this->peopleRepository->delete($request->Cedula_Persona);
             return view('pages.patient.create', array('responseError' => $response[0]->message));
@@ -115,9 +115,14 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($paciente)
+    public function edit($id)
     {
-        //
+        $response = $this->patientRepository->find($id);
+
+        if (!$response[0]->ok) {
+            return redirect('/patients')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return view('pages.patient.edit', array('patient' => $response[0], 'responseError' => false));
     }
 
     /**
@@ -127,16 +132,36 @@ class PatientController extends Controller
      * @param  \App\Paciente  $paciente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $fields = array(
-            $request->Numero_seguro_social,
-            $request->FechaIngreso,
-            $request->DniPersona
+        $rules = array(
+            'Nombre_Persona' => 'required|max:40|min:3',
+            'Primer_Apellido' => 'required|max:50|min:3',
+            'Segundo_Apellido' => 'required|max:50|min:3',
+            'Edad' => 'required|numeric|max:99|min:15',
+            'Cedula_Persona' => 'required|max:12|min:1',
+            'Numero_seguro_social' => 'required|numeric|max:12|min:1',
+            'Fecha_Ingreso' => 'required|date'
         );
 
-        $data = $this->repository->update($fields);
-        return $data;
+        $this->validate($request, $rules, $this->customMessages);
+
+        $person = array(
+            $request->Cedula_Persona,
+            $request->Nombre_Persona,
+            $request->Primer_Apellido,
+            $request->Segundo_Apellido,
+            $request->Edad,
+        );
+        $response = $this->peopleRepository->update($person);
+        if (!$response[0]->ok) {
+            $responsePaciente = $this->patientRepository->find($id);
+            if (!$responsePaciente[0]->ok) {
+                return redirect('/patients')->with('error', 'Error: ' . $responsePaciente[0]->message);
+            }
+            return view('pages.patient.edit', array('responseError' => $response[0]->message, 'Paciente' => $responsePaciente[0]));
+        }
+        return redirect('/patients')->with('success', 'Se ha actualizado un Paciente!');
     }
 
     /**
@@ -147,7 +172,7 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        $response = $this->patientrepository->delete($id);
+        $response = $this->patientRepository->delete($id);
         if (!$response[0]->ok) {
             return redirect('/patients')->with('error', 'Error: ' . $response[0]->message);
         }
