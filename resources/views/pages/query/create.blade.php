@@ -17,7 +17,7 @@
                             <option value="" selected>Sin Asignar</option>
                         @foreach($patients as $patient)
                         <option value="{{ $patient->Id_Paciente }}">
-                            {{ $patient->Id_Paciente . ' - ' . $patient-> }}
+                            {{ $patient->Id_Paciente . ' - ' . 'Cedula:' .  $patient->Cedula_Persona}}
                         </option>
                         @endforeach
                     </select>

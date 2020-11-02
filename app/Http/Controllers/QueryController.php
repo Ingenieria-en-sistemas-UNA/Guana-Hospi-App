@@ -19,6 +19,9 @@ class QueryController extends Controller
     /** @var PatientRepository */
     private $patientRepository;
 
+    /** @var PeopleRepository */
+    private $peopleRepository;
+
     public function __construct(QueryRepository $queryRepository, UnityRepository $unityRepository, PatientRepository $patientRepository)
     {
         $this->middleware('auth');
