@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Repositories\DoctorRepository;
 use App\Repositories\PeopleRepository;
 use App\Repositories\RolesRepository;
+use App\Repositories\SpecialtyRepository;
+use App\Repositories\SpecialtyDoctorRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,18 +24,31 @@ class DoctorController extends Controller
     /** @var RolesRepository */
     private $rolesRepository;
 
+    /** @var SpecialtyRepository */
+    private $specialityRepository;
+
+    /** @var SpecialtyDoctorRepository */
+    private $specialtyDoctorRepository;
+
     private $customMessages = array(
         'required' => 'Campo obligatorio',
         'numeric' => 'Debe ingresar numeros',
         'max' => ':attribute muy largo',
     );
 
-    public function __construct(DoctorRepository $doctorRepository, PeopleRepository $peopleRepository, RolesRepository $rolesRepository)
-    {
+    public function __construct(
+        DoctorRepository $doctorRepository,
+        PeopleRepository $peopleRepository,
+        RolesRepository $rolesRepository,
+        SpecialtyRepository $specialityRepository,
+        SpecialtyDoctorRepository $specialtyDoctorRepository
+    ) {
         $this->middleware(['auth', 'check_role:Administrador']);
         $this->doctorRepository = $doctorRepository;
         $this->peopleRepository = $peopleRepository;
         $this->rolesRepository = $rolesRepository;
+        $this->specialityRepository = $specialityRepository;
+        $this->specialtyDoctorRepository = $specialtyDoctorRepository;
     }
 
     /**
@@ -54,7 +69,8 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        return view('pages.doctor.create', array('responseError' => false));
+        $specialities = $this->specialityRepository->all();
+        return view('pages.doctor.create', array('responseError' => false, 'specialities' => $specialities));
     }
 
     /**
@@ -90,7 +106,8 @@ class DoctorController extends Controller
 
         $response = $this->peopleRepository->create($person);
         if (!$response[0]->ok) {
-            return view('pages.doctor.create', array('responseError' => $response[0]->message));
+            $specialities = $this->specialityRepository->all();
+            return view('pages.doctor.create', array('responseError' => $response[0]->message, 'specialities' => $specialities));
         }
 
 
@@ -102,8 +119,9 @@ class DoctorController extends Controller
 
         $response = $this->doctorRepository->create($doctor);
         if (!$response[0]->ok) {
+            $specialities = $this->specialityRepository->all();
             $this->peopleRepository->delete($request->Cedula_Persona);
-            return view('pages.doctor.create', array('responseError' => $response[0]->message));
+            return view('pages.doctor.create', array('responseError' => $response[0]->message, 'specialities' => $specialities));
         }
 
         $responseRole = $this->rolesRepository->findByName('Medico');
@@ -111,12 +129,29 @@ class DoctorController extends Controller
             $this->rolesRepository->create(['Medico']);
             $responseRole = $this->rolesRepository->findByName('Medico');
         }
+        $medicoId = $response[0]->currentId == 1 ? 1 : $response[0]->currentId;;
+        $specialitiesSelected = $request->specialities;
+
+        if (count($specialitiesSelected) > 0) {
+            foreach ($specialitiesSelected as $specialityId) {
+                if ($specialityId != null) {
+                    $responseMedicoEspecialidad = $this->specialtyDoctorRepository->create(array($medicoId, $specialityId));
+                    if (!$responseMedicoEspecialidad[0]->ok) {
+                        $specialities = $this->specialityRepository->all();
+                        return view('pages.doctor.create', array(
+                            'responseError' => $responseMedicoEspecialidad[0]->message,
+                            'specialities' => $specialities
+                        ));
+                    }
+                }
+            }
+        }
 
         User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'id_medico' => $response[0]->beforeId == 1 ? 1 : $response[0]->beforeId + 1,
-            'id_role' =>$responseRole[0]->Id_Role
+            'id_medico' => $medicoId,
+            'id_role' => $responseRole[0]->Id_Role
         ]);
 
         return redirect('/doctors')->with('success', 'Medico creado!');
@@ -144,7 +179,14 @@ class DoctorController extends Controller
         if (!$response[0]->ok) {
             return redirect('/doctors')->with('error', 'Error: ' . $response[0]->message);
         }
-        return view('pages.doctor.edit', array('medico' => $response[0], 'responseError' => false));
+        $specialitiesMedico = $this->specialityRepository->findByDoctorId($id);
+        $specialities = $this->specialityRepository->all();
+        return view('pages.doctor.edit', array(
+            'medico' => $response[0],
+            'responseError' => false,
+            'specialities' => $specialities,
+            'specialitiesMedico' => $specialitiesMedico
+        ));
     }
 
     /**
@@ -180,8 +222,45 @@ class DoctorController extends Controller
             if (!$responseMedico[0]->ok) {
                 return redirect('/doctors')->with('error', 'Error: ' . $responseMedico[0]->message);
             }
-            return view('pages.doctor.edit', array('responseError' => $response[0]->message, 'medico' => $responseMedico[0]));
+            $specialitiesMedico = $this->specialityRepository->findByDoctorId($id);
+            $specialities = $this->specialityRepository->all();
+            return view(
+                'pages.doctor.edit',
+                array(
+                    'responseError' => $response[0]->message,
+                    'medico' => $responseMedico[0],
+                    'specialities' => $specialities,
+                    'specialitiesMedico' => $specialitiesMedico
+                )
+            );
         }
+
+        $this->specialtyDoctorRepository->delete($id);
+
+        $specialitiesSelected = $request->specialities;
+        if (count($specialitiesSelected) > 0) {
+            foreach ($specialitiesSelected as $specialityId) {
+                if ($specialityId != null) {
+                    $responseMedicoEspecialidad = $this->specialtyDoctorRepository->create(array($id, $specialityId));
+                    if (!$responseMedicoEspecialidad[0]->ok) {
+                        $responseMedico = $this->doctorRepository->find($id);
+                        if (!$responseMedico[0]->ok) {
+                            return redirect('/doctors')->with('error', 'Error: ' . $responseMedico[0]->message);
+                        }
+                        $specialitiesMedico = $this->specialityRepository->findByDoctorId($id);
+                        $specialities = $this->specialityRepository->all();
+                        return view('pages.doctor.edit', array(
+                            'responseError' => $responseMedicoEspecialidad[0]->message,
+                            'medico' => $responseMedico[0],
+                            'specialities' => $specialities,
+                            'specialitiesMedico' => $specialitiesMedico
+                        ));
+                    }
+                }
+            }
+        }
+
+
         return redirect('/doctors')->with('success', 'Se ha actualizado un Medico!');
     }
 

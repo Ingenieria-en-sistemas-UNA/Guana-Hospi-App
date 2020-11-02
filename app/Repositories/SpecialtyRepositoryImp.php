@@ -41,4 +41,9 @@ class SpecialtyRepositoryImp implements SpecialtyRepository
     {
         return $this->procedure->getById($id);
     }
+
+    public function findByDoctorId($id)
+    {
+        return $this->procedure->listSpecialtyByDoctorId($id);
+    }
 }

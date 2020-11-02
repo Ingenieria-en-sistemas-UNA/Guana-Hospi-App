@@ -58,6 +58,31 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
+                    <label for="Nombre_Persona">Seleccione las Especialidades (⇧ + click):</label>
+                    <select multiple name="specialities[]" class="form-control" id="specialities">
+                        <option value="" @if(count($specialitiesMedico) == 0) selected @endif>Sin Especialidad</option>
+                        @foreach($specialities as $speciality)
+                            @php $isSelected = false; @endphp
+                            @foreach($specialitiesMedico as $specialityRepository)
+                                @php
+                                    if($speciality->Id_Especialidad == $specialityRepository->Id_Especialidad){
+                                        $isSelected = true;
+                                        break;
+                                    }
+                                @endphp
+                            @endforeach
+                            <option value="{{ $speciality->Id_Especialidad }}" @if($isSelected) selected @endif>{{ $speciality->Nombre_Especialidad }}</option>
+                        @endforeach
+                    </select>
+                    @error('Nombre_Persona')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
                     <label for="Codigo_Medico">Codigo:</label>
                     <input value="{{ old('Codigo_Medico', $medico->Codigo_Medico) }}" readonly type="text" class="form-control @error('Codigo_Medico') danger @enderror" name="Codigo_Medico"/>
                     @error('Codigo_Medico')
