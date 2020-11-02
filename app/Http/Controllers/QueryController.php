@@ -4,16 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\QueryRepository;
+use App\Repositories\UnityRepository;
+use App\Repositories\PatientRepository;
+use Illuminate\Support\Facades\Hash;
 
 class QueryController extends Controller
 {
     /** @var QueryRepository */
     private $repository;
 
-    public function __construct(QueryRepository $repository)
+    /** @var UnityRepository */
+    private $unityRepository;
+
+    /** @var PatientRepository */
+    private $patientRepository;
+
+    public function __construct(QueryRepository $queryRepository, UnityRepository $unityRepository, PatientRepository $patientRepository)
     {
         $this->middleware('auth');
-        $this->repository = $repository;
+        $this->queryRepository = $queryRepository;
+        $this->unityRepository = $unityRepository;
+        $this->patientRepository = $patientRepository;
     }
 
     /**
@@ -23,7 +34,7 @@ class QueryController extends Controller
      */
     public function index()
     {
-        $queries = $this->repository->all();
+        $queries = $this->queryRepository->all();
         return view('pages.query.index', array('queries' => $queries));
     }
 
@@ -34,7 +45,9 @@ class QueryController extends Controller
      */
     public function create()
     {
-        return view('pages.query.create', array('responseError' => false));
+        $units = $this->unityRepository->all();
+        $patients = $this->patientRepository->all();
+        return view('pages.query.create', array('responseError' => false, 'units' => $units, 'patients' => $patients));
     }
 
     /**
@@ -46,13 +59,17 @@ class QueryController extends Controller
     public function store(Request $request)
     {
         $fields = array(
-            $request->IdPaciente,
-            $request->IdUnidad
-
+            $request->Id_Paciente,
+            $request->Id_Unidad ?? null
         );
 
-        $data = $this->repository->create($fields);
-        return $data;
+        $response = $this->queryRepository->create($fields);
+
+        if (!$response[0]->ok) {
+            return view('pages.query.create', array('responseError' => $response[0]->message));
+        }
+
+        return redirect('/queries')->with('success', 'Consulta creada!');
     }
     /**
      * Display the specified resource.
@@ -85,7 +102,6 @@ class QueryController extends Controller
     {
         $fields = array(
             $request->id_consulta,
-            $request->fecha,
             $request->id_paciente
         );
 
