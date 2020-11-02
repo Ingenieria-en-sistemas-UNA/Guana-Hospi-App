@@ -8,6 +8,7 @@ use App\Repositories\DoctorRepository;
 use App\Repositories\PeopleRepository;
 use App\Repositories\RolesRepository;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
@@ -92,9 +93,11 @@ class DoctorController extends Controller
             return view('pages.doctor.create', array('responseError' => $response[0]->message));
         }
 
+
         $doctor = array(
             $request->Codigo_Medico,
-            $request->Cedula_Persona
+            $request->Cedula_Persona,
+            Auth::user()->id
         );
 
         $response = $this->doctorRepository->create($doctor);
