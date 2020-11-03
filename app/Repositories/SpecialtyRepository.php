@@ -13,4 +13,6 @@ interface SpecialtyRepository
     public function delete($id);
 
     public function find($id);
+
+    public function findByDoctorId($id);
 }

@@ -14,6 +14,9 @@ class Specialty{
     public function listSpecialty(){
         return DB::select('exec SP_Obtener_Especialidades');
     }
+    public function listSpecialtyByDoctorId($id){
+        return DB::select('exec SP_Obtener_Especialidades_Por_Medico_Id ?', array($id));
+    }
     public function updateSpecialty($fields){
         return DB::select('exec SP_ActualizarEspecialidad ?,?', $fields);
     }
