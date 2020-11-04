@@ -214,8 +214,9 @@ class DoctorController extends Controller
             $request->Nombre_Persona,
             $request->Primer_Apellido,
             $request->Segundo_Apellido,
-            $request->Edad,
+            $request->Edad
         );
+
         $response = $this->peopleRepository->update($person);
         if (!$response[0]->ok) {
             $responseMedico = $this->doctorRepository->find($id);
@@ -231,6 +232,7 @@ class DoctorController extends Controller
                     'medico' => $responseMedico[0],
                     'specialities' => $specialities,
                     'specialitiesMedico' => $specialitiesMedico
+                    
                 )
             );
         }
@@ -259,8 +261,6 @@ class DoctorController extends Controller
                 }
             }
         }
-
-
         return redirect('/doctors')->with('success', 'Se ha actualizado un Medico!');
     }
 

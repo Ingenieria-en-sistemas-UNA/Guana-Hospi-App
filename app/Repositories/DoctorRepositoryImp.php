@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Procedures\Doctor;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorRepositoryImp implements DoctorRepository
 {

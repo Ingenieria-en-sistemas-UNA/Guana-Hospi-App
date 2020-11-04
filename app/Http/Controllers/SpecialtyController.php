@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\SpecialtyRepository;
+use Illuminate\Support\Facades\Auth;
 
 class SpecialtyController extends Controller
 {
@@ -58,7 +59,8 @@ class SpecialtyController extends Controller
         $this->validate($request, $rules, $this->customMessages);
 
         $speciality = array(
-            $request->Nombre_Especialidad
+            $request->Nombre_Especialidad,
+            Auth::user()->id
         );
 
         $response = $this->repository->create($speciality);

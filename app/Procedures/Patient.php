@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 class Patient{
     
     public function createPatient($fields){
-        return DB::select('exec SP_Crear_Paciente ?,?,?', $fields);
+        return DB::select('exec SP_Crear_Paciente ?,?,?,?', $fields);
     }
     public function DeletePatient($id){
         return DB::select('exec SP_Eliminar_Paciente ?', array($id));

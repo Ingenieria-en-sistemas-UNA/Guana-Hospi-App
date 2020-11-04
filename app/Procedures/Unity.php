@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 class Unity{
 
     public function createUnity($fields){
-        return DB::select('exec SP_Crear_Unidad ?,?,?', $fields);
+        return DB::select('exec SP_Crear_Unidad ?,?,?,?', $fields);
     }
     public function deleteUnity($id){
         return DB::select('exec SP_Eliminar_Unidad ?', array($id));

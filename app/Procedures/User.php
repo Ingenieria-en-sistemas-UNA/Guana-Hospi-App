@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 class User{
     
     public function createUser($fields){
-        return DB::select('exec SP_Crear_Usuario ?,?,?', $fields);
+        return DB::select('exec SP_Crear_User ?,?,?,?', $fields);
     }
     public function deleteUser(){
         return DB::select('exec SP_Eliminar_Usuario ?');

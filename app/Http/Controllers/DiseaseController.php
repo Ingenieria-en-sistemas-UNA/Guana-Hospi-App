@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\DiseaseRepository;
+use Illuminate\Support\Facades\Auth;
 
 class DiseaseController extends Controller
 {
@@ -58,7 +59,8 @@ class DiseaseController extends Controller
         $this->validate($request, $rules, $this->customMessages);
 
         $disease = array(
-            $request->Nombre_Enfermedad
+            $request->Nombre_Enfermedad,
+            Auth::user()->id
         );
 
         $response = $this->repository->create($disease);

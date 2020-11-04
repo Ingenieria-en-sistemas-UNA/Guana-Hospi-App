@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 class Disease{
 
     public function createDisease($fields){
-        return DB::select('exec SP_Crear_Enfermedad ?', $fields);
+        return DB::select('exec SP_Crear_Enfermedad ?,?', $fields);
     }
     public function deleteDisease($id){
         return DB::select('exec SP_Eliminar_Enfermedad ?', array($id));

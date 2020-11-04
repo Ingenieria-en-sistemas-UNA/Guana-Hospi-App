@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 class Specialty{
 
     public function createSpecialty($fields){
-        return DB::select('exec SP_Crear_Especialidad ?', $fields);
+        return DB::select('exec SP_Crear_Especialidad ?,?', $fields);
     }
     public function deleteSpecialty($id){
         return DB::select('exec SP_Eliminar_Especialidad ?', array($id));

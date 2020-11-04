@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\RolesRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -75,7 +76,8 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'id_medico' => null,
-            'id_role' =>$responseRole[0]->Id_Role
+            'id_role' =>$responseRole[0]->Id_Role,
+             Auth::user()->id
         ]);
 
         return redirect('/users')->with('success', 'Usuario adminitrativo creado!');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\PatientRepository;
 use App\Repositories\PeopleRepository;
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -87,7 +88,8 @@ class PatientController extends Controller
         $patient = array(
             $request->Numero_seguro_social,
             $request->Fecha_Ingreso,
-            $request->Cedula_Persona
+            $request->Cedula_Persona,
+            Auth::user()->id
         );
 
 

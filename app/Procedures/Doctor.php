@@ -18,7 +18,7 @@ class Doctor{
         return DB::select('exec SP_Obtener_Medicos');
     }
     public function updateDoctor($fields){
-        return DB::select('exec SP_ActualizarMedico ?,?,?', $fields);
+        return DB::select('exec SP_ActualizarMedico ?,?,?,?', $fields);
     }
 }
 ?>
