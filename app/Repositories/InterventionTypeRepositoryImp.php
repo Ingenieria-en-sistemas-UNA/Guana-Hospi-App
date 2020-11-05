@@ -39,6 +39,6 @@ class InterventionTypeRepositoryImp implements InterventionTypeRepository
 
     public function find($id)
     {
-        return 'BUSCAR UN TIPO DE INTERVENCION UNIDAD CON EL ID' . $id;
+        return $this->procedure->getInterventionById($id);
     }
 }
