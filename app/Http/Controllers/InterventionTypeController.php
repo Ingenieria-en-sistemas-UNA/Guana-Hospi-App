@@ -119,7 +119,7 @@ class InterventionTypeController extends Controller
             $request->Nombre_Intervencion
         );
 
-        $response = $this->repository->update($interventiontypes);
+        $response = $this->interventiontypeRepository->update($interventiontypes);
         if (!$response[0]->ok) {
             $responseTipoIntervencion = $this->interventiontypeRepository->find($id);
             if (!$responseTipoIntervencion[0]->ok) {
