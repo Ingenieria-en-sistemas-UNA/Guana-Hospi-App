@@ -22,6 +22,8 @@ Route::get('/loadDatawarehouse', 'HomeController@loadDatawarehouse')->name('data
 
 Route::get('/cleanDatawarehouse', 'HomeController@CleanDatawarehouse')->name('clean_datawarehouse');
 
+Route::get('/activities', 'ActivitiesController@index')->name('activities');
+
 Route::resource('doctors', 'DoctorController');
 
 Route::resource('units', 'UnityController');

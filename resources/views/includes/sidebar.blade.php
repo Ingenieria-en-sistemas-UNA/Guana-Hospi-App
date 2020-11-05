@@ -21,6 +21,13 @@
 <li class="nav-item">
     <a class="nav-link {{ request()->is('diseases') ? 'active' : 'text-white'}}" href="{{ url('diseases') }}">{{ __('Enfermedades') }}</a>
 </li>
+
+@if(auth()->user()->isAdmin())
+    <li class="nav-item">
+        <a class="nav-link {{ request()->is('activities') ? 'active' : 'text-white'}}" href="{{ url('activities') }}">{{ __('Actividad') }}</a>
+    </li>
+@endif
+
 <li class="nav-item">
     <a class="nav-link text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">{{ __('Cerrar Sesión') }}</a>
 </li>
