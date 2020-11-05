@@ -34,3 +34,5 @@ Route::resource('specialities', 'SpecialtyController');
 
 Route::resource('users', 'UsersController');
 
+Route::resource('interventionTypes', 'InterventionTypeController');
+

@@ -1,6 +1,7 @@
 <?php 
 namespace App\Procedures;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Patient{
     
@@ -8,7 +9,7 @@ class Patient{
         return DB::select('exec SP_Crear_Paciente ?,?,?,?', $fields);
     }
     public function DeletePatient($id){
-        return DB::select('exec SP_Eliminar_Paciente ?', array($id));
+        return DB::select('exec SP_Eliminar_Paciente ?,?', array($id, Auth::user()->id));
     }
 
     public function getPatientById($id){
@@ -19,7 +20,7 @@ class Patient{
         return DB::select('exec SP_Obtener_Pacientes');
     }
     public function updatePatient($id){
-        return DB::select('exec SP_ActualizarPaciente ?,?,?,?', array($id));
+        return DB::select('exec SP_ActualizarPaciente ?,?,?,?,?', array($id, Auth::user()->id));
     }
 }
 ?>
