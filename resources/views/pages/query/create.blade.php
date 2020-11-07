@@ -12,7 +12,7 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="Id_Paciente">ID del paciente:</label>
-                    <select value="{{ old('Id_Paciente') }}" type="text"
+                    <select value="{{ old('Id_Paciente') }}" required type="text"
                         class="form-control @error('Id_Paciente') danger @enderror" name="Id_Paciente" />
                     <option value="" selected>Sin Asignar</option>
                     @foreach($patients as $patient)
@@ -30,7 +30,7 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="Id_Unidad">Unidad</label>
-                    <select value="{{ old('Id_Unidad') }}" type="text"
+                    <select value="{{ old('Id_Unidad') }}" required type="text"
                         class="form-control @error('Id_Unidad') danger @enderror" name=" Id_Unidad">
                         <option value="" selected>Sin Asignar</option>
                         @foreach($units as $unity)
@@ -78,7 +78,7 @@
         <!-- -->
         <!-- -->
         <!-- -->
-        <div class="row input_fields_wrap">
+        <div class="input_fields_wrap">
             <!-- -->
             <!-- -->
         </div>
@@ -102,6 +102,12 @@
         var wrapper = $(".input_fields_wrap"); //Fields wrapper
         var add_button = $(".add_field_button"); //Add button ID
         let cantidadIntervenciones = 0;
+        
+        $('body').on('click', '.button-click', function (e){
+            let intervencionIndex = $(this).attr('data-intervencionId');
+            $(`#intervencion-${intervencionIndex}-row`).remove();
+            console.log(intervencionIndex);
+        });
 
         $(add_button).click(function (e) { //on add input button click
             e.preventDefault();
@@ -111,21 +117,28 @@
                 options += `<option value="${element.Id_Tipo_Intervencion}">${element.Nombre_Tipo_Intervencion}</option>`
             });
             var template = ` 
-    <div class="col-12 col-sm-6">
-    <div class="form-group">
-        <label for="intervenciones[${cantidadIntervenciones}][description]">Descripción:</label>
-        <input type="text" class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
-    </div>
-    </div>
-        <div class="col-12 col-sm-6">
-        <div class="form-group">
-                <label for="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">Tipo de intervención</label>
-                <select type="text" required class="form-control" name="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">
-                    ${options}             
-                </select>
-        </div>
-        </div>
-`;
+            <div class="row" id="intervencion-${cantidadIntervenciones}-row">
+                <div class="col-12 col-sm-5">
+                    <div class="form-group">
+                        <label for="intervenciones[${cantidadIntervenciones}][description]">Descripción:</label>
+                        <input type="text" class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
+                    </div>
+                </div>
+                <div class="col-10 col-sm-5">                
+                    <div class="form-group">
+                        <label for="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">Tipo de intervención</label>
+                        <select type="text" required class="form-control" name="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">
+                            ${options}             
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2 d-flex align-items-center pt-3">
+                    <div>
+                        <button type="button" class="btn btn-danger button-click" data-intervencionId="${cantidadIntervenciones}"> Eliminar</button>
+                    </div>
+                </div>
+            </div>
+            `;
             cantidadIntervenciones++;
             $(wrapper).append(template);
         });

@@ -36,9 +36,7 @@ Route::resource('specialities', 'SpecialtyController');
 
 Route::resource('users', 'UsersController');
 
-<<<<<<< HEAD
 Route::resource('queries', 'QueryController');
-=======
+
 Route::resource('interventionTypes', 'InterventionTypeController');
 
->>>>>>> 823b4d6d0a488efa814a1641245f069e984901c6

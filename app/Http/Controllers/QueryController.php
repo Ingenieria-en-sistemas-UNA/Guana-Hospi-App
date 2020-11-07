@@ -10,7 +10,7 @@ use App\Repositories\DiseaseRepository;
 use App\Repositories\InterventionTypeRepository;
 use App\Repositories\InterventionRepository;
 use App\Repositories\SuffersRepository;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class QueryController extends Controller
 {
@@ -35,7 +35,7 @@ class QueryController extends Controller
     /** @var SuffersRepository */
     private $suffersRepository;
 
-    
+
     private $customMessages = array(
         'required' => 'Campo obligatorio',
         'numeric' => 'Debe ingresar numeros',
@@ -79,6 +79,10 @@ class QueryController extends Controller
      */
     public function create()
     {
+        return $this->redirectCreateView();
+    }
+    private function redirectCreateView($errorMessage = false)
+    {
         $units = $this->unityRepository->all();
         $patients = $this->patientRepository->all();
         $diseases = $this->diseaseRepository->all();
@@ -86,11 +90,15 @@ class QueryController extends Controller
         $interventions = $this->interventionRepository->all();
         $suffers = $this->suffersRepository->all();
         return view('pages.query.create', array(
-            'responseError' => false, 'units' => $units,
-            'patients' => $patients, 'diseases' => $diseases, 'interTypes' => $interTypes, 'interventions' => $interventions, 'suffers' => $suffers
+            'responseError' => $errorMessage,
+            'units' => $units,
+            'patients' => $patients,
+            'diseases' => $diseases,
+            'interTypes' => $interTypes,
+            'interventions' => $interventions,
+            'suffers' => $suffers
         ));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -103,6 +111,7 @@ class QueryController extends Controller
             'Id_Unidad' => 'required|numeric',
             'Id_Paciente' => 'required|numeric',
             'descripcion' => 'required|string|max:255'
+
         );
 
         $this->validate($request, $rules, $this->customMessages);
@@ -114,7 +123,7 @@ class QueryController extends Controller
         $response = $this->queryRepository->create($query);
 
         if (!$response[0]->ok) {
-            return view('pages.query.create', array('responseError' => $response[0]->message));
+            return $this->redirectCreateView($response[0]->message);
         }
 
         $Id_Consulta = $response[0]->beforeId == 1 ? 1 : $response[0]->currentId;
@@ -127,9 +136,9 @@ class QueryController extends Controller
                     $Id_Consulta
                 );
                 $response = $this->interventionRepository->create($interv);
-                if(!$response[0]->ok){
+                if (!$response[0]->ok) {
                     $this->queryRepository->delete($Id_Consulta);
-                    return view('pages.query.create', array('responseError' => $response[0]->message));
+                    return $this->redirectCreateView($response[0]->message);
                 }
             }
         }
@@ -138,11 +147,7 @@ class QueryController extends Controller
             if ($suffersId != null) {
                 $suffers = $this->suffersRepository->create(array($request->Id_Paciente, $suffersId));
                 if (!$suffers[0]->ok) {
-                    $enfermedades = $this->suffersRepository->all();
-                    return view('pages.query.create', array(
-                        'responseError' => $suffers[0]->message,
-                        'enfermedades' => $enfermedades
-                    ));
+                    return $this->redirectCreateView($suffers[0]->message);
                 }
             }
         }
@@ -166,6 +171,9 @@ class QueryController extends Controller
      */
     public function edit($id)
     {
+       return $this->redirectEditView($id);
+    }
+    private function redirectEditView($id, $errorMessage = false){
         $response = $this->queryRepository->find($id);
         if (!$response[0]->ok) {
             return redirect('/queries')->with('error', 'Error: ' . $response[0]->message);
@@ -178,7 +186,7 @@ class QueryController extends Controller
         $intervencionesConsultas = $this->interventionRepository->findInterventionByQueryId($id);
         $tipoIntervencionesConsultas = $this->interventionTypeRepository->findIntervByIdQuery($id);
         return view('pages.query.edit', array(
-            'responseError' => false,
+            'responseError' => $errorMessage,
             'units' => $units,
             'patients' => $patients,
             'diseases' => $diseases,
@@ -210,14 +218,16 @@ class QueryController extends Controller
             $id,
             $request->descripcion,
             $request->Id_Paciente,
-            $request->Id_Unidad
+            $request->Id_Unidad,
+            Auth::user()->id
         );
         $response = $this->queryRepository->update($query);
 
         if (!$response[0]->ok) {
-            return view('pages.query.edit', array('responseError' => $response[0]->message));
+            return $this->redirectEditView($id, $response[0]->message);            
         }
         //Eliminar intervenciones por ID consulta
+        $this->interventionRepository->deleteIntervByQuery($id);
 
         if ($request->intervenciones) {
             foreach ($request->intervenciones as $intervencion) {
@@ -226,23 +236,22 @@ class QueryController extends Controller
                     $intervencion['id_tipo_intervencion'],
                     $id
                 );
-                $response = $this->interventionRepository->create($interv);                
-                if(!$response[0]->ok){                    
-                    return view('pages.query.create', array('responseError' => $response[0]->message));
+                $response = $this->interventionRepository->create($interv);
+                if (!$response[0]->ok) {
+                    return $this->redirectEditView($id, $response[0]->message); 
                 }
             }
         }
+
         //eliminar enfermedades por ID paciente
+        $this->suffersRepository->deleteSufferByPacientId($request->Id_Paciente);
+
         $suffersSelected = $request->enfermedades;
         foreach ($suffersSelected as $suffersId) {
             if ($suffersId != null) {
                 $suffers = $this->suffersRepository->create(array($request->Id_Paciente, $suffersId));
                 if (!$suffers[0]->ok) {
-                    $enfermedades = $this->suffersRepository->all();
-                    return view('pages.query.edit', array(
-                        'responseError' => $suffers[0]->message,
-                        'enfermedades' => $enfermedades
-                    ));
+                    return $this->redirectEditView($id, $response[0]->message); 
                 }
             }
         }

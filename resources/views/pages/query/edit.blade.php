@@ -12,19 +12,9 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="Id_Paciente">ID del paciente:</label>
-                    <select value="{{ old('Id_Paciente', $intervencion->Id_Paciente) }}" type="text"
+                    <select value="{{ old('Id_Paciente', $intervencion->Id_Paciente) }}" readonly type="text"
                         class="form-control @error('Id_Paciente') danger @enderror" name="Id_Paciente" />
-                    <option value="" selected>Sin Asignar</option>
-                    @if($intervencion->Id_Paciente)
-                        <option value="">Sin Asignar</option>
-                    @else
-                        <option value="" selected>Sin Asignar</option>
-                    @endif
-                    @foreach($patients as $patient)
-                    <option value="{{ $patient->Id_Paciente }}" {{ $intervencion->Id_Paciente == $patient->Id_Paciente ? 'selected' : '' }}>
-                        {{ $patient->Id_Paciente . ' - ' . 'Cedula: ' .  $patient->Cedula_Persona}}
-                    </option>
-                    @endforeach
+                        <option value="{{ old('Id_Paciente', $intervencion->Id_Paciente) }}" selected>{{ $intervencion->Nombre_Persona . ' ' . $intervencion->Apellido_Uno . ' ' . $intervencion->Apellido_Dos}}</option>                    
                     </select>
                     @error('Id_Paciente')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -84,8 +74,8 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="descripcion">Descripcion de consulta</label>
-                    <textarea class="form-control @error('descripcion') danger @enderror" name="descripcion" rows="3">{{ old('descripcion', $intervencion->descripcion) }}</textarea>
-                    @error('descripcion')
+                    <textarea class="form-control @error('Descripcion') danger @enderror" name="descripcion" rows="3">{{ old('Descripcion', $intervencion->Descripcion) }}</textarea>
+                    @error('Descripcion')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -100,13 +90,22 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="intervenciones[{{ $index }}][description]">Descripción:</label>
-                    <input type="text" value="{{ $intervencionConsulta->Tratamiento}}" class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
+                    <input type="text" value="{{ $intervencionConsulta->Tratamiento}}" class="form-control" name="intervenciones[{{ $index }}][description]" />
                 </div>
             </div>
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="intervenciones[{{ $index }}][id_tipo_intervencion]">Tipo de intervención</label>
-                    <select type="text" required class="form-control" name="[intervenciones[{{ $index }}][id_tipo_intervencion]">
+                    @php $idTipoIntervencion = 0; @endphp
+                    @foreach($tipoIntervencionesConsultas as $tipoIntervencionConsulta)
+                        @php
+                            if( $tipoIntervencionConsulta->Id_Tipo_Intervencion == $intervencionConsulta->Id_Tipo_Intervencion){
+                                $idTipoIntervencion = $tipoIntervencionConsulta->Id_Tipo_Intervencion;
+                                break;
+                            }
+                        @endphp
+                    @endforeach
+                    <select type="text" required class="form-control" name="intervenciones[{{ $index }}][id_tipo_intervencion]">
                         <option value="">Sin Asignar</option>
                         @foreach($tipoIntervencionesConsultas as $tipoIntervencionConsulta)
                             <option value="{{ $tipoIntervencionConsulta->Id_Tipo_Intervencion }}" {{ $tipoIntervencionConsulta->Id_Tipo_Intervencion == $intervencionConsulta->Id_Tipo_Intervencion ? 'selected' : '' }}>
@@ -129,7 +128,7 @@
 <br>
 </div>
 <!-- -->
-<!-- -->
+<!-- endif -->
 <!-- -->
 <button type="submit" class="btn btn-primary">Añadir Consulta</button>
 </form>
