@@ -39,6 +39,6 @@ class QueryRepositoryImp implements QueryRepository
 
     public function find($id)
     {
-        return 'BUSCAR CONSULTA CON EL ID' . $id;
+        return $this->procedure->getQueryById($id);
     }
 }

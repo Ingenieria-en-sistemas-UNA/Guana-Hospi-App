@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use App\Repositories\QueryRepository;
 use App\Repositories\UnityRepository;
 use App\Repositories\PatientRepository;
+use App\Repositories\DiseaseRepository;
+use App\Repositories\InterventionTypeRepository;
+use App\Repositories\InterventionRepository;
+use App\Repositories\SuffersRepository;
 use Illuminate\Support\Facades\Hash;
 
 class QueryController extends Controller
 {
     /** @var QueryRepository */
-    private $repository;
+    private $queryRepository;
 
     /** @var UnityRepository */
     private $unityRepository;
@@ -19,15 +23,29 @@ class QueryController extends Controller
     /** @var PatientRepository */
     private $patientRepository;
 
-    /** @var PeopleRepository */
-    private $peopleRepository;
+    /** @var DiseaseRepository */
+    private $diseaseRepository;
 
-    public function __construct(QueryRepository $queryRepository, UnityRepository $unityRepository, PatientRepository $patientRepository)
+    /** @var InterventionRepository */
+    private $interventionRepository;
+
+    /** @var InterventionTypeRepository */
+    private $interventionTypeRepository;
+
+    /** @var SuffersRepository */
+    private $suffersRepository;
+
+    public function __construct(QueryRepository $queryRepository, UnityRepository $unityRepository, PatientRepository $patientRepository, DiseaseRepository $diseaseRepository
+    ,InterventionTypeRepository $interventionTypeRepository, InterventionRepository $interventionRepository, SuffersRepository $suffersRepository) 
     {
         $this->middleware('auth');
         $this->queryRepository = $queryRepository;
         $this->unityRepository = $unityRepository;
         $this->patientRepository = $patientRepository;
+        $this->diseaseRepository = $diseaseRepository;
+        $this->interventionTypeRepository = $interventionTypeRepository;
+        $this->interventionRepository = $interventionRepository;
+        $this->suffersRepository = $suffersRepository;
     }
 
     /**
@@ -50,7 +68,12 @@ class QueryController extends Controller
     {
         $units = $this->unityRepository->all();
         $patients = $this->patientRepository->all();
-        return view('pages.query.create', array('responseError' => false, 'units' => $units, 'patients' => $patients));
+        $diseases = $this->diseaseRepository->all();
+        $interTypes = $this->interventionTypeRepository->all();
+        $interventions = $this->interventionRepository->all();
+        $suffers = $this->suffersRepository->all();
+        return view('pages.query.create', array('responseError' => false, 'units' => $units,
+         'patients' => $patients, 'diseases' => $diseases,'interTypes' => $interTypes, 'interventions' => $interventions, 'suffers' => $suffers));
     }
 
     /**
@@ -60,17 +83,52 @@ class QueryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $fields = array(
+    { 
+        $query = array(
+            $request->descripcion,
             $request->Id_Paciente,
             $request->Id_Unidad ?? null
         );
-
-        $response = $this->queryRepository->create($fields);
+        $response = $this->queryRepository->create($query);
 
         if (!$response[0]->ok) {
             return view('pages.query.create', array('responseError' => $response[0]->message));
         }
+
+        $Id_Consulta = $response[0]->beforeId == 1 ? 1 : $response[0]->currentId;
+    
+    if($request->intervenciones){
+        foreach($request->intervenciones as $intervencion){
+            $interv = array(
+                $intervencion['description'],
+                $intervencion['id_tipo_intervencion'],
+                $Id_Consulta
+            );
+            $response = $this->interventionRepository->create($interv);
+        }
+    }
+        $suffersSelected = $request->enfermedades;
+        foreach($suffersSelected as $suffersId){
+            if($suffersId != null){
+                $suffers = $this->suffersRepository->create(array($request->Id_Paciente, $suffersId));
+                if(!$suffers[0]->ok){
+                    $enfermedades = $htis->suffersRepository->all();
+                    return view('pages.query.create', array(
+                        'responseError' => $suffers[0]->message,
+                        'enfermedades' => $enfermedades
+                    ));
+                }
+            }
+        }
+    if($request->enfermedades){
+        foreach($request->enfermedades as $enfermedad){
+            $enferm = array(
+                $enfermedad[0],
+                $request->Id_Paciente
+            );
+        }
+    }
+
 
         return redirect('/queries')->with('success', 'Consulta creada!');
     }
@@ -89,9 +147,21 @@ class QueryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($consulta)
-    {
-        //
+    public function edit($id)
+    {   
+       
+        $response = $this->queryRepository->find($id);
+        if (!$response[0]->ok) {
+            return redirect('/queries')->with('error', 'Error: ' . $response[0]->message);
+        }
+        $units = $this->unityRepository->all();
+        $patients = $this->patientRepository->all();
+        $diseases = $this->diseaseRepository->all();
+        $interTypes = $this->interventionTypeRepository->all();
+        $interventions = $this->interventionRepository->all();
+        return view('pages.query.edit', array('responseError' => false, 'units' => $units,
+         'patients' => $patients, 'diseases' => $diseases,'interTypes' => $interTypes, 'interventions' => $interventions, 'intervencion' => $response[0]));
+                  
     }
 
     /**

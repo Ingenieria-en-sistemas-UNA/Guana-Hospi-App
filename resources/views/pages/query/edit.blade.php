@@ -1,22 +1,27 @@
 @extends('layouts.default')
 @section('content')
 <div class="card w-100 p-5 mt-3">
-    <p class="h2">Crear Consulta</p>
+    <p class="h2">Editar Consulta</p>
     @if ($responseError)
     <div class="alert alert-danger">{{ $responseError }}</div>
     @endif
-    <form method="post" action="{{ route('queries.store') }}">
+    <form method="post" action="{{ route('queries.update', $intervencion->Id_Consulta) }}">
+        @method('PUT')
         @csrf
-        <!-- -->
         <div class="row">
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="Id_Paciente">ID del paciente:</label>
-                    <select value="{{ old('Id_Paciente') }}" type="text"
+                    <select value="{{ old('Id_Paciente', $intervencion->Id_Paciente) }}" type="text"
                         class="form-control @error('Id_Paciente') danger @enderror" name="Id_Paciente" />
                     <option value="" selected>Sin Asignar</option>
+                    @if($intervencion->Id_Paciente)
+                        <option value="">Sin Asignar</option>
+                    @else
+                        <option value="" selected>Sin Asignar</option>
+                    @endif
                     @foreach($patients as $patient)
-                    <option value="{{ $patient->Id_Paciente }}">
+                    <option value="{{ $patient->Id_Paciente }}" {{ $intervencion->Id_Paciente == $patient->Id_Paciente ? 'selected' : '' }}>
                         {{ $patient->Id_Paciente . ' - ' . 'Cedula: ' .  $patient->Cedula_Persona}}
                     </option>
                     @endforeach
@@ -26,15 +31,20 @@
                     @enderror
                 </div>
             </div>
-        <!-- -->
+            <!-- -->
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="Id_Unidad">Unidad</label>
-                    <select value="{{ old('Id_Unidad') }}" type="text"
+                    <select value="{{ old('Id_Unidad', $intervencion->Id_Unidad) }}" type="text"
                         class="form-control @error('Id_Unidad') danger @enderror" name=" Id_Unidad">
                         <option value="" selected>Sin Asignar</option>
+                        @if($intervencion->Id_Unidad)
+                            <option value="">Sin Asignar</option>
+                        @else
+                            <option value="" selected>Sin Asignar</option>
+                        @endif
                         @foreach($units as $unity)
-                        <option value="{{ $unity->Id_Unidad }}">
+                        <option value="{{ $unity->Id_Unidad }}" {{ $intervencion->Id_Unidad == $unity->Id_Unidad ? 'selected' : '' }}>
                             {{ $unity->Nombre_Unidad }}
                         </option>
                         @endforeach
@@ -50,8 +60,8 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="enfemedades[]">Enfermedad</label>
-                    <select multiple type="text"
-                        class="form-control @error('Id_Enfermedad') danger @enderror" name="enfermedades[]">
+                    <select multiple type="text" class="form-control @error('Id_Enfermedad') danger @enderror"
+                        name="enfermedades[]">
                         <option value="" selected>Sin Asignar</option>
                         @foreach($diseases as $disease)
                         <option value="{{ $disease->Id_Enfermedad }}">
@@ -64,11 +74,12 @@
                     @enderror
                 </div>
             </div>
+        <!-- -->
+        <!-- -->
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="descripcion">Descripcion de consulta</label>
-                    <textarea value="{{ old('descripcion') }}" type="text"
-                        class="form-control @error('descripcion') danger @enderror" name="descripcion"> </textarea>
+                    <textarea class="form-control @error('descripcion') danger @enderror" name="descripcion" rows="3">{{ old('descripcion', $intervencion->descripcion) }}</textarea>
                     @error('descripcion')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
@@ -83,7 +94,7 @@
             <!-- -->
         </div>
         <div class="col-sm-12">
-            <button class="btn btn-link btn-sm add_field_button" type="button">+  intervención</button>
+            <button class="btn btn-link btn-sm add_field_button" type="button">+ intervención</button>
         </div>
 </div>
 </fieldset>

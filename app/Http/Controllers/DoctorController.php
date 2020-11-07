@@ -81,7 +81,6 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-
         $rules = array(
             'Nombre_Persona' => 'required|max:40|min:3',
             'Primer_Apellido' => 'required|max:50|min:3',
