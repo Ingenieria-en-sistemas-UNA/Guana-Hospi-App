@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\UnityRepository;
 use App\Repositories\DoctorRepository;
+use Illuminate\Support\Facades\Auth;
 
 class UnityController extends Controller
 {
@@ -67,7 +68,8 @@ class UnityController extends Controller
         $unity = array(
             $request->Nombre_Unidad,
             $request->Numero_Planta,
-            $request->Id_Medico ?? null
+            $request->Id_Medico ?? null,
+            Auth::user()->id
         );
 
 
@@ -126,7 +128,8 @@ class UnityController extends Controller
             $id,
             $request->Nombre_Unidad,
             $request->Numero_Planta,
-            $request->Id_Medico ?? null
+            $request->Id_Medico ?? null,
+            Auth::user()->id
         );
 
         $response = $this->unityRepository->update($unity);

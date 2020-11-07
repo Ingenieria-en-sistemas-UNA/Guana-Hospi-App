@@ -22,6 +22,8 @@ Route::get('/loadDatawarehouse', 'HomeController@loadDatawarehouse')->name('data
 
 Route::get('/cleanDatawarehouse', 'HomeController@CleanDatawarehouse')->name('clean_datawarehouse');
 
+Route::get('/activities', 'ActivitiesController@index')->name('activities');
+
 Route::resource('doctors', 'DoctorController');
 
 Route::resource('units', 'UnityController');
@@ -34,4 +36,9 @@ Route::resource('specialities', 'SpecialtyController');
 
 Route::resource('users', 'UsersController');
 
+<<<<<<< HEAD
 Route::resource('queries', 'QueryController');
+=======
+Route::resource('interventionTypes', 'InterventionTypeController');
+
+>>>>>>> 823b4d6d0a488efa814a1641245f069e984901c6

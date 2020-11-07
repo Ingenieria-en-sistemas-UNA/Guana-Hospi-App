@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\PatientRepository;
 use App\Repositories\PeopleRepository;
+use Illuminate\Support\Facades\Auth;
+use App\Repositories\ActivitiesRepository;
 
 class PatientController extends Controller
 {
@@ -21,11 +23,12 @@ class PatientController extends Controller
         'max' => ':attribute muy largo',
     );
 
-    public function __construct(PatientRepository $patientRepository, PeopleRepository $peopleRepository )
+    public function __construct(PatientRepository $patientRepository, PeopleRepository $peopleRepository,  ActivitiesRepository $activitiesRepository )
     {
         $this->middleware('auth');
         $this->patientRepository = $patientRepository;
         $this->peopleRepository = $peopleRepository;
+        $this->activitiesRepository = $activitiesRepository;
     }
 
     /**
@@ -65,7 +68,7 @@ class PatientController extends Controller
             'Segundo_Apellido' => 'required|max:50|min:3',
             'Edad' => 'required|numeric|max:99|min:15',
             'Cedula_Persona' => 'required|max:12|min:1',
-            'Numero_seguro_social' => 'required|numeric|max:12|min:1',
+            'Numero_seguro_social' => 'required|numeric|max:50000|min:1',
             'Fecha_Ingreso' => 'required|date'
         );
 
@@ -87,7 +90,8 @@ class PatientController extends Controller
         $patient = array(
             $request->Numero_seguro_social,
             $request->Fecha_Ingreso,
-            $request->Cedula_Persona
+            $request->Cedula_Persona,
+            Auth::user()->id
         );
 
 
@@ -140,7 +144,7 @@ class PatientController extends Controller
             'Segundo_Apellido' => 'required|max:50|min:3',
             'Edad' => 'required|numeric|max:99|min:15',
             'Cedula_Persona' => 'required|max:12|min:1',
-            'Numero_seguro_social' => 'required|numeric|max:12|min:1',
+            'Numero_seguro_social' => 'required|numeric|max:50000|min:1',
             'Fecha_Ingreso' => 'required|date'
         );
 
@@ -152,6 +156,7 @@ class PatientController extends Controller
             $request->Primer_Apellido,
             $request->Segundo_Apellido,
             $request->Edad,
+            Auth::user()->id
         );
         $response = $this->peopleRepository->update($person);
         if (!$response[0]->ok) {
@@ -161,6 +166,14 @@ class PatientController extends Controller
             }
             return view('pages.patient.edit', array('responseError' => $response[0]->message, 'Paciente' => $responsePaciente[0]));
         }
+
+        $activity = array(
+            Auth::user()->id,
+            'Ha Actualizado Los Datos Del Paciente!'
+        );
+
+        $this->activitiesRepository->create($activity);
+
         return redirect('/patients')->with('success', 'Se ha actualizado un Paciente!');
     }
 
@@ -176,6 +189,6 @@ class PatientController extends Controller
         if (!$response[0]->ok) {
             return redirect('/patients')->with('error', 'Error: ' . $response[0]->message);
         }
-        return redirect('/patients')->with('success', 'Se ha eliminado un Medico!');
+        return redirect('/patients')->with('success', 'Se ha eliminado un Paciente!');
     }
 }

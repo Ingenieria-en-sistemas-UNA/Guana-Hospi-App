@@ -14,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('App\Repositories\PeopleRepository', 'App\Repositories\PeopleRepositoryImp');
+        $this->app->bind('App\Repositories\ActivitiesRepository', 'App\Repositories\ActivitiesRepositoryImp');
         $this->app->bind('App\Repositories\RolesRepository', 'App\Repositories\RolesRepositoryImp');
         $this->app->bind('App\Repositories\DiseaseRepository', 'App\Repositories\DiseaseRepositoryImp');
         $this->app->bind('App\Repositories\DoctorRepository', 'App\Repositories\DoctorRepositoryImp');
@@ -31,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\SpecialtyDoctorRepository', 'App\Repositories\SpecialtyDoctorRepositoryImp');
         $this->app->bind('App\Repositories\DWFillRepository', 'App\Repositories\DWFillRepositoryImp');
         $this->app->bind('App\Repositories\DWStatisticsRepository', 'App\Repositories\DWStatisticsRepositoryImp');
+        $this->app->bind('App\Repositories\UserRepository', 'App\Repositories\UserRepositoryImp');
     }
 
     /**

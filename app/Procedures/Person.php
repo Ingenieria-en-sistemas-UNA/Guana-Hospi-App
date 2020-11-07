@@ -14,6 +14,6 @@ class Person{
         return DB::select('exec SP_Obtener_Personas');
     }
     public function updatePerson($fields){
-        return DB::select('exec SP_ActualizarPersona ?,?,?,?,?', $fields);
+        return DB::select('exec SP_ActualizarPersona ?,?,?,?,?,?', $fields);
     }
 }

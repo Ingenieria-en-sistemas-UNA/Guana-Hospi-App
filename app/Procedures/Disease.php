@@ -1,14 +1,15 @@
 <?php
 namespace App\Procedures;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Disease{
 
     public function createDisease($fields){
-        return DB::select('exec SP_Crear_Enfermedad ?', $fields);
+        return DB::select('exec SP_Crear_Enfermedad ?,?', $fields);
     }
     public function deleteDisease($id){
-        return DB::select('exec SP_Eliminar_Enfermedad ?', array($id));
+        return DB::select('exec SP_Eliminar_Enfermedad ?,?', array($id, Auth::user()->id));
     }
     public function listDisease(){
         return DB::select('exec SP_Obtener_Enfermedades');

@@ -9,6 +9,8 @@ use App\Repositories\PeopleRepository;
 use App\Repositories\RolesRepository;
 use App\Repositories\SpecialtyRepository;
 use App\Repositories\SpecialtyDoctorRepository;
+use App\Repositories\ActivitiesRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +32,8 @@ class DoctorController extends Controller
     /** @var SpecialtyDoctorRepository */
     private $specialtyDoctorRepository;
 
+
+
     private $customMessages = array(
         'required' => 'Campo obligatorio',
         'numeric' => 'Debe ingresar numeros',
@@ -41,7 +45,10 @@ class DoctorController extends Controller
         PeopleRepository $peopleRepository,
         RolesRepository $rolesRepository,
         SpecialtyRepository $specialityRepository,
-        SpecialtyDoctorRepository $specialtyDoctorRepository
+        SpecialtyDoctorRepository $specialtyDoctorRepository,
+        ActivitiesRepository $activitiesRepository,
+        UserRepository $userRepository
+
     ) {
         $this->middleware(['auth', 'check_role:Administrador']);
         $this->doctorRepository = $doctorRepository;
@@ -49,6 +56,8 @@ class DoctorController extends Controller
         $this->rolesRepository = $rolesRepository;
         $this->specialityRepository = $specialityRepository;
         $this->specialtyDoctorRepository = $specialtyDoctorRepository;
+        $this->activitiesRepository = $activitiesRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -101,6 +110,7 @@ class DoctorController extends Controller
             $request->Primer_Apellido,
             $request->Segundo_Apellido,
             $request->Edad,
+            Auth::user()->id
         );
 
         $response = $this->peopleRepository->create($person);
@@ -115,6 +125,7 @@ class DoctorController extends Controller
             $request->Cedula_Persona,
             Auth::user()->id
         );
+
 
         $response = $this->doctorRepository->create($doctor);
         if (!$response[0]->ok) {
@@ -131,27 +142,35 @@ class DoctorController extends Controller
         $medicoId = $response[0]->beforeId == 1 ? 1 : $response[0]->currentId;;
         $specialitiesSelected = $request->specialities;
 
-        if (count($specialitiesSelected) > 0) {
-            foreach ($specialitiesSelected as $specialityId) {
-                if ($specialityId != null) {
-                    $responseMedicoEspecialidad = $this->specialtyDoctorRepository->create(array($medicoId, $specialityId));
-                    if (!$responseMedicoEspecialidad[0]->ok) {
-                        $specialities = $this->specialityRepository->all();
-                        return view('pages.doctor.create', array(
-                            'responseError' => $responseMedicoEspecialidad[0]->message,
-                            'specialities' => $specialities
-                        ));
-                    }
+
+        foreach ($specialitiesSelected as $specialityId) {
+            if ($specialityId != null) {
+                $responseMedicoEspecialidad = $this->specialtyDoctorRepository->create(array($medicoId, $specialityId));
+                if (!$responseMedicoEspecialidad[0]->ok) {
+                    $specialities = $this->specialityRepository->all();
+                    return view('pages.doctor.create', array(
+                        'responseError' => $responseMedicoEspecialidad[0]->message,
+                        'specialities' => $specialities
+                    ));
                 }
             }
         }
 
-        User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'id_medico' => $medicoId,
-            'id_role' => $responseRole[0]->Id_Role
-        ]);
+        $User = array(
+            $request->email,
+            Hash::make($request->password),
+            $responseRole[0]->Id_Role,
+            $medicoId,
+            Auth::user()->id
+        );
+
+
+        $response = $this->userRepository->create($User);
+        if (!$response[0]->ok) {
+            $specialities = $this->specialityRepository->all();
+            return view('pages.doctor.create', array('responseError' => $response[0]->message, 'specialities' => $specialities));
+        }
+
 
         return redirect('/doctors')->with('success', 'Medico creado!');
     }
@@ -214,7 +233,9 @@ class DoctorController extends Controller
             $request->Primer_Apellido,
             $request->Segundo_Apellido,
             $request->Edad,
+            Auth::user()->id
         );
+
         $response = $this->peopleRepository->update($person);
         if (!$response[0]->ok) {
             $responseMedico = $this->doctorRepository->find($id);
@@ -230,6 +251,7 @@ class DoctorController extends Controller
                     'medico' => $responseMedico[0],
                     'specialities' => $specialities,
                     'specialitiesMedico' => $specialitiesMedico
+
                 )
             );
         }
@@ -258,7 +280,12 @@ class DoctorController extends Controller
                 }
             }
         }
+        $activity = array(
+            Auth::user()->id,
+            'Ha actualizado Los Datos Del Medico!'
+        );
 
+        $this->activitiesRepository->create($activity);
 
         return redirect('/doctors')->with('success', 'Se ha actualizado un Medico!');
     }
