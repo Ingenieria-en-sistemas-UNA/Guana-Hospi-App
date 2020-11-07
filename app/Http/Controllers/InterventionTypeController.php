@@ -116,7 +116,8 @@ class InterventionTypeController extends Controller
 
         $interventiontypes = array(
             $id,
-            $request->Nombre_Intervencion
+            $request->Nombre_Intervencion,
+            Auth::user()->id
         );
 
         $response = $this->interventiontypeRepository->update($interventiontypes);

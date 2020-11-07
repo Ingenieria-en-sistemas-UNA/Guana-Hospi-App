@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 class Activity{
 
     public function create($fields){
-        return DB::select('exec SP_Crear_Enfermedad ?,?', $fields);
+        return DB::select('exec SP_Crear_Auditoria ?,?', $fields);
     }
     public function delete($id){
         return DB::select('exec SP_Eliminar_Enfermedad ?', array($id));

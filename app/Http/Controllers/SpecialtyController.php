@@ -113,7 +113,8 @@ class SpecialtyController extends Controller
 
         $speciality = array(
             $id,
-            $request->Nombre_Especialidad
+            $request->Nombre_Especialidad,
+            Auth::user()->id
         );
 
         $response = $this->repository->update($speciality);

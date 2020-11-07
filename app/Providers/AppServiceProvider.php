@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\SpecialtyDoctorRepository', 'App\Repositories\SpecialtyDoctorRepositoryImp');
         $this->app->bind('App\Repositories\DWFillRepository', 'App\Repositories\DWFillRepositoryImp');
         $this->app->bind('App\Repositories\DWStatisticsRepository', 'App\Repositories\DWStatisticsRepositoryImp');
+        $this->app->bind('App\Repositories\UserRepository', 'App\Repositories\UserRepositoryImp');
     }
 
     /**

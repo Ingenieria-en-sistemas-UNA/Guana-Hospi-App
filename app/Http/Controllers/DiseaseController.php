@@ -111,7 +111,8 @@ class DiseaseController extends Controller
 
         $disease = array(
             $id,
-            $request->Nombre_Enfermedad
+            $request->Nombre_Enfermedad,
+            Auth::user()->id
         );
 
         $response = $this->repository->update($disease);

@@ -15,7 +15,7 @@ class Query{
         return DB::select('exec SP_Obtener_Consultas');
     }
     public function updateQuery($fields){
-        return DB::select('exec SP_ActualizarConsulta ?,?,? ', $fields);
+        return DB::select('exec SP_ActualizarConsulta ?,?,?,?', $fields);
     }
 }
 ?>

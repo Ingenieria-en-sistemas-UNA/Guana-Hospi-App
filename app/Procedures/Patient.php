@@ -19,8 +19,8 @@ class Patient{
     public function listPatient(){
         return DB::select('exec SP_Obtener_Pacientes');
     }
-    public function updatePatient($id){
-        return DB::select('exec SP_ActualizarPaciente ?,?,?,?,?', array($id, Auth::user()->id));
+    public function updatePatient($fields){
+        return DB::select('exec SP_ActualizarPaciente ?,?,?,?,?', $fields);
     }
 }
 ?>

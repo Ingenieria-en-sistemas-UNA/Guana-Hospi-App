@@ -16,7 +16,7 @@ class Unity{
         return DB::select('exec SP_Obtener_Unidades');
     }
     public function updateUnity($fields){
-        return DB::select('exec SP_ActualizarUnidad ?,?,?,?', $fields);
+        return DB::select('exec SP_ActualizarUnidad ?,?,?,?,?', $fields);
     }
 
     public function getUnityById($id){

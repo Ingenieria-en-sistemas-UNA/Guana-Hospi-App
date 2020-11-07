@@ -8,6 +8,8 @@ use App\Repositories\RolesRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\UserRepository;
+use App\Repositories\ActivitiesRepository;
 
 class UsersController extends Controller
 {
@@ -20,10 +22,12 @@ class UsersController extends Controller
         'max' => ':attribute muy largo',
     );
 
-    public function __construct(RolesRepository $rolesRepository)
+    public function __construct(RolesRepository $rolesRepository, UserRepository $userRepository, ActivitiesRepository $activitiesRepository)
     {
         $this->middleware(['auth', 'check_role:Administrador']);
         $this->rolesRepository = $rolesRepository;
+        $this->userRepository = $userRepository;
+        $this->activitiesRepository = $activitiesRepository;
     }
 
     /**
@@ -34,9 +38,9 @@ class UsersController extends Controller
     public function index()
     {
         $users = DB::table('users')
-                        ->join('Roles', 'users.id_role', '=', 'Roles.id_role')
-                        ->select('users.id', 'users.email', 'Roles.id_role', 'Roles.nombre_role')
-                        ->get();
+            ->join('Roles', 'users.id_role', '=', 'Roles.id_role')
+            ->select('users.id', 'users.email', 'Roles.id_role', 'Roles.nombre_role')
+            ->get();
         return view('pages.users.index', array('users' => $users));
     }
 
@@ -72,13 +76,21 @@ class UsersController extends Controller
             $responseRole = $this->rolesRepository->findByName('Administrador');
         }
 
-        User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'id_medico' => null,
-            'id_role' =>$responseRole[0]->Id_Role,
-             Auth::user()->id
-        ]);
+        $User = array(
+            $request->email,
+            Hash::make($request->password),
+            $responseRole[0]->Id_Role,
+            null,
+            Auth::user()->id
+        );
+
+
+
+        $response = $this->userRepository->create($User);
+        if (!$response[0]->ok) {
+            return view('pages.users.create', array('responseError' => $response[0]->message));
+        }
+
 
         return redirect('/users')->with('success', 'Usuario adminitrativo creado!');
     }
@@ -121,12 +133,17 @@ class UsersController extends Controller
 
         $this->validate($request, $rules, $this->customMessages);
 
-        $user = User::find($id);
-        $user->email = $request->email;
-        if($request->password != '') {
-            $user->password = Hash::make($request->password);
+        if ($request->password != '') {
+            $response = $this->userRepository->update([$request->email,  Hash::make($request->password), Auth::user()->id]);
+            if (!$response[0]->ok) {
+                return view('pages.users.edit', array('responseError' => $response[0]->message));
+            }
+        } else {
+            $response = $this->userRepository->updateOnlyEmail([$id, $request->email, Auth::user()->id]);
+            if (!$response[0]->ok) {
+                return view('pages.users.edit', array('responseError' => $response[0]->message));
+            }
         }
-        $user->save();
 
         return redirect('/users')->with('success', 'Se ha actualizado un usuario!');
     }
@@ -139,8 +156,10 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->delete();
-        return redirect('/doctors')->with('success', 'Se ha eliminado un Medico!');
+        $response = $this->userRepository->delete($id);
+        if (!$response[0]->ok) {
+            return redirect('/users')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return redirect('/users')->with('success', 'Se ha eliminado un Usuario!');
     }
 }
