@@ -17,5 +17,8 @@ class Suffers{
     public function updateSuffers($fields){
         return DB::select('exec SP_ActualizarPadece ?,?,? ', $fields);
     }
+    public function deleteSuffersByPacientId($id){
+        return DB::select('exec SP_Eliminar_Padece_Id_Paciente ?', array($id));
+    }
 }
 ?>

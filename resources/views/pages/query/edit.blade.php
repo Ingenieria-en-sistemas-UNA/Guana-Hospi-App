@@ -36,8 +36,7 @@
                 <div class="form-group">
                     <label for="Id_Unidad">Unidad</label>
                     <select value="{{ old('Id_Unidad', $intervencion->Id_Unidad) }}" type="text"
-                        class="form-control @error('Id_Unidad') danger @enderror" name=" Id_Unidad">
-                        <option value="" selected>Sin Asignar</option>
+                        class="form-control @error('Id_Unidad') danger @enderror" name=" Id_Unidad">                       
                         @if($intervencion->Id_Unidad)
                             <option value="">Sin Asignar</option>
                         @else
@@ -60,18 +59,24 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="enfemedades[]">Enfermedad</label>
-                    <select multiple type="text" class="form-control @error('Id_Enfermedad') danger @enderror"
+                    <select multiple class="form-control @error('Id_Enfermedad') danger @enderror"
                         name="enfermedades[]">
-                        <option value="" selected>Sin Asignar</option>
+                        <option value="" @if(count($diseasesPatient)==0) selected @endif>Sin Asignar</option>
                         @foreach($diseases as $disease)
-                        <option value="{{ $disease->Id_Enfermedad }}">
-                            {{ $disease->Nombre_Enfermedad }}
-                        </option>
+                            @php $isSelected = false; @endphp
+                            @foreach($diseasesPatient as $diseasePatient)
+                                @php
+                                    if($disease->Id_Enfermedad == $diseasePatient->Id_Enfermedad){
+                                        $isSelected = true;
+                                        break;
+                                    }
+                                @endphp
+                            @endforeach
+                            <option value="{{ $disease->Id_Enfermedad }}" @if($isSelected) selected @endif>
+                                {{ $disease->Nombre_Enfermedad }}
+                            </option>
                         @endforeach
                     </select>
-                    @error('Id_Enfermedad')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
                 </div>
             </div>
         <!-- -->
@@ -90,6 +95,29 @@
         <!-- -->
         <!-- -->
         <div class="row input_fields_wrap">
+            @php $index = 0; @endphp
+            @foreach($intervencionesConsultas as $intervencionConsulta)
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="intervenciones[{{ $index }}][description]">Descripción:</label>
+                    <input type="text" value="{{ $intervencionConsulta->Tratamiento}}" class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="intervenciones[{{ $index }}][id_tipo_intervencion]">Tipo de intervención</label>
+                    <select type="text" required class="form-control" name="[intervenciones[{{ $index }}][id_tipo_intervencion]">
+                        <option value="">Sin Asignar</option>
+                        @foreach($tipoIntervencionesConsultas as $tipoIntervencionConsulta)
+                            <option value="{{ $tipoIntervencionConsulta->Id_Tipo_Intervencion }}" {{ $tipoIntervencionConsulta->Id_Tipo_Intervencion == $intervencionConsulta->Id_Tipo_Intervencion ? 'selected' : '' }}>
+                                {{ $tipoIntervencionConsulta->Nombre_Tipo_Intervencion }}
+                            </option>
+                        @endforeach             
+                    </select>
+                </div>
+            </div>
+            @php $index++; @endphp
+            @endforeach
             <!-- -->
             <!-- -->
         </div>
@@ -112,30 +140,30 @@
         const tipoIntervenciones = @json($interTypes);
         var wrapper = $(".input_fields_wrap"); //Fields wrapper
         var add_button = $(".add_field_button"); //Add button ID
-        let cantidadIntervenciones = 0;
+        let cantidadIntervenciones = @json(count($intervencionesConsultas));
 
         $(add_button).click(function (e) { //on add input button click
             e.preventDefault();
             //add input box
-            let options = '';
+            let options = '<option value="">Sin Asignar</option>';
             tipoIntervenciones.forEach(element => {
                 options += `<option value="${element.Id_Tipo_Intervencion}">${element.Nombre_Tipo_Intervencion}</option>`
             });
             var template = ` 
-    <div class="col-12 col-sm-6">
-    <div class="form-group">
-        <label for="intervenciones[${cantidadIntervenciones}][description]">Descripción:</label>
-        <input type="text" class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
-    </div>
-    </div>
-        <div class="col-12 col-sm-6">
-        <div class="form-group">
-                <label for="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">Tipo de intervención</label>
-                <select type="text" class="form-control" name="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">
-                    ${options}             
-                </select>
-        </div>
-        </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="intervenciones[${cantidadIntervenciones}][description]">Descripción:</label>
+                    <input type="text" class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">Tipo de intervención</label>
+                    <select type="text" required class="form-control" name="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">
+                        ${options}             
+                    </select>
+                </div>
+            </div>
 `;
             cantidadIntervenciones++;
             $(wrapper).append(template);

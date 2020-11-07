@@ -13,4 +13,6 @@ interface InterventionTypeRepository
     public function delete($id);
 
     public function find($id);
+    
+    public function findIntervByIdQuery($id);
 }

@@ -16,8 +16,11 @@ class Intervention{
     public function updateIntervention($fields){
         return DB::select('exec SP_ActualizarIntervencion ?,?,?,?', $fields);
     }
-    public function searchIntQuery($id){
-        return DB::select('exec SP_Obtener_Interv_Por_Id_Consulta ?', $id);
+    public function searchIntervQuery($id){
+        return DB::select('exec SP_Obtener_Interv_Por_Id_Consulta ?', array($id));
+    }
+    public function deleteInterventionByQueryId($id){
+        return DB::select('exec SP_Eliminar_Intervencion_Id_Consulta ?', array($id));
     }
 }
 ?> 

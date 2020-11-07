@@ -16,9 +16,11 @@ class Disease{
     public function updateDisease($fields){
         return DB::select('exec SP_ActualizarEnfermedad ?,?', $fields);
     }
-
     public function getById($id) {
         return DB::select('exec SP_Obtener_Enfermedades_Por_Id ?', array($id));
+    }
+    public function getByPacientId($id) {
+        return DB::select('exec SP_Obtener_Enfermedades_Por_Id_Paciente ?', array($id));
     }
 }
 ?>

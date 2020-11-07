@@ -17,5 +17,8 @@ class InterventionType{
     public function updateInterventionType($fields){
         return DB::select('exec SP_ActualizarTipoIntervension ?,?', $fields);
     }
+    public function findInterventionTypeByQueryId($id){
+        return DB::select('exec SP_Obtener_Tipo_Intervencion_Por_Id_Consulta ?',array($id));
+    }
 }
-?> 
+?>

@@ -106,7 +106,7 @@
         $(add_button).click(function (e) { //on add input button click
             e.preventDefault();
             //add input box
-            let options = '';
+            let options = '<option value="">Sin Asignar</option>';
             tipoIntervenciones.forEach(element => {
                 options += `<option value="${element.Id_Tipo_Intervencion}">${element.Nombre_Tipo_Intervencion}</option>`
             });
@@ -120,7 +120,7 @@
         <div class="col-12 col-sm-6">
         <div class="form-group">
                 <label for="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">Tipo de intervención</label>
-                <select type="text" class="form-control" name="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">
+                <select type="text" required class="form-control" name="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">
                     ${options}             
                 </select>
         </div>

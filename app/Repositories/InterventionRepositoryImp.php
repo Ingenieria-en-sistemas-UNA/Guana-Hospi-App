@@ -39,6 +39,14 @@ class InterventionRepositoryImp implements InterventionRepository
 
     public function find($id)
     {
-        return $this->procedure->searchIntQuery($id);
+        return 'id';
+    }
+    public function findInterventionByQueryId($id)
+    {
+        return $this->procedure->searchIntervQuery($id);
+    }
+    public function deleteIntervByQuery($id)
+    {
+        return $this->procedure->deleteInterventionByQueryId($id);
     }
 }

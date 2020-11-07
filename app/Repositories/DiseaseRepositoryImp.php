@@ -41,4 +41,8 @@ class DiseaseRepositoryImp implements DiseaseRepository
     {
         return $this->procedure->getById($id);
     }
+    public function findDisPacientId($id)
+    {
+        return $this->procedure->getByPacientId($id);
+    }
 }

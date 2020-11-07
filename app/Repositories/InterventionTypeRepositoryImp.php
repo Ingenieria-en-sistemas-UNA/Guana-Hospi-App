@@ -41,4 +41,8 @@ class InterventionTypeRepositoryImp implements InterventionTypeRepository
     {
         return 'BUSCAR UN TIPO DE INTERVENCION UNIDAD CON EL ID' . $id;
     }
+    public function findIntervByIdQuery($id)
+    {
+        return $this->procedure->findInterventionTypeByQueryId($id);
+    }
 }
