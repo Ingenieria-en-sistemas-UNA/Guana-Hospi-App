@@ -13,10 +13,6 @@
     </li>
     <li class="nav-item">
         <a class="nav-link {{ request()->is('specialities') ? 'active' : 'text-white'}}" href="{{ url('specialities') }}">{{ __('Especialidades') }}</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {{ request()->is('queries') ? 'active' : 'text-white'}}" href="{{ url('queries') }}">{{ __('Consultas') }}</a>
-    </li>
 @endif
 <li class="nav-item">
     <a class="nav-link {{ request()->is('patients') ? 'active' : 'text-white'}}" href="{{ url('patients') }}">{{ __('Pacientes') }}</a>
@@ -26,6 +22,10 @@
 </li>
 <li class="nav-item">
     <a class="nav-link {{ request()->is('interventionTypes') ? 'active' : 'text-white'}}" href="{{ url('interventionTypes') }}">{{ __('Tipo De Intervencion') }}</a>
+</li>
+</li>
+<li class="nav-item">
+    <a class="nav-link {{ request()->is('queries') ? 'active' : 'text-white'}}" href="{{ url('queries') }}">{{ __('Consultas') }}</a>
 </li>
 @if(auth()->user()->isAdmin())
     <li class="nav-item">
