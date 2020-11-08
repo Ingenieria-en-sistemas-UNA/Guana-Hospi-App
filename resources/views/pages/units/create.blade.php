@@ -33,9 +33,9 @@
                         class="form-control @error('Id_Medico') danger @enderror" name="Id_Medico">
                         <option value="" selected>Sin Asignar</option>
                         @foreach($doctors as $doctor)
-                        <option value="{{ $doctor->Id_Medico }}">
-                            {{ $doctor->Cedula_Persona . ' - ' . $doctor->Nombre_Persona . ' ' . $doctor->Primer_Apellido . ' ' . $doctor->Segundo_Apellido }}
-                        </option>
+                            <option value="{{ $doctor->Id_Medico }}">
+                                {{ $doctor->Cedula_Persona . ' - ' . $doctor->Nombre_Persona . ' ' . $doctor->Primer_Apellido . ' ' . $doctor->Segundo_Apellido }}
+                            </option>
                         @endforeach
                     </select>
                     @error('Id_Medico')

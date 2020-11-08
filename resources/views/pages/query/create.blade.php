@@ -26,7 +26,7 @@
                     @enderror
                 </div>
             </div>
-        <!-- -->
+            <!-- -->
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="Id_Unidad">Unidad</label>
@@ -50,8 +50,8 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="enfemedades[]">Enfermedad</label>
-                    <select multiple type="text"
-                        class="form-control @error('Id_Enfermedad') danger @enderror" name="enfermedades[]">
+                    <select multiple type="text" class="form-control @error('Id_Enfermedad') danger @enderror"
+                        name="enfermedades[]">
                         <option value="" selected>Sin Asignar</option>
                         @foreach($diseases as $disease)
                         <option value="{{ $disease->Id_Enfermedad }}">
@@ -75,25 +75,14 @@
                 </div>
             </div>
         </div>
-        <!-- -->
-        <!-- -->
-        <!-- -->
         <div class="input_fields_wrap">
-            <!-- -->
-            <!-- -->
         </div>
         <div class="col-sm-12">
-            <button class="btn btn-link btn-sm add_field_button" type="button">+  intervención</button>
+            <button class="btn btn-link btn-sm add_field_button" type="button">+ intervención</button>
+
         </div>
-</div>
-</fieldset>
-<br>
-</div>
-<!-- -->
-<!-- -->
-<!-- -->
-<button type="submit" class="btn btn-primary">Añadir Consulta</button>
-</form>
+        <button type="submit" class="btn btn-primary">Añadir Consulta</button>
+    </form>
 </div>
 <script type="text/javascript">
 
@@ -102,8 +91,8 @@
         var wrapper = $(".input_fields_wrap"); //Fields wrapper
         var add_button = $(".add_field_button"); //Add button ID
         let cantidadIntervenciones = 0;
-        
-        $('body').on('click', '.button-click', function (e){
+
+        $('body').on('click', '.button-click', function (e) {
             let intervencionIndex = $(this).attr('data-intervencionId');
             $(`#intervencion-${intervencionIndex}-row`).remove();
             console.log(intervencionIndex);
@@ -116,7 +105,7 @@
             tipoIntervenciones.forEach(element => {
                 options += `<option value="${element.Id_Tipo_Intervencion}">${element.Nombre_Tipo_Intervencion}</option>`
             });
-            var template = ` 
+            var template = `
             <div class="row" id="intervencion-${cantidadIntervenciones}-row">
                 <div class="col-12 col-sm-5">
                     <div class="form-group">
@@ -124,11 +113,11 @@
                         <input type="text" class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
                     </div>
                 </div>
-                <div class="col-10 col-sm-5">                
+                <div class="col-10 col-sm-5">
                     <div class="form-group">
                         <label for="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">Tipo de intervención</label>
                         <select type="text" required class="form-control" name="intervenciones[${cantidadIntervenciones}][id_tipo_intervencion]">
-                            ${options}             
+                            ${options}
                         </select>
                     </div>
                 </div>
