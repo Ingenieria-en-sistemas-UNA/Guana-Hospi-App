@@ -265,9 +265,12 @@ class QueryController extends Controller
      * @param  \App\Consulta  $consulta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $data = $this->repository->delete($request->id_consulta);
-        return $data;
+        $response = $this->queryRepository->delete($id);
+        if (!$response[0]->ok) {
+            return redirect('/queries')->with('error', 'Error: ' . $response[0]->message);
+        }
+        return redirect('/queries')->with('success', 'Se ha eliminado lad consulta!');
     }
 }

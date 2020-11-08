@@ -29,6 +29,7 @@
               <tr>
                 <th>ID Consulta</th>
                 <th>Fecha</th>
+                <th>Descripcion</th>
                 <th>ID de Paciente</th>
                 <th data-width="100">Acciones</th>
               </tr>
@@ -38,6 +39,7 @@
                     <tr>
                         <td>{{$query->Id_Consulta}}</td>
                         <td>{{$query->Fehca_Consulta}}</td>
+                        <td>{{$query->descripcion}}</td>
                         <td>{{$query->Id_Paciente}}</td>
                         <td>
                             <div class="dropdown">
