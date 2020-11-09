@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 class Query{
 
     public function createQuery($fields){
-        return DB::select('exec SP_Crear_Consulta ?,?,?', $fields);
+        return DB::select('exec SP_Crear_Consulta ?,?,?,?,?', $fields);
     }
     public function deleteQuery($id){
         return DB::select('exec SP_Elimina_Consulta ?,?', array($id, Auth::user()->id));

@@ -51,7 +51,7 @@ class QueryController extends Controller
         InterventionRepository $interventionRepository,
         SuffersRepository $suffersRepository
     ) {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'check_role:Medico']);
         $this->queryRepository = $queryRepository;
         $this->unityRepository = $unityRepository;
         $this->patientRepository = $patientRepository;
@@ -118,7 +118,9 @@ class QueryController extends Controller
         $query = array(
             $request->descripcion,
             $request->Id_Paciente,
-            $request->Id_Unidad
+            $request->Id_Unidad,
+            Auth::user()->id_medico,
+            Auth::user()->id,
         );
         $response = $this->queryRepository->create($query);
 
