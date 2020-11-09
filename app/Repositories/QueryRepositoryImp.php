@@ -41,4 +41,9 @@ class QueryRepositoryImp implements QueryRepository
     {
         return $this->procedure->getQueryById($id);
     }
+
+    public function findByPatientId($patienId)
+    {
+        return $this->procedure->getQueryByPatienId($patienId);
+    }
 }

@@ -13,9 +13,9 @@
                 <div class="form-group">
                     <label for="Id_Paciente">ID del paciente:</label>
                     <select value="{{ old('Id_Paciente', $intervencion->Id_Paciente) }}" readonly type="text" class="form-control @error('Id_Paciente') danger @enderror" name="Id_Paciente" />
-                    <option value="{{ old('Id_Paciente', $intervencion->Id_Paciente) }}" selected>
-                        {{ $intervencion->Nombre_Persona . ' ' . $intervencion->Apellido_Uno . ' ' . $intervencion->Apellido_Dos}}
-                    </option>
+                        <option value="{{ old('Id_Paciente', $intervencion->Id_Paciente) }}" selected>
+                            {{ $intervencion->Nombre_Persona . ' ' . $intervencion->Apellido_Uno . ' ' . $intervencion->Apellido_Dos}}
+                        </option>
                     </select>
                     @error('Id_Paciente')
                     <div class="alert alert-danger">{{ $message }}</div>

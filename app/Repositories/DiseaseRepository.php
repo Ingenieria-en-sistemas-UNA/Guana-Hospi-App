@@ -14,5 +14,5 @@ interface DiseaseRepository
 
     public function find($id);
 
-    public function findDisPacientId($id);
+    public function findDisPacientIdAndQueryId($id, $queryId);
 }

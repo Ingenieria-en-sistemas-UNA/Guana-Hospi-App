@@ -20,8 +20,8 @@ class Disease{
     public function getById($id) {
         return DB::select('exec SP_Obtener_Enfermedades_Por_Id ?', array($id));
     }
-    public function getByPacientId($id) {
-        return DB::select('exec SP_Obtener_Enfermedades_Por_Id_Paciente ?', array($id));
+    public function getByPacientIdAndQueryId($id, $queryId) {
+        return DB::select('exec SP_Obtener_Enfermedades_Por_Id_Paciente_Y_Consulta_Id ?,?', array($id, $queryId));
     }
 }
 ?>

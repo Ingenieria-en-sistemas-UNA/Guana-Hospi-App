@@ -145,7 +145,7 @@ class QueryController extends Controller
         $suffersSelected = $request->enfermedades;
         foreach ($suffersSelected as $suffersId) {
             if ($suffersId != null) {
-                $suffers = $this->suffersRepository->create(array($request->Id_Paciente, $suffersId));
+                $suffers = $this->suffersRepository->create(array($request->Id_Paciente, $suffersId, $Id_Consulta));
                 if (!$suffers[0]->ok) {
                     return $this->redirectCreateView($suffers[0]->message);
                 }
@@ -182,7 +182,7 @@ class QueryController extends Controller
         $patients = $this->patientRepository->all();
         $diseases = $this->diseaseRepository->all();
         $interTypes = $this->interventionTypeRepository->all();
-        $diseasesPatient = $this->diseaseRepository->findDisPacientId($response[0]->Id_Paciente);
+        $diseasesPatient = $this->diseaseRepository->findDisPacientIdAndQueryId($response[0]->Id_Paciente, $id);
         $intervencionesConsultas = $this->interventionRepository->findInterventionByQueryId($id);
         $tipoIntervencionesConsultas = $this->interventionTypeRepository->findIntervByIdQuery($id);
         return view('pages.query.edit', array(
@@ -224,7 +224,7 @@ class QueryController extends Controller
         $response = $this->queryRepository->update($query);
 
         if (!$response[0]->ok) {
-            return $this->redirectEditView($id, $response[0]->message);            
+            return $this->redirectEditView($id, $response[0]->message);
         }
         //Eliminar intervenciones por ID consulta
         $this->interventionRepository->deleteIntervByQuery($id);
@@ -238,20 +238,20 @@ class QueryController extends Controller
                 );
                 $response = $this->interventionRepository->create($interv);
                 if (!$response[0]->ok) {
-                    return $this->redirectEditView($id, $response[0]->message); 
+                    return $this->redirectEditView($id, $response[0]->message);
                 }
             }
         }
 
         //eliminar enfermedades por ID paciente
-        $this->suffersRepository->deleteSufferByPacientId($request->Id_Paciente);
+        $this->suffersRepository->deleteSufferByPacientIdAndQueryId($request->Id_Paciente, $id);
 
         $suffersSelected = $request->enfermedades;
         foreach ($suffersSelected as $suffersId) {
             if ($suffersId != null) {
-                $suffers = $this->suffersRepository->create(array($request->Id_Paciente, $suffersId));
+                $suffers = $this->suffersRepository->create(array($request->Id_Paciente, $suffersId, $id));
                 if (!$suffers[0]->ok) {
-                    return $this->redirectEditView($id, $response[0]->message); 
+                    return $this->redirectEditView($id, $response[0]->message);
                 }
             }
         }

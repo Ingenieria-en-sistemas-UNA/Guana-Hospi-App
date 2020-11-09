@@ -14,5 +14,5 @@ interface SuffersRepository
 
     public function find($id);
 
-    public function deleteSufferByPacientId($id);
+    public function deleteSufferByPacientIdAndQueryId($id, $queryId);
 }

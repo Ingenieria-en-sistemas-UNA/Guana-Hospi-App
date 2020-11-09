@@ -3,19 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Response;
 use App\Repositories\PatientRepository;
 use App\Repositories\PeopleRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\ActivitiesRepository;
+use App\Repositories\QueryRepository;
+use App\Repositories\DiseaseRepository;
+use App\Repositories\InterventionRepository;
 
 class PatientController extends Controller
 {
-    /** @var PatientRepository */
-    private $patientrepository;
+    /** @var QueryRepository */
+    private $queryRepository;
 
+    /** @var PatientRepository */
+    private $patientRepository;
+
+    /** @var DiseaseRepository */
+    private $diseaseRepository;
 
     /** @var PeopleRepository */
     private $peopleRepository;
+
+    /** @var InterventionRepository */
+    private $interventionRepository;
+
 
     private $customMessages = array(
         'required' => 'Campo obligatorio',
@@ -23,12 +36,19 @@ class PatientController extends Controller
         'max' => ':attribute muy largo',
     );
 
-    public function __construct(PatientRepository $patientRepository, PeopleRepository $peopleRepository,  ActivitiesRepository $activitiesRepository )
-    {
+    public function __construct(
+        QueryRepository $queryRepository,
+        PeopleRepository $peopleRepository,
+        PatientRepository $patientRepository,
+        DiseaseRepository $diseaseRepository,
+        InterventionRepository $interventionRepository
+    ) {
         $this->middleware('auth');
-        $this->patientRepository = $patientRepository;
+        $this->queryRepository = $queryRepository;
         $this->peopleRepository = $peopleRepository;
-        $this->activitiesRepository = $activitiesRepository;
+        $this->patientRepository = $patientRepository;
+        $this->diseaseRepository = $diseaseRepository;
+        $this->interventionRepository = $interventionRepository;
     }
 
     /**
@@ -40,7 +60,6 @@ class PatientController extends Controller
     {
         $patients = $this->patientRepository->all();
         return view('pages.patient.index', ['patients' => $patients]);
-
     }
 
     /**
@@ -50,7 +69,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view ('pages.patient.create', array('responseError' => false));
+        return view('pages.patient.create', array('responseError' => false));
     }
 
     /**
@@ -102,16 +121,34 @@ class PatientController extends Controller
         }
 
         return redirect('/patients')->with('success', 'Paciente Creado!');
-
     }
     /**
      * Display the specified resource.
      *
      * @return \Illuminate\Http\Paciente
      */
-    public function show($paciente)
+    public function show($id)
     {
-        //
+        $patient = $this->patientRepository->find($id)[0];
+        if(!$patient->ok){
+            return Response::json(['status' => 400]);
+        }
+        $querys = $this->queryRepository->findByPatientId($id);
+        $diseases = [];
+        $intervenciones = [];
+        foreach ($querys as $query) {
+            $diseases = array_merge($diseases, $this->diseaseRepository->findDisPacientIdAndQueryId($id, $query->Id_Consulta));
+            $intervenciones = array_merge($intervenciones, $this->interventionRepository->findInterventionByQueryId($query->Id_Consulta));
+        }
+
+        $view = view('pages.patient.show', array(
+            'patient' => $patient,
+            'diseases' => $diseases,
+            'intervenciones' => $intervenciones,
+            'querys' => $querys
+        ))->render();
+
+        return Response::json(['status' => 200, 'view' => $view]);
     }
 
     /**

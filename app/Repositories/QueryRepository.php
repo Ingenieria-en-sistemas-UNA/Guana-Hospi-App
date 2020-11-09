@@ -13,4 +13,6 @@ interface QueryRepository
     public function delete($id);
 
     public function find($id);
+
+    public function findByPatientId($patienId);
 }

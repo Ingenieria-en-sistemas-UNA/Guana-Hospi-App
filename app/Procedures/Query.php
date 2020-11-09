@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 namespace App\Procedures;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class Query{
-    
+
     public function createQuery($fields){
         return DB::select('exec SP_Crear_Consulta ?,?,?', $fields);
     }
@@ -20,6 +20,10 @@ class Query{
     }
     public function getQueryById($id){
         return DB::select('exec SP_Obtener_Consulta_Por_Id ?', array($id));
+    }
+
+    public function getQueryByPatienId($id){
+        return DB::select('exec SP_Obtener_Consultas_Por_Paciente_Id ?', array($id));
     }
 }
 ?>

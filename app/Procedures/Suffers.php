@@ -1,12 +1,12 @@
-<?php 
+<?php
 
 namespace App\Procedures;
 use Illuminate\Support\Facades\DB;
 
 class Suffers{
-    
+
     public function createSuffers($fields){
-        return DB::select('exec SP_Crear_Padece ?,?', $fields);
+        return DB::select('exec SP_Crear_Padece ?,?,?', $fields);
     }
     public function deleteSuffers($id){
         return DB::select('exec SP_Eliminar_Padecimiento ?', array($id));
@@ -17,8 +17,8 @@ class Suffers{
     public function updateSuffers($fields){
         return DB::select('exec SP_ActualizarPadece ?,?,? ', $fields);
     }
-    public function deleteSuffersByPacientId($id){
-        return DB::select('exec SP_Eliminar_Padece_Id_Paciente ?', array($id));
+    public function deleteSufferByPacientIdAndQueryId($id, $queryId){
+        return DB::select('exec SP_Eliminar_Padecimiento_Id_Paciente_Consulta ?,?', array($id, $queryId));
     }
 }
 ?>

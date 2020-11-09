@@ -41,8 +41,8 @@ class SuffersRepositoryImp implements SuffersRepository
     {
         return 'BUSCAR PADECIMIENTO CON EL ID' . $id;
     }
-    public function deleteSufferByPacientId($id)
+    public function deleteSufferByPacientIdAndQueryId($id, $queryId)
     {
-        return $this->procedure->deleteSuffersByPacientId($id);
+        return $this->procedure->deleteSufferByPacientIdAndQueryId($id, $queryId);
     }
 }
