@@ -90,7 +90,7 @@
                 <div class="col-12 col-sm-5">
                     <div class="form-group">
                         <label for="intervenciones[{{ $index }}][description]">Descripción:</label>
-                        <input type="text" value="{{ $intervencionConsulta->Tratamiento}}" class="form-control" name="intervenciones[{{ $index }}][description]" />
+                        <input type="text" required value="{{ $intervencionConsulta->Tratamiento}}" class="form-control" name="intervenciones[{{ $index }}][description]" />
                     </div>
                 </div>
                 <div class="col-10 col-sm-5">
@@ -157,7 +157,7 @@
                 <div class="col-12 col-sm-5">
                     <div class="form-group">
                         <label for="intervenciones[${cantidadIntervenciones}][description]">Descripción:</label>
-                        <input type="text" class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
+                        <input type="text" required class="form-control" name="intervenciones[${cantidadIntervenciones}][description]" />
                     </div>
                 </div>
                 <div class="col-10 col-sm-5">
