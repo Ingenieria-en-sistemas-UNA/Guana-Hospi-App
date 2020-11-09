@@ -221,6 +221,7 @@ class QueryController extends Controller
             $request->descripcion,
             $request->Id_Paciente,
             $request->Id_Unidad,
+            Auth::user()->id_medico,
             Auth::user()->id
         );
         $response = $this->queryRepository->update($query);

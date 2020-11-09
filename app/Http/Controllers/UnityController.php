@@ -72,11 +72,12 @@ class UnityController extends Controller
             Auth::user()->id
         );
 
-
         $response = $this->unityRepository->create($unity);
 
-        if (!$response[0]->ok) {
-            return view('pages.units.create', array('responseError' => $response[0]->message));
+        if (!$response[0]->ok){
+
+            $doctors = $this->doctorRepository->all();
+            return view('pages.units.create', array('responseError' => $response[0]->message,'doctors' => $doctors));
         }
 
         return redirect('/units')->with('success', 'Unidad creada!');
