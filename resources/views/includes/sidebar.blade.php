@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a class="nav-link {{ request()->is('home') ? 'active' : 'text-white'}}" href="{{ url('/') }}">{{ __('Dashboard') }}</a>
+    <a class="nav-link {{ request()->is('/') ? 'active' : 'text-white'}}" href="{{ url('/') }}">{{ __('Dashboard') }}</a>
 </li>
 @if(auth()->user()->isAdmin())
     <li class="nav-item">
