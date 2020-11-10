@@ -140,7 +140,11 @@ class UnityController extends Controller
             if (!$responseUnidad[0]->ok) {
                 return redirect('/units')->with('error', 'Error: ' . $responseUnidad[0]->message);
             }
-            return view('pages.units.edit', array('responseError' => $response[0]->message, 'unit' => $responseUnidad[0]));
+            $doctors = $this->doctorRepository->all();
+            return view('pages.units.edit', array(
+                'responseError' => $response[0]->message,
+                'unit' => $responseUnidad[0],
+                'doctors' => $doctors));
         }
         return redirect('/units')->with('success', 'Se ha actualizado una Unidad!');
     }
