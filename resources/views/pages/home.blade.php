@@ -122,7 +122,6 @@
                         <tr>
                             <th scope="col">Id</th>
                             <th scope="col">Tipo de intervención</th>
-                            <th scope="col">Tratamiento</th>
                             <th scope="col">Frecuencia</th>
                         </tr>
                     </thead>
@@ -131,7 +130,6 @@
                             <tr>
                                 <th scope="row">{{ $tipoIntervencion->id_tipo_intervencion }}</th>
                                 <td>{{ $tipoIntervencion->nombre_tipo_intervencion }}</td>
-                                <td>{{ $tipoIntervencion->tratamiento }}</td>
                                 <td>{{ $tipoIntervencion->Cantidad }}</td>
                             </tr>
                         @endforeach
