@@ -274,6 +274,6 @@ class QueryController extends Controller
         if (!$response[0]->ok) {
             return redirect('/queries')->with('error', 'Error: ' . $response[0]->message);
         }
-        return redirect('/queries')->with('success', 'Se ha eliminado lad consulta!');
+        return redirect('/queries')->with('success', 'Se ha eliminado la consulta!');
     }
 }
